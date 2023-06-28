@@ -6,7 +6,7 @@ import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
 
-const styles = {  
+const styles = {
   chipSet: {
     display: "flex",
     justifyContent: "center",
@@ -21,8 +21,8 @@ const styles = {
   },
 };
 
-const MovieDetails = ( props) => {
-  const movie = props.movie
+const MovieDetails = (props) => {
+  const movie = props.movie;
 
   return (
     <>
@@ -40,23 +40,27 @@ const MovieDetails = ( props) => {
         </li>
         {movie.genres.map((g) => (
           <li key={g.name}>
-            <Chip label={g.name}  />
+            <Chip label={g.name} />
           </li>
         ))}
       </Paper>
       <Paper component="ul" sx={styles.chipSet}>
         <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
-        <Chip
-          icon={<MonetizationIcon />}
-          label={`${movie.revenue.toLocaleString()}`}
-        />
-        <Chip
-          icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count}`}
-        />
+        <Chip icon={<MonetizationIcon />} label={`${movie.revenue.toLocaleString()}`} />
+        <Chip icon={<StarRate />} label={`${movie.vote_average} (${movie.vote_count}`} />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
-      </>
+      <Paper component="ul" sx={styles.chipSet}>
+        <li>
+          <Chip label="Production Countries" sx={styles.chipLabel} color="primary" />
+        </li>
+        {movie.production_countries.map((country, index) => (
+          <li key={country.name}>
+            <Chip label={country.name} />
+          </li>
+        ))}
+      </Paper>
+    </>
   );
 };
-export default  MovieDetails ;
+export default MovieDetails;
