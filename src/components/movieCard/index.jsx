@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
+import Icon from "@mui/material/Icon";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -67,7 +68,9 @@ export default function MovieCard({ movie, action }) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        {action(movie)}
+        <Button size="small" color="primary">
+          {action(movie)}
+        </Button>
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
