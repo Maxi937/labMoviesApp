@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MoviesContext } from "../../contexts/moviesContext";
 import Avatar from "@mui/material/Avatar";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -23,24 +24,25 @@ const styles = {
 
 const MovieHeader = (props) => {
   const movie = props.movie;
-  const favourites = JSON.parse(localStorage.getItem("favourites"));
+  const context = useContext(MoviesContext);
 
-  favourites.map((favourite) => {
-    if (movie.title === favourite.title) {
-      movie.favourite = true;
+  const displayFavouriteIcon = () => {
+    if (context.favourites.includes(movie.id)) {
+      return (
+        <Avatar sx={styles.avatar}>
+          <FavoriteIcon />
+        </Avatar>
+      );
     }
-  });
-
+  };
   return (
     <Paper component="div" sx={styles.root}>
       <IconButton aria-label="go back">
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
 
-      {movie.favourite ? (
-        <Avatar sx={styles.avatar}>
-          <FavoriteIcon />
-        </Avatar>
+      {context ? (
+        displayFavouriteIcon()
       ) : null}
 
       <Typography variant="h4" component="h3">
