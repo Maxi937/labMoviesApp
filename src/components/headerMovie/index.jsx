@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
 import Avatar from "@mui/material/Avatar";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Paper from "@mui/material/Paper";
@@ -26,24 +27,29 @@ const MovieHeader = (props) => {
   const movie = props.movie;
   const context = useContext(MoviesContext);
 
-  const displayFavouriteIcon = () => {
+  const displayContextIcon = () => {
     if (context.favourites.includes(movie.id)) {
       return (
         <Avatar sx={styles.avatar}>
           <FavoriteIcon />
         </Avatar>
       );
+    } else if (context.mustWatch.includes(movie.id)) {
+      return (
+        <Avatar sx={styles.avatar}>
+          <PlaylistAddCheckIcon />
+        </Avatar>
+      );
     }
   };
+
   return (
     <Paper component="div" sx={styles.root}>
       <IconButton aria-label="go back">
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
 
-      {context ? (
-        displayFavouriteIcon()
-      ) : null}
+      {context ? displayContextIcon() : null}
 
       <Typography variant="h4" component="h3">
         {movie.title}
