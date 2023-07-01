@@ -16,6 +16,10 @@ const MoviesContextProvider = (props) => {
     if (!favourites.includes(movie.id)) {
       updatedFavourites.push(movie.id);
     }
+
+    if (mustWatch.includes(movie.id)) {
+      removeFromMustWatch(movie);
+    }
     setFavourites(updatedFavourites);
   };
 
@@ -24,11 +28,18 @@ const MoviesContextProvider = (props) => {
     if (!mustWatch.includes(movie.id)) {
       updatedMustWatch.push(movie.id);
     }
+    if (favourites.includes(movie.id)) {
+      removeFromFavourites(movie);
+    }
     setMustWatch(updatedMustWatch);
   };
 
   const removeFromFavourites = (movie) => {
     setFavourites(favourites.filter((mId) => mId !== movie.id));
+  };
+
+  const removeFromMustWatch = (movie) => {
+    setMustWatch(mustWatch.filter((mId) => mId !== movie.id));
   };
 
   return (
@@ -39,7 +50,7 @@ const MoviesContextProvider = (props) => {
         addToFavourites,
         removeFromFavourites,
         addReview,
-        addToMustWatch
+        addToMustWatch,
       }}
     >
       {props.children}
