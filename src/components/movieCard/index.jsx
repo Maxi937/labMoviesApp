@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
-import Icon from "@mui/material/Icon";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -25,7 +24,7 @@ const styles = {
 };
 
 export default function MovieCard({ movie, action }) {
-  const { favourites, addToFavourites } = useContext(MoviesContext);
+  const { favourites } = useContext(MoviesContext);
 
   if (favourites.find((id) => id === movie.id)) {
     movie.favourite = true;
@@ -68,9 +67,7 @@ export default function MovieCard({ movie, action }) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        <Button size="small" color="primary">
-          {action(movie)}
-        </Button>
+        {action(movie)}
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...

@@ -1,12 +1,16 @@
-import React from "react";
+import React,{ useContext }  from "react";
 import { useQuery } from "react-query";
 import PageTemplate from '../components/templateMovieListPage'
+import { MoviesContext } from "../contexts/moviesContext";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
+import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 
 const upcomingMoviesPage = (props) => {
   const { data, error, isLoading, isError } = useQuery("discoverUpcoming", getUpcomingMovies);
+  const { mustWatch: movieIds } = useContext(MoviesContext);
+
+  console.log(movieIds)
 
   if (isLoading) {
     return <Spinner />;
@@ -22,7 +26,7 @@ const upcomingMoviesPage = (props) => {
       title='Upcoming Movies'
       movies={movies}
       action={(movie) => {
-        return <PlaylistAddIcon movie={movie} />;
+        return <AddToMustWatchIcon movie={movie} />;
       }}
     />
   );
