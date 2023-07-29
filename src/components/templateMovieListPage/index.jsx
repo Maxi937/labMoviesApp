@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieList from "../movieList";
+import LoginForm from "../login";
 
 const styles = {
   root: {
@@ -16,12 +17,18 @@ const styles = {
     top: 2,
     right: 2,
   },
+  fabLogin: {
+    position: "fixed",
+    bottom: 2,
+    left: 2,
+  },
 };
 
 function MovieListPageTemplate({ movies, title, action }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
 
   const genreId = Number(genreFilter);
 
@@ -51,8 +58,14 @@ function MovieListPageTemplate({ movies, title, action }) {
       <Fab color="secondary" variant="extended" onClick={() => setDrawerOpen(true)} sx={styles.fab}>
         Filter
       </Fab>
+      <Fab color="primary" variant="extended" onClick={() => setLoginOpen(true)} sx={styles.fabLogin}>
+        Login
+      </Fab>
       <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <FilterCard onUserInput={handleChange} titleFilter={titleFilter} genreFilter={genreFilter} />
+      </Drawer>
+      <Drawer anchor="left" open={loginOpen} onClose={() => setLoginOpen(false)}>
+        <LoginForm />
       </Drawer>
     </>
   );
