@@ -4,7 +4,6 @@ import Drawer from "@mui/material/Drawer";
 import LoginForm from ".";
 import useSession from "../../hooks/useSession";
 import { logout } from "../../api/supabase-api";
-import LoginSignupForm from ".";
 
 const styles = {
   root: {
@@ -36,7 +35,7 @@ function LoginLogoutButton() {
             Login
           </Fab>
           <Drawer anchor="left" open={loginOpen} onClose={() => setLoginOpen(false)}>
-            <LoginSignupForm />
+            <LoginForm />
           </Drawer>
         </>
       ) : (
