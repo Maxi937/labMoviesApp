@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";

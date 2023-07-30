@@ -10,8 +10,6 @@ const upcomingMoviesPage = (props) => {
   const { data, error, isLoading, isError } = useQuery("discoverUpcoming", getUpcomingMovies);
   const { mustWatch: movieIds } = useContext(MoviesContext);
 
-  console.log(movieIds)
-
   if (isLoading) {
     return <Spinner />;
   }

@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
 import { login } from "../../api/supabase-api.js";
-import { Alert, AlertTitle } from '@mui/material';
+import { Alert, AlertTitle } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import styles from "./styles";
+import styles from "./styles.js";
+
 
 const LoginForm = () => {
   const defaultValues = {
@@ -34,7 +35,7 @@ const LoginForm = () => {
         message: "Unable to find a User with this email or password",
       });
     }
-    navigate("/");
+    navigate(0)
   }
 
   return (

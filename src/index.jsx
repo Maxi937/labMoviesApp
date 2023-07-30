@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Navigate, Routes, Link } from "react-router-dom";
 import SiteHeader from "./components/siteHeader";
@@ -12,6 +12,9 @@ import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import MoviesContextProvider from "./contexts/moviesContext";
+import LoginLogoutButton from "./components/loginForm/loginLogoutButton";
+import LogoutButtonDebug from "./components/userControlButtons/logoutButtonDebug";
+import SessionDebug from "./components/userControlButtons/sessionDebug";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,22 +26,25 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => {
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <SiteHeader />
         <MoviesContextProvider>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-            <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-            <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
-            <Route path="/movies/:id" element={<MoviePage />} />
-            <Route path="/reviews/:id" element={<MovieReviewPage />} />
-            <Route path="/" element={<HomePage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+              <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+              <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+              <Route path="/movies/:id" element={<MoviePage />} />
+              <Route path="/reviews/:id" element={<MovieReviewPage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+            <LoginLogoutButton/>
+            <LogoutButtonDebug />
+            <SessionDebug />
         </MoviesContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
