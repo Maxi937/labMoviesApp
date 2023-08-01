@@ -37,8 +37,7 @@ const LoginForm = () => {
         message: "Unable to find a User with this email or password",
       });
     }
-
-    context.authenticate(response.data.user)
+    //context.authenticate(response.data.user)
   }
 
   return (

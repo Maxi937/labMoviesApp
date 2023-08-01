@@ -12,26 +12,16 @@ const UserContextProvider = (props) => {
     })
 
     supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("auth state change")
       setUser(session)
     })
   }, [])
 
-  const authenticate = (session) => {
-    console.log("setting user: ", session)
-    setUser(session);
-  };
-
-  const logout = () => {
-    console.log("logout")
-    setUser("");
-  };
 
   return (
     <UserContext.Provider
       value={{
         user,
-        authenticate,
-        logout
       }}
     >
       {props.children}

@@ -26,7 +26,6 @@ function LoginLogoutButton() {
 
   async function signout() {
     console.log("signing out");
-    userContext.logout()
     return await logout();
   }
 
