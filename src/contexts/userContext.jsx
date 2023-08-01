@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase, getSession } from "../api/supabase-api";
-import { getFavourites, savefavourite } from "../api/supabase-api";
+import { getFavourites, savefavourite, deleteFavourite } from "../api/supabase-api";
 
 export const UserContext = React.createContext(null);
 
@@ -32,6 +32,8 @@ const UserContextProvider = (props) => {
 
     if (!favourites.includes(movie.id)) {
       updatedFavourites = await savefavourite(user.id, movie.id);
+    } else {
+      updatedFavourites = await deleteFavourite(user.id, movie.id)
     }
     setFavourites(updatedFavourites);
   };

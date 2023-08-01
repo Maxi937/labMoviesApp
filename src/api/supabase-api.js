@@ -41,7 +41,7 @@ export const savefavourite = async (userId, movieId) => {
 
   const { data, error } = await supabase.from("profiles").update({ favouritemovies: favourites }).eq("id", userId).select();
 
-  return favourites
+  return favourites;
 };
 
 export const getFavourites = async (userId) => {
@@ -50,6 +50,38 @@ export const getFavourites = async (userId) => {
 
   if (profile) {
     return profile.favouritemovies;
+  } else {
+    return [];
+  }
+};
+
+export const deleteFavourite = async (userId, movieId) => {
+  console.log("Deleting favourite :", movieId);
+  let favourites = await getFavourites(userId);
+  favourites.splice(favourites.indexOf(movieId), 1);
+
+  console.log(favourites);
+
+  const { data, error } = await supabase.from("profiles").update({ favouritemovies: favourites }).eq("id", userId).select();
+
+  return favourites;
+};
+
+export const saveMustWatch = async (userId, movieId) => {
+  let mustWatch = await getMustWatch(userId);
+  mustWatch.push(movieId);
+
+  const { data, error } = await supabase.from("profiles").update({ mustwatchmovies: mustWatch }).eq("id", userId).select();
+
+  return mustWatch;
+};
+
+export const getMustWatch = async (userId) => {
+  console.log("Getting Must Watch");
+  const { data: profile, error } = await supabase.from("profiles").select("mustwatchmovies").limit(1).single();
+
+  if (profile) {
+    return profile.mustwatchmovies;
   } else {
     return [];
   }
