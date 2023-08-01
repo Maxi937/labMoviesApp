@@ -15,12 +15,12 @@ const styles = {
 };
 
 function SessionDebug() {
-  const userContext = useContext(UserContext)
+  const {user, session} = useContext(UserContext)
 
   async function sessionInfo() {
     //console.log(session);
-    console.log("User", userContext.user)
-    console.log("Session", userContext.session)
+    console.log("User", user)
+    console.log("Session", session)
   }
 
   return (

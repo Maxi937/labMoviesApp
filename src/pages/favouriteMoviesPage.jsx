@@ -6,13 +6,14 @@ import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
+import { UserContext } from "../contexts/userContext";
 
 const FavouriteMoviesPage = (props) => {
-  const { favourites: movieIds } = useContext(MoviesContext);
+  const { favourites } = useContext(UserContext);
 
   // Create an array of queries and run them in parallel.
   const favouriteMovieQueries = useQueries(
-    movieIds.map((movieId) => {
+    favourites.map((movieId) => {
       return {
         queryKey: ["movie", { id: movieId }],
         queryFn: getMovie,
