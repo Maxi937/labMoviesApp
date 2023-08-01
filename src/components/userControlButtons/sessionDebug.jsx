@@ -1,8 +1,5 @@
 import React, { useContext, useState } from "react";
 import Fab from "@mui/material/Fab";
-import { logout } from "../../api/supabase-api";
-import useSession from "../../hooks/useSession";
-import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/userContext";
 
 
@@ -18,13 +15,12 @@ const styles = {
 };
 
 function SessionDebug() {
-  const context = useContext(UserContext)
+  const userContext = useContext(UserContext)
 
-  const [session, setSession] = useSession()
-  
   async function sessionInfo() {
     //console.log(session);
-    console.log("User", context.user)
+    console.log("User", userContext.user)
+    console.log("Session", userContext.session)
   }
 
   return (

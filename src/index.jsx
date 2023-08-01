@@ -16,6 +16,7 @@ import UserContextProvider from "./contexts/userContext";
 import LoginLogoutButton from "./components/loginForm/loginLogoutButton";
 import LogoutButtonDebug from "./components/userControlButtons/logoutButtonDebug";
 import SessionDebug from "./components/userControlButtons/sessionDebug";
+import ProfileDebug from "./components/userControlButtons/profileDebug";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,6 +48,7 @@ function App() {
             <LoginLogoutButton/>
             <LogoutButtonDebug />
             <SessionDebug />
+            <ProfileDebug />
         </MoviesContextProvider>
         </UserContextProvider>
       </BrowserRouter>

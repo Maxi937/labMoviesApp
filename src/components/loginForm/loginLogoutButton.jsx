@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
-import useSession from "../../hooks/useSession";
+
 import { logout } from "../../api/supabase-api";
 import LoginSignupForm from ".";
 import { UserContext } from "../../contexts/userContext";

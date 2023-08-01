@@ -16,6 +16,7 @@ import Grid from "@mui/material/Grid";
 import img from "../../images/film-poster-placeholder.png";
 import { Link } from "react-router-dom";
 import { MoviesContext } from "../../contexts/moviesContext";
+import { UserContext } from "../../contexts/userContext";
 
 const styles = {
   card: { maxWidth: 300 },
@@ -47,14 +48,17 @@ const styles = {
 };
 
 export default function MovieCard({ movie, action }) {
-  const { favourites } = useContext(MoviesContext);
+  const { favourites } = useContext(UserContext);
   const { mustWatch } = useContext(MoviesContext);
 
-  if (favourites.find((id) => id === movie.id)) {
-    movie.favourite = true;
-  } else {
-    movie.favourite = false;
+  if(favourites) {
+    if (favourites.find((id) => id === movie.id)) {
+      movie.favourite = true;
+    } else {
+      movie.favourite = false;
+    }
   }
+
 
   if (mustWatch.find((id) => id === movie.id)) {
     movie.mustWatch = true;

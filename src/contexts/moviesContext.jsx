@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import useSession from "../hooks/useSession";
+import React, { useState, useContext } from "react";
+import { UserContext } from "./userContext";
+import { getFavourites } from "../api/supabase-api"
 
 export const MoviesContext = React.createContext(null);
 

@@ -35,10 +35,22 @@ export const getSession = async () => {
   return await supabase.auth.getSession();
 };
 
-export const savefavourite = async (movieId) => {
-  console.log("saving favourite");
-  const response = await supabase
-    .from("userMovies")
-    .insert([{ favouriteMovies: movieId }])
-    .select();
+export const savefavourite = async (userId, movieId) => {
+  let favourites = await getFavourites(userId);
+  favourites.push(movieId);
+
+  const { data, error } = await supabase.from("profiles").update({ favouritemovies: favourites }).eq("id", userId).select();
+
+  return favourites
+};
+
+export const getFavourites = async (userId) => {
+  console.log("Getting Favourites");
+  const { data: profile, error } = await supabase.from("profiles").select("favouritemovies").limit(1).single();
+
+  if (profile) {
+    return profile.favouritemovies;
+  } else {
+    return [];
+  }
 };

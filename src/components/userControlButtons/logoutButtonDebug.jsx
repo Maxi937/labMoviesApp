@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Fab from "@mui/material/Fab";
 import { logout } from "../../api/supabase-api";
-import useSession from "../../hooks/useSession";
 import { useNavigate } from "react-router-dom";
 
 const styles = {
