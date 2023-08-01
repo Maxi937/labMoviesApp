@@ -3,7 +3,8 @@ import Fab from "@mui/material/Fab";
 import { logout } from "../../api/supabase-api";
 import useSession from "../../hooks/useSession";
 import { useNavigate } from "react-router-dom";
-import { SessionContext } from "../../contexts/sessionContext";
+import { UserContext } from "../../contexts/userContext";
+
 
 const styles = {
   root: {
@@ -17,10 +18,13 @@ const styles = {
 };
 
 function SessionDebug() {
-  const [session, setSession] = useSession()
+  const context = useContext(UserContext)
 
+  const [session, setSession] = useSession()
+  
   async function sessionInfo() {
-    console.log(session);
+    //console.log(session);
+    console.log("User", context.user)
   }
 
   return (

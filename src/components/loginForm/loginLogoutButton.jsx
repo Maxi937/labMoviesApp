@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
-import LoginForm from ".";
 import useSession from "../../hooks/useSession";
 import { logout } from "../../api/supabase-api";
 import LoginSignupForm from ".";
+import { UserContext } from "../../contexts/userContext";
 
 const styles = {
   root: {
@@ -18,19 +18,21 @@ const styles = {
 };
 
 function LoginLogoutButton() {
-  const [session, setSession] = useSession();
+  // const [session, setSession] = useSession();
+  const userContext = useContext(UserContext)
+  const user = userContext.user
 
   const [loginOpen, setLoginOpen] = useState(false);
 
   async function signout() {
     console.log("signing out");
-    setSession("")
+    userContext.logout()
     return await logout();
   }
 
   return (
     <>
-      {!session ? (
+      {!user ? (
         <>
           <Fab color="primary" variant="extended" onClick={() => setLoginOpen(true)} sx={styles.fabLogin}>
             Login

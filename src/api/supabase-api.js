@@ -13,11 +13,11 @@ export const signup = async (signupDetails) => {
       data: {
         firstName: signupDetails.firstName,
         lastName: signupDetails.lastName,
-      }
-    }
-  })
-  return response
-}
+      },
+    },
+  });
+  return response;
+};
 
 export const login = async (userDetails) => {
   const response = await supabase.auth.signInWithPassword({
@@ -28,11 +28,17 @@ export const login = async (userDetails) => {
 };
 
 export const logout = async () => {
-  await supabase.auth.signOut()
-}
+  await supabase.auth.signOut();
+};
 
 export const getSession = async () => {
   return await supabase.auth.getSession();
 };
 
-
+export const savefavourite = async (movieId) => {
+  console.log("saving favourite");
+  const response = await supabase
+    .from("userMovies")
+    .insert([{ favouriteMovies: movieId }])
+    .select();
+};

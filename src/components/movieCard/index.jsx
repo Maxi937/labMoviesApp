@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
+import { Box } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -8,7 +9,7 @@ import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
@@ -17,10 +18,31 @@ import { Link } from "react-router-dom";
 import { MoviesContext } from "../../contexts/moviesContext";
 
 const styles = {
-  card: { maxWidth: 345 },
-  media: { height: 500 },
+  card: { maxWidth: 300 },
+  media: {
+    "&:hover": {
+      color: "red",
+      filter: "brightness(30%)",
+      "& ~ ${movieTitle}": {
+        color: "red",
+        display: "block",
+      },
+    },
+    zIndex: 10,
+    height: 300,
+    objectFit: "contain",
+  },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
+  },
+  movieTitle: {
+    display: "none",
+    color: "white",
+    zIndex: -1,
+    position: "absolute",
+    marginTop: -25,
+    zIndex: 20,
+    textAlign: "center",
   },
 };
 
@@ -55,13 +77,11 @@ export default function MovieCard({ movie, action }) {
             </Avatar>
           ) : null
         }
-        title={
-          <Typography variant="h5" component="p">
-            {movie.title}{" "}
-          </Typography>
-        }
       />
-      <CardMedia sx={styles.media} image={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : img} />
+      <CardMedia sx={styles.media} image={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : img}></CardMedia>
+      <Typography sx={styles.movieTitle} variant="h5" component="p">
+        {movie.title}{" "}
+      </Typography>
       <CardContent>
         <Grid container>
           <Grid item xs={6}>

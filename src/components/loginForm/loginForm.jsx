@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles.js";
+import { UserContext } from "../../contexts/userContext.jsx";
 
 
 const LoginForm = () => {
@@ -17,6 +18,7 @@ const LoginForm = () => {
   };
 
   const navigate = useNavigate();
+  const context = useContext(UserContext)
 
   const {
     control,
@@ -35,7 +37,8 @@ const LoginForm = () => {
         message: "Unable to find a User with this email or password",
       });
     }
-    navigate(0)
+
+    context.authenticate(response.data.user)
   }
 
   return (
