@@ -25,7 +25,7 @@ const styles = {
   },
   fab: { 
     position: "fixed",
-    top: 50,
+    top: 80,
     right: 2,
   },
 };

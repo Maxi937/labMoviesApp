@@ -20,7 +20,7 @@ const styles = {
 };
 
 const TemplateMoviePage = ({ movie, children }) => {
-  const { data, error, isLoading, isError } = useQuery(["images", { id: movie.id }], getMovieImages);
+  const { data, error, isLoading, isError } = useQuery(["images", movie.id], async () => await getMovieImages(movie.id));
 
   if (isLoading) {
     return <Spinner />;
