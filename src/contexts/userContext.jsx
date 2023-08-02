@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase, getSession } from "../api/supabase-api";
-import { getFavourites, savefavourite, deleteFavourite } from "../api/supabase-api";
+import { getFavourites, savefavourite, deleteFavourite, saveMustWatch, deleteMustWatch, getMustWatch } from "../api/supabase-api";
 
 export const UserContext = React.createContext(null);
 
@@ -8,6 +8,7 @@ const UserContextProvider = (props) => {
   const [user, setUser] = useState();
   const [session, setSession] = useState();
   const [favourites, setFavourites] = useState([]);
+  const [mustWatch, setMustWatch] = useState([]);
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
@@ -23,6 +24,10 @@ const UserContextProvider = (props) => {
           console.log("setting user favourites context", data);
           setFavourites(data);
         });
+        getMustWatch().then((data => {
+          console.log("setting user Must Watch context", data);
+          setMustWatch(data);
+        }))
       }
     });
   }, []);
@@ -38,13 +43,26 @@ const UserContextProvider = (props) => {
     setFavourites(updatedFavourites);
   };
 
+  const addToMustWatch = async (movie) => {
+    let updatedMustWatch = mustWatch;
+
+    if (!mustWatch.includes(movie.id)) {
+      updatedMustWatch = await saveMustWatch(user.id, movie.id);
+    } else {
+      updatedMustWatch = await deleteMustWatch(user.id, movie.id)
+    }
+    setMustWatch(updatedMustWatch);
+  };
+
   return (
     <UserContext.Provider
       value={{
         user,
         session,
         favourites,
+        mustWatch,
         addToFavourites,
+        addToMustWatch,
       }}
     >
       {props.children}

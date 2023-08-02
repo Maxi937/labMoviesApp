@@ -86,3 +86,15 @@ export const getMustWatch = async (userId) => {
     return [];
   }
 };
+
+export const deleteMustWatch = async (userId, movieId) => {
+  console.log("Deleting Must Watch :", movieId);
+  let mustWatch = await getMustWatch(userId);
+  mustWatch.splice(mustWatch.indexOf(movieId), 1);
+
+  console.log(mustWatch);
+
+  const { data, error } = await supabase.from("profiles").update({ mustwatchmovies: mustWatch }).eq("id", userId).select();
+
+  return mustWatch;
+};
