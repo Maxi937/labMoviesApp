@@ -17,6 +17,7 @@ const UserContextProvider = (props) => {
         setUser("");
         setSession("");
         setFavourites([]);
+        setMustWatch([]);
       } else if (session) {
         setUser(session.user);
         setSession(session);
