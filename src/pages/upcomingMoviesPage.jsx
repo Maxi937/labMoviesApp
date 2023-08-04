@@ -8,7 +8,6 @@ import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 
 const upcomingMoviesPage = (props) => {
   const { data, error, isLoading, isError } = useQuery("discoverUpcoming", getUpcomingMovies);
-  const { mustWatch: movieIds } = useContext(MoviesContext);
 
   if (isLoading) {
     return <Spinner />;

@@ -15,11 +15,12 @@ const FavouriteMoviesPage = (props) => {
   const favouriteMovieQueries = useQueries(
     favourites.map((movieId) => {
       return {
-        queryKey: ["movie", { id: movieId }],
-        queryFn: getMovie,
+        queryKey: ["movie", movieId ],
+        queryFn: async () => getMovie(movieId),
       };
     })
   );
+  
   // Check if any of the parallel queries is still loading.
   const isLoading = favouriteMovieQueries.find((m) => m.isLoading === true);
 

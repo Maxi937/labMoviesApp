@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Paper from "@mui/material/Paper";
@@ -15,26 +15,46 @@ const styles = {
   },
 };
 
-const Header = (props ) => {
-  const title = props.title
+
+const Header = (props) => {
+  const title = props.title;
+  const components = props.components;
+  const [pageNumber, setPageNumber] = useState(0);
+
+  function handleArrowForward() {
+    if (pageNumber < components.length -1) {
+      setPageNumber(pageNumber + 1 )
+    }
+  }
+
+  function handleArrowBackward() {
+    if (pageNumber > 0) {
+      setPageNumber(pageNumber - 1 )
+    }
+  }
 
   return (
-    <Paper component="div" sx={styles.root}>
-      <IconButton
-        aria-label="go back"
-      >
-        <ArrowBackIcon color="primary" fontSize="large" />
-      </IconButton>
+    <>
+      <Paper component="div" sx={styles.root}>
+        {components.length > 1 && (
+          <IconButton onClick={handleArrowBackward} aria-label="go back">
+            <ArrowBackIcon color="primary" fontSize="large" />
+          </IconButton>
+        )}
 
-      <Typography variant="h4" component="h3">
-        {title}
-      </Typography>
-      <IconButton
-        aria-label="go forward"
-      >
-        <ArrowForwardIcon color="primary" fontSize="large" />
-      </IconButton>
-    </Paper>
+        <Typography variant="h4" component="h3">
+          {components ? components[pageNumber].props.title : title}
+        </Typography>
+
+        {components.length > 1 && (
+          <IconButton onClick={handleArrowForward} aria-label="go forward">
+            <ArrowForwardIcon color="primary" fontSize="large" />
+          </IconButton>
+        )}
+      </Paper>
+
+      {components && components[pageNumber]}
+    </>
   );
 };
 

@@ -3,7 +3,9 @@ import PageTemplate from "../components/templateMovieListPage";
 import { getMovies } from "../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
+import Header from "../components/headerMovieList";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
+import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 
 const HomePage = (props) => {
   const { data, error, isLoading, isError } = useQuery("discover", getMovies);
@@ -17,7 +19,7 @@ const HomePage = (props) => {
 
   const movies = data ? data.results : [];
 
-  return (
+  const discoverPage = (
     <PageTemplate
       title="Discover Movies"
       movies={movies}
@@ -26,5 +28,20 @@ const HomePage = (props) => {
       }}
     />
   );
+
+  const upcomingPage = (
+    <PageTemplate
+      title="Coming Soon"
+      movies={movies}
+      action={(movie) => {
+        return <AddToMustWatchIcon movie={movie} />;
+      }}
+    />
+  );
+
+  const components = [discoverPage, upcomingPage]
+
+  return <Header components={components}/> ;
 };
+
 export default HomePage;
