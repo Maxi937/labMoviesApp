@@ -5,15 +5,12 @@ import SiteHeader from "./components/siteHeader";
 import HomePage from "./pages/homePage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import MoviePage from "./pages/movieDetailsPage";
-import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
 import AddMovieReviewPage from "./pages/addMovieReviewPage";
 import LoginPage from "./pages/loginPage";
-import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import MoviesContextProvider from "./contexts/moviesContext";
 import UserContextProvider from "./contexts/userContext";
-import LoginLogoutButton from "./components/loginForm/loginLogoutButton";
 import LogoutButtonDebug from "./components/userControlButtons/logoutButtonDebug";
 import SessionDebug from "./components/userControlButtons/sessionDebug";
 import ProfileDebug from "./components/userControlButtons/profileDebug";
@@ -38,14 +35,11 @@ function App() {
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route path="/reviews/form" element={<AddMovieReviewPage />} />
-              <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-              <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
               <Route path="/movies/:id" element={<MoviePage />} />
               <Route path="/reviews/:id" element={<MovieReviewPage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
-            <LoginLogoutButton/>
             <LogoutButtonDebug />
             <SessionDebug />
             <ProfileDebug />

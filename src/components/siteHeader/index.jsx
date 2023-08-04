@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { UserContext } from "../../contexts/userContext";
+import LoginLogoutButton from "../loginForm/loginLogoutButton";
 
 const styles = {
   title: {
@@ -28,18 +29,20 @@ const SiteHeader = () => {
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+
+
   let menuOptions = [
     { label: "Home", path: "/" },
-    { label: "Upcoming", path: "/movies/upcoming" },
+    { label: "Movies", path: "/" },
+    { label: "Television", path: "/" },
   ];
 
   if (user) {
     menuOptions = [
       { label: "Home", path: "/" },
-      { label: "Upcoming", path: "/movies/upcoming" },
-      { label: "Favorites", path: "/movies/favourites" },
-      { label: "profile", path: "/login" },
-      { label: "Option 4", path: "/" },
+      { label: "Movies", path: "/" },
+      { label: "Television", path: "/" },
+      { label: "profile", path: "/profile" },
     ];
   }
 
@@ -82,9 +85,12 @@ const SiteHeader = () => {
                 onClose={() => setAnchorEl(null)}
               >
                 {menuOptions.map((opt) => (
-                  <MenuItem key={opt.label} onClick={() => handleMenuSelect(opt.path)}>
-                    {opt.label}
-                  </MenuItem>
+                  <>
+                    <MenuItem key={opt.label} onClick={() => handleMenuSelect(opt.path)}>
+                      {opt.label}
+                    </MenuItem>
+                    <LoginLogoutButton />
+                  </>
                 ))}
               </Menu>
             </>
@@ -95,6 +101,7 @@ const SiteHeader = () => {
                   {opt.label}
                 </Button>
               ))}
+              <LoginLogoutButton />
             </>
           )}
         </Toolbar>
