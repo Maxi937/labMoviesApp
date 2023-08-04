@@ -5,7 +5,7 @@ import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 import { discoverMoviesQuery, upcomingMoviesQuery } from "../hooks/useMovieQueries";
 
-const HomePage = (props) => {
+const MoviePage = (props) => {
   const discoverPage = (
     <PageTemplate
       movieQuery = {discoverMoviesQuery}
@@ -31,4 +31,4 @@ const HomePage = (props) => {
   return <Header components={components}/> ;
 };
 
-export default HomePage;
+export default MoviePage;

@@ -30,18 +30,17 @@ const SiteHeader = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-
   let menuOptions = [
     { label: "Home", path: "/" },
-    { label: "Movies", path: "/" },
-    { label: "Television", path: "/" },
+    { label: "Movies", path: "/movies" },
+    { label: "Television", path: "/tv" },
   ];
 
   if (user) {
     menuOptions = [
       { label: "Home", path: "/" },
-      { label: "Movies", path: "/" },
-      { label: "Television", path: "/" },
+      { label: "Movies", path: "/movies" },
+      { label: "Television", path: "/tv" },
       { label: "profile", path: "/profile" },
     ];
   }
