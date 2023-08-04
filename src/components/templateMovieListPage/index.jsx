@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../headerMovieList";
+import Spinner from "../spinner"
 import FilterCard from "../filterMoviesCard";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
@@ -18,10 +18,23 @@ const styles = {
   },
 };
 
-function MovieListPageTemplate({ movies, title, action }) {
+function MovieListPageTemplate({movieQuery, title, action }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { data, error, isLoading, isError } = movieQuery()
+
+  if (isLoading) {
+    return <Spinner />;
+  } 
+
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
+
+  const movies = data ? data.results : [];
+
 
   const genreId = Number(genreFilter);
 

@@ -22,9 +22,9 @@ const Header = (props) => {
   const [pageNumber, setPageNumber] = useState(0);
 
   function handleArrowForward() {
-    if (pageNumber < components.length -1) {
+    if (pageNumber < components.length - 1) {
       setPageNumber(pageNumber + 1 )
-    }
+    } 
   }
 
   function handleArrowBackward() {

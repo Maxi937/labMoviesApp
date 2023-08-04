@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const styles = {
@@ -12,11 +13,9 @@ const styles = {
 };
 
 export default function CircularIndeterminate() {
-
   return (
-    <div sx={styles.root}>
+    <Box sx={styles.root}>
       <CircularProgress />
-      <CircularProgress />
-    </div>
+    </Box>
   );
 }
