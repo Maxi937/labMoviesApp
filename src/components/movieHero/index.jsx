@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
+import Spinner from "../spinner";
+import { Box } from "@mui/material";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -14,22 +16,22 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
 import img from "../../images/film-poster-placeholder.png";
 import { Link } from "react-router-dom";
+import { MoviesContext } from "../../contexts/moviesContext";
 import { UserContext } from "../../contexts/userContext";
 
 const styles = {
-  card: { maxWidth: 300 },
-  media: {
-    "&:hover": {
-      color: "red",
-      filter: "brightness(30%)",
-      "& ~ ${movieTitle}": {
-        color: "red",
-        display: "block",
-      },
-    },
-    zIndex: 10,
+  box: {
     height: 300,
-    objectFit: "contain",
+  },
+  card: {
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
+  media: {
+    margin: 2,
+    objectFit: "fill",
+    height: 150,
+    width: "auto"
   },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
@@ -45,17 +47,27 @@ const styles = {
   },
 };
 
-export default function MovieCard({ movie, action }) {
+export default function MovieHero({ movieQuery }) {
   const { favourites, mustWatch } = useContext(UserContext);
+  const { data, error, isLoading, isError } = movieQuery();
 
-  if(favourites) {
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
+
+  const movie = data ? data.results[0] : [];
+
+  if (favourites) {
     if (favourites.find((id) => id === movie.id)) {
       movie.favourite = true;
     } else {
       movie.favourite = false;
     }
   }
-
 
   if (mustWatch.find((id) => id === movie.id)) {
     movie.mustWatch = true;
@@ -65,42 +77,11 @@ export default function MovieCard({ movie, action }) {
 
   return (
     <Card sx={styles.card}>
-      <CardHeader
-        sx={styles.header}
-        avatar={
-          movie.mustWatch ? (
-            <Avatar sx={styles.avatar}>
-              <PlaylistAddCheckIcon />
-            </Avatar>
-          ) : movie.favourite ? (
-            <Avatar sx={styles.avatar}>
-              <FavoriteIcon />
-            </Avatar>
-          ) : null
-        }
-      />
-      <CardMedia sx={styles.media} image={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : img}></CardMedia>
+      <CardMedia component="img" sx={styles.media} image={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : img}></CardMedia>
       <Typography sx={styles.movieTitle} variant="h5" component="p">
         {movie.title}{" "}
       </Typography>
-      <CardContent>
-        <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <CalendarIcon fontSize="small" />
-              {movie.release_date}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <StarRateIcon fontSize="small" />
-              {"  "} {movie.vote_average}{" "}
-            </Typography>
-          </Grid>
-        </Grid>
-      </CardContent>
       <CardActions disableSpacing>
-        {action(movie)}
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...

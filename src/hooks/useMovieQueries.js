@@ -1,5 +1,5 @@
 import { useQuery, useQueries } from "react-query";
-import { getMovies, getUpcomingMovies, getSuggestedMoviesTV } from "../api/tmdb-api";
+import { getMovies, getUpcomingMovies, getSuggestedMoviesTV, getNowPlayingMovies } from "../api/tmdb-api";
 
 export const discoverMoviesQuery = () => {
   return useQuery("discover", getMovies);
@@ -22,9 +22,18 @@ export const suggestedMoviesQuery = () => {
   } else {
     return query;
   }
-
-  return [];
 };
+
+export const heroMovieQuery = () => {
+    const query = useQuery("discoverHeroMovie", getNowPlayingMovies);
+    if (query.status === "success") {
+      const movies = query.data.results
+      query.data.results = movies.slice(0,1)
+      return query
+    } else {
+      return query;
+    }
+  };
 
 // const favouriteMovieQueries = useQueries(
 //     favourites.map((movieId) => {
