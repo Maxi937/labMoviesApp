@@ -18,7 +18,7 @@ const styles = {
 const AddToFavouritesIcon = ({ movie, size = "large" }) => {
   const userContext = useContext(UserContext);
 
-  const handleAddTofavourite = (e) => {
+  const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     userContext.addToFavourites(movie);
@@ -26,14 +26,14 @@ const AddToFavouritesIcon = ({ movie, size = "large" }) => {
 
   if (userContext.favourites.includes(movie.id)) {
     return (
-      <IconButton aria-label="add to favorites" onClick={handleAddTofavourite}>
+      <IconButton aria-label="add to favorites" onClick={handleClick}>
         <FavoriteIcon sx={styles.isFavourite} fontSize={size} />
       </IconButton>
     );
   }
 
   return (
-    <IconButton aria-label="favourite" onClick={handleAddTofavourite}>
+    <IconButton aria-label="favourite" onClick={handleClick}>
       <FavoriteBorder sx={styles.notFavourite} fontSize={size} />
     </IconButton>
   );

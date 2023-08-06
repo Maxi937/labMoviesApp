@@ -1,18 +1,40 @@
 import React, { useContext } from "react";
 import IconButton from "@mui/material/IconButton";
 import PlaylistAdd from '@mui/icons-material/PlaylistAdd';
+import PlaylistAddCheck  from "@mui/icons-material/PlaylistAddCheck";
 import { UserContext } from "../../contexts/userContext";
 
-const AddToMustWatchIcon = ({ movie }) => {
-  const { addToMustWatch } = useContext(UserContext);
+const styles = {
+  isMustWatch: {
+    color: "rgb(3, 161, 252)"
 
-  const onUserSelect = (e) => {
+  },
+  notMustWatch: {
+    color: "rgb(255, 255, 255)"
+  }
+}
+
+
+const AddToMustWatchIcon = ({ movie, size="large" }) => {
+  const userContext = useContext(UserContext);
+
+  const handleClick = (e) => {
     e.preventDefault();
-    addToMustWatch(movie);
+    e.stopPropagation();
+    userContext.addToMustWatch(movie);
   };
+
+  if (userContext.mustWatch.includes(movie.id)) {
+    return (
+      <IconButton aria-label="add to favorites" onClick={handleClick}>
+        <PlaylistAddCheck sx={styles.isMustWatch} fontSize={size} />
+      </IconButton>
+    );
+  }
+
   return (
-    <IconButton aria-label="add to Must Watch" onClick={onUserSelect}>
-      <PlaylistAdd color="primary" fontSize="large" />
+    <IconButton aria-label="add to Must Watch" onClick={handleClick}>
+      <PlaylistAdd sx={styles.notMustWatch} color="primary" fontSize={size} />
     </IconButton>
   );
 };
