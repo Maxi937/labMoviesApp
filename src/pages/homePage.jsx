@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import PageTemplate from "../components/templateMovieListPage";
+import PageTemplate from "../components/templateContentListPage";
 import Header from "../components/headerMovieList";
-import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
-import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 import { discoverMoviesQuery, upcomingMoviesQuery, suggestedMoviesQuery, heroMovieQuery } from "../hooks/useMovieQueries";
 import { UserContext } from "../contexts/userContext";
+import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 
 const HomePage = (props) => {
-  const { user } = useContext(UserContext);
-
   const suggested = (
     <PageTemplate
       hero={true}

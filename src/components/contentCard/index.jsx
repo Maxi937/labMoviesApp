@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Box } from "@mui/material";
-import MovieCardOverlay from "./movieCardOverlay";
+import ContentCardOverlay from "./contentCardOverlay";
 import Fade from "@mui/material/Fade";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -48,7 +48,7 @@ const styles = {
   },
 };
 
-export default function MovieCard({ movie, action }) {
+export default function ContentCard({ content, action }) {
   const navigate = useNavigate()
   const [active, setActive] = useState(false);
 
@@ -63,15 +63,15 @@ export default function MovieCard({ movie, action }) {
   function handleClick(e) {
     e.preventDefault();
     e.stopPropagation()
-    navigate(`/movies/${movie.id}`)
+    content.first_air_date ?  navigate(`/tv/${content.id}`) : navigate(`/movies/${content.id}`)
   }
 
   return (
     <>
-      <Box onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(`https://image.tmdb.org/t/p/w500/${movie.poster_path}`)}>
+      <Box onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(`https://image.tmdb.org/t/p/w500/${content.poster_path}`)}>
         <Fade timeout={{ enter: 150, exit: 300 }} in={active}>
           <Box sx={styles.overlay}>
-            <MovieCardOverlay movie={movie} action={action} />
+            <ContentCardOverlay content={content} action={action} />
           </Box>
         </Fade>
       </Box>

@@ -59,6 +59,18 @@ export const getMovie = async (movieId) => {
   }
 };
 
+export const getTvShow = async (tvId) => {
+  try {
+    const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}?api_key=${import.meta.env.VITE_TMDB_KEY}`);
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getMovieCredits = async (movieId) => {
   try {
     const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}`);
@@ -99,6 +111,18 @@ export const getGenres = async () => {
 export const getMovieImages = async (movieId) => {
   try {
     const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`);
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTvImages = async (tvId) => {
+  try {
+    const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`);
     if (!response.ok) {
       throw new Error(response.json().message);
     }

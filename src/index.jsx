@@ -5,6 +5,7 @@ import SiteHeader from "./components/siteHeader";
 import HomePage from "./pages/homePage";
 import MoviesPage from "./pages/moviePage";
 import TelevisionPage from "./pages/televisionPage";
+import TvDetailsPage from "./pages/tvDetailsPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import MoviePage from "./pages/movieDetailsPage";
 import AddMovieReviewPage from "./pages/addMovieReviewPage";
@@ -41,6 +42,7 @@ function App() {
               <Route path="/reviews/:id" element={<MovieReviewPage />} />
               <Route path="/movies" element={<MoviesPage />} />
               <Route path="/tv" element={<TelevisionPage />} />
+              <Route path="/tv/:id" element={<TvDetailsPage />} />
               <Route path="/" element={<HomePage />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>

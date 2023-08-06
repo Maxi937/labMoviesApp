@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import ContentHeader from "../headerContent";
+import MovieHeader from "../headerContent";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -33,7 +33,7 @@ const TemplateMoviePage = ({ movie, children }) => {
 
   return (
     <>
-      <ContentHeader content={movie} />
+      <MovieHeader movie={movie} />
       <Grid container spacing={5} style={{ padding: "15px" }}>
         <Grid item xs={3}>
           <div sx={styles.gridListRoot}>

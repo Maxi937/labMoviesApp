@@ -4,7 +4,7 @@ import FilterCard from "../filterMoviesCard";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
-import MovieList from "../movieList";
+import MovieList from "../contentList";
 import MovieHero from "../movieHero";
 
 const styles = {
@@ -19,20 +19,20 @@ const styles = {
   },
 };
 
-function MovieListPageTemplate({movieQuery, title, action, hero = false }) {
+function ContentListPageTemplate({movieQuery, title, action, hero = false }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { data, error, isLoading, isError } = movieQuery()
-  const movies = data ? data.results : [];
+  const content = data ? data.results : [];
   const genreId = Number(genreFilter);
-  let movieHero = {}
+  let contentHero
 
   if(hero) {
-    movieHero = movies.shift()
+    contentHero = content.shift()
   }
 
-  let displayedMovies = movies
+  let displayedContent = content
     .filter((m) => {
       const title = m.title ? m.title : m.name
       return title.toLowerCase().search(titleFilter.toLowerCase()) !== -1;
@@ -56,10 +56,10 @@ function MovieListPageTemplate({movieQuery, title, action, hero = false }) {
 
   return (
     <>
-      { hero && (<MovieHero movie={movieHero}/>)}
+      { contentHero && (<MovieHero movie={contentHero}/>)}
       <Grid container sx={styles.root}>
         <Grid item container spacing={5}>
-          <MovieList action={action} movies={displayedMovies} />
+          <MovieList action={action} content={displayedContent} />
         </Grid>
       </Grid>
       <Fab color="secondary" variant="extended" onClick={() => setDrawerOpen(true)} sx={styles.fab}>
@@ -71,4 +71,4 @@ function MovieListPageTemplate({movieQuery, title, action, hero = false }) {
     </>
   );
 }
-export default MovieListPageTemplate;
+export default ContentListPageTemplate;

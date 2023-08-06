@@ -1,17 +1,6 @@
 import React, { useContext } from "react";
-import Avatar from "@mui/material/Avatar";
 import { Box } from "@mui/material";
-import CardHeader from "@mui/material/CardHeader";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
-import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
-import StarRateIcon from "@mui/icons-material/StarRate";
-import Grid from "@mui/material/Grid";
-import img from "../../images/film-poster-placeholder.png";
-import { Link } from "react-router-dom";
-import { UserContext } from "../../contexts/userContext";
 import { Star } from "@mui/icons-material";
 
 const styles = {
@@ -48,39 +37,23 @@ const styles = {
   },
 };
 
-export default function MovieCardOverlay({ movie, action }) {
-  const { favourites, mustWatch } = useContext(UserContext);
-
-  if (favourites) {
-    if (favourites.find((id) => id === movie.id)) {
-      movie.favourite = true;
-    } else {
-      movie.favourite = false;
-    }
-  }
-
-  if (mustWatch.find((id) => id === movie.id)) {
-    movie.mustWatch = true;
-  } else {
-    movie.mustWatch = false;
-  }
-
+export default function ContentCardOverlay({ content, action }) {
   return (
     <>
       <Box sx={styles.topBar}>
         <Box sx={styles.topLeft}>
           <Star sx={styles.star} />
           <Typography color="white" variant="h6" component="p">
-            {movie.vote_average}
+            {content.vote_average}
           </Typography>
         </Box>
         <Box sx={styles.topRight}>
-            {action(movie)}
+            {action(content)}
         </Box>
       </Box>
       <Box sx={styles.bottomBar}>
         <Typography variant="h6" component="p">
-          {movie.title ? movie.title : movie.name}
+          {content.title ? content.title : content.name}
         </Typography>
       </Box>
     </>
