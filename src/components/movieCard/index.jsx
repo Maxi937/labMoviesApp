@@ -1,112 +1,80 @@
 import React, { useContext } from "react";
-import Avatar from "@mui/material/Avatar";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import CardHeader from "@mui/material/CardHeader";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
-import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
-import StarRateIcon from "@mui/icons-material/StarRate";
-import Grid from "@mui/material/Grid";
-import img from "../../images/film-poster-placeholder.png";
-import { Link } from "react-router-dom";
-import { UserContext } from "../../contexts/userContext";
+import { Box } from "@mui/material";
+import MovieCardOverlay from "./movieCardOverlay";
+import Fade from "@mui/material/Fade";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
-  card: { maxWidth: 300 },
-  media: {
-    "&:hover": {
-      color: "red",
-      filter: "brightness(30%)",
-      "& ~ ${movieTitle}": {
-        color: "red",
-        display: "block",
+  box: (backgroundImage) => {
+    return {
+      borderRadius: 5,
+      boxShadow: 5,
+      overflow: "hidden",
+      zIndex: 1,
+      display: "flex",
+      position: "relative",
+      width: 200,
+      height: 300,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      "&::before": {
+        content: `""`,
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+        backgroundSize: "cover",
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        transition: "filter 0.3s ease 0s",
       },
+      "&:hover:before": {
+        filter: "brightness(75%)",
+      },
+    };
+  },
+  overlay: {
+    display: "flex",
+    flexDirection: "column",
+    zIndex: 5,
+    flex: 1,
+    "&:hover": {
+      cursor: "pointer",
     },
-    zIndex: 10,
-    height: 300,
-    objectFit: "contain",
-  },
-  avatar: {
-    backgroundColor: "rgb(255, 0, 0)",
-  },
-  movieTitle: {
-    display: "none",
-    color: "white",
-    zIndex: -1,
-    position: "absolute",
-    marginTop: -25,
-    zIndex: 20,
-    textAlign: "center",
+
   },
 };
 
 export default function MovieCard({ movie, action }) {
-  const { favourites, mustWatch } = useContext(UserContext);
+  const navigate = useNavigate()
+  const [active, setActive] = useState(false);
 
-  if(favourites) {
-    if (favourites.find((id) => id === movie.id)) {
-      movie.favourite = true;
-    } else {
-      movie.favourite = false;
-    }
+  function handleMouseOver() {
+    setActive(true);
   }
 
+  function handleMouseOut() {
+    setActive(false);
+  }
 
-  if (mustWatch.find((id) => id === movie.id)) {
-    movie.mustWatch = true;
-  } else {
-    movie.mustWatch = false;
+  function handleClick(e) {
+    e.preventDefault();
+    e.stopPropagation()
+    navigate(`/movies/${movie.id}`)
   }
 
   return (
-    <Card sx={styles.card}>
-      <CardHeader
-        sx={styles.header}
-        avatar={
-          movie.mustWatch ? (
-            <Avatar sx={styles.avatar}>
-              <PlaylistAddCheckIcon />
-            </Avatar>
-          ) : movie.favourite ? (
-            <Avatar sx={styles.avatar}>
-              <FavoriteIcon />
-            </Avatar>
-          ) : null
-        }
-      />
-      <CardMedia sx={styles.media} image={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : img}></CardMedia>
-      <Typography sx={styles.movieTitle} variant="h5" component="p">
-        {movie.title}{" "}
-      </Typography>
-      <CardContent>
-        <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <CalendarIcon fontSize="small" />
-              {movie.release_date}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <StarRateIcon fontSize="small" />
-              {"  "} {movie.vote_average}{" "}
-            </Typography>
-          </Grid>
-        </Grid>
-      </CardContent>
-      <CardActions disableSpacing>
-        {action(movie)}
-        <Link to={`/movies/${movie.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
-          </Button>
-        </Link>
-      </CardActions>
-    </Card>
+    <>
+      <Box onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(`https://image.tmdb.org/t/p/w500/${movie.poster_path}`)}>
+        <Fade timeout={{ enter: 150, exit: 300 }} in={active}>
+          <Box sx={styles.overlay}>
+            <MovieCardOverlay movie={movie} action={action} />
+          </Box>
+        </Fade>
+      </Box>
+    </>
   );
 }

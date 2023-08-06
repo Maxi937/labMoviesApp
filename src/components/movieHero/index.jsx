@@ -1,9 +1,6 @@
 import React, { useContext } from "react";
 import findHero from "./findHero";
 import { useState } from "react";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import Slide from "@mui/material/Slide";
 import Spinner from "../spinner";
 import MovieHeroBar from "./movieHeroBar";
 import Button from "@mui/material/Button";

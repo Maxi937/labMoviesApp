@@ -15,7 +15,7 @@ const HomePage = (props) => {
       movieQuery={suggestedMoviesQuery}
       title="Suggested"
       action={(movie) => {
-        return user && <AddToFavouritesIcon movie={movie} />;
+        return <AddToFavouritesIcon movie={movie} />;
       }}
     />
   );

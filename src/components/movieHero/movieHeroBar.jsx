@@ -1,9 +1,5 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../contexts/userContext";
-import Avatar from "@mui/material/Avatar";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import Spinner from "../spinner";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
@@ -13,7 +9,6 @@ import { Box } from "@mui/material";
 import PlaylistAdd from "@mui/icons-material/PlaylistAdd";
 import { formatDate } from "../../util";
 import { Star } from "@mui/icons-material";
-import { Badge } from "@mui/icons-material";
 
 const styles = {
   bottomBar: {
@@ -47,7 +42,7 @@ const styles = {
   },
   star: {
     color: "yellow",
-    fontSize: 50
+    fontSize: 50,
   },
 };
 

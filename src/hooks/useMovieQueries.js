@@ -17,7 +17,7 @@ export const suggestedMoviesQuery = () => {
     const tvShows = query.data.tv.results
     const suggested = movies.concat(tvShows)
     suggested.sort((a, b) => b.popularity - a.popularity);
-    query.data = { results: suggested.slice(0, 7) }
+    query.data = { results: suggested.slice(0, 13) }
     return query
   } else {
     return query;

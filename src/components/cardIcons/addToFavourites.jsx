@@ -1,19 +1,40 @@
 import React, { useContext } from "react";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import { UserContext } from "../../contexts/userContext";
 
-const AddToFavouritesIcon = ({ movie }) => {
-  const userContext = useContext(UserContext)
+const styles = {
+  isFavourite: {
+    color: "rgb(255, 0, 0)"
 
-  const onUserSelect = (e) => {
+  },
+  notFavourite: {
+    color: "rgb(255, 255, 255)"
+  }
+}
+
+
+const AddToFavouritesIcon = ({ movie, size = "large" }) => {
+  const userContext = useContext(UserContext);
+
+  const handleAddTofavourite = (e) => {
     e.preventDefault();
-    userContext.addToFavourites(movie)
+    e.stopPropagation();
+    userContext.addToFavourites(movie);
   };
 
+  if (userContext.favourites.includes(movie.id)) {
+    return (
+      <IconButton aria-label="add to favorites" onClick={handleAddTofavourite}>
+        <FavoriteIcon sx={styles.isFavourite} fontSize={size} />
+      </IconButton>
+    );
+  }
+
   return (
-    <IconButton aria-label="add to favorites" onClick={onUserSelect}>
-      <FavoriteIcon color="primary" fontSize="large" />
+    <IconButton aria-label="favourite" onClick={handleAddTofavourite}>
+      <FavoriteBorder sx={styles.notFavourite} fontSize={size} />
     </IconButton>
   );
 };
