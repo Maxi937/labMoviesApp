@@ -1,55 +1,64 @@
 import React, { useContext } from "react";
-import Avatar from "@mui/material/Avatar";
+import findHero from "./findHero";
+import { useState } from "react";
+import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+import Slide from "@mui/material/Slide";
 import Spinner from "../spinner";
-import { Box } from "@mui/material";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import CardHeader from "@mui/material/CardHeader";
+import MovieHeroBar from "./movieHeroBar";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
-import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
-import StarRateIcon from "@mui/icons-material/StarRate";
-import Grid from "@mui/material/Grid";
 import img from "../../images/film-poster-placeholder.png";
 import { Link } from "react-router-dom";
-import { MoviesContext } from "../../contexts/moviesContext";
 import { UserContext } from "../../contexts/userContext";
+import { heroMovieImageQuery, heroMovieQuery } from "../../hooks/useMovieQueries";
+import { Box } from "@mui/material";
+import Fade from "@mui/material/Fade";
 
 const styles = {
-  box: {
-    height: 300,
+  box: (backgroundImage) => {
+    return {
+      overflow: "hidden",
+      zIndex: 1,
+      display: "flex",
+      position: "relative",
+      width: "100",
+      height: 400,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      "&::before": {
+        content: `""`,
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+        backgroundSize: "cover",
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        transition: "filter 0.3s ease 0s",
+      },
+      "&:hover:before": {
+        filter: "brightness(75%)",
+      },
+    };
   },
-  card: {
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
-  media: {
-    margin: 2,
-    objectFit: "fill",
-    height: 150,
-    width: "auto"
+  heroBar: {
+    display: "flex",
+    flexDirection:"column",
+    zIndex: 2,
+    flex: 1,
   },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
   },
-  movieTitle: {
-    display: "none",
-    color: "white",
-    zIndex: -1,
-    position: "absolute",
-    marginTop: -25,
-    zIndex: 20,
-    textAlign: "center",
-  },
 };
 
-export default function MovieHero({ movieQuery }) {
+export default function MovieHero({ movie }) {
   const { favourites, mustWatch } = useContext(UserContext);
-  const { data, error, isLoading, isError } = movieQuery();
+  const { data, error, isLoading, isError } = heroMovieImageQuery(movie);
+  const [active, setActive] = useState(false);
 
   if (isLoading) {
     return <Spinner />;
@@ -59,35 +68,29 @@ export default function MovieHero({ movieQuery }) {
     return <h1>{error.message}</h1>;
   }
 
-  const movie = data ? data.results[0] : [];
+  const heroImage = data ? findHero(data.backdrops) : [];
 
-  if (favourites) {
-    if (favourites.find((id) => id === movie.id)) {
-      movie.favourite = true;
-    } else {
-      movie.favourite = false;
-    }
+  function handleMouseOver() {
+    setActive(true);
   }
 
-  if (mustWatch.find((id) => id === movie.id)) {
-    movie.mustWatch = true;
-  } else {
-    movie.mustWatch = false;
+  function handleMouseOut() {
+    setActive(false);
   }
 
   return (
-    <Card sx={styles.card}>
-      <CardMedia component="img" sx={styles.media} image={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : img}></CardMedia>
-      <Typography sx={styles.movieTitle} variant="h5" component="p">
-        {movie.title}{" "}
-      </Typography>
-      <CardActions disableSpacing>
-        <Link to={`/movies/${movie.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
-          </Button>
-        </Link>
-      </CardActions>
-    </Card>
+    <>
+      {heroImage && (
+        <>
+          <Box onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(`https://image.tmdb.org/t/p/original/${heroImage.file_path}`)}>
+            <Fade timeout={{ enter: 150, exit: 300 }} in={active}>
+              <Box sx={styles.heroBar}>
+                <MovieHeroBar movie={movie} />
+              </Box>
+            </Fade>
+          </Box>
+        </>
+      )}
+    </>
   );
 }

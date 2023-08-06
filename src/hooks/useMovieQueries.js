@@ -1,5 +1,5 @@
 import { useQuery, useQueries } from "react-query";
-import { getMovies, getUpcomingMovies, getSuggestedMoviesTV, getNowPlayingMovies } from "../api/tmdb-api";
+import { getMovies, getUpcomingMovies, getSuggestedMoviesTV, getNowPlayingMovies, getMovieImages } from "../api/tmdb-api";
 
 export const discoverMoviesQuery = () => {
   return useQuery("discover", getMovies);
@@ -17,7 +17,7 @@ export const suggestedMoviesQuery = () => {
     const tvShows = query.data.tv.results
     const suggested = movies.concat(tvShows)
     suggested.sort((a, b) => b.popularity - a.popularity);
-    query.data = { results: suggested.slice(0, 6) }
+    query.data = { results: suggested.slice(0, 7) }
     return query
   } else {
     return query;
@@ -28,12 +28,17 @@ export const heroMovieQuery = () => {
     const query = useQuery("discoverHeroMovie", getNowPlayingMovies);
     if (query.status === "success") {
       const movies = query.data.results
+      const movie = movies[0]
       query.data.results = movies.slice(0,1)
       return query
     } else {
       return query;
     }
   };
+
+  export const heroMovieImageQuery = (movie) => {
+    return useQuery(["getHeroMovieImage", movie.id], async () => await getMovieImages(movie.id))
+  }
 
 // const favouriteMovieQueries = useQueries(
 //     favourites.map((movieId) => {

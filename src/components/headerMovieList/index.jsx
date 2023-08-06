@@ -17,9 +17,11 @@ const styles = {
 
 
 const Header = (props) => {
+  
   const title = props.title;
   const components = props.components;
   const [pageNumber, setPageNumber] = useState(0);
+  console.log(components[0].props.title)
 
   function handleArrowForward() {
     if (pageNumber < components.length - 1) {

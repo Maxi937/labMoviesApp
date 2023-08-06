@@ -5,22 +5,19 @@ import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 import { discoverMoviesQuery, upcomingMoviesQuery, suggestedMoviesQuery, heroMovieQuery } from "../hooks/useMovieQueries";
 import { UserContext } from "../contexts/userContext";
-import MovieHero from "../components/movieHero";
 
 const HomePage = (props) => {
   const { user } = useContext(UserContext);
 
   const suggested = (
-    <>
-      <MovieHero movieQuery={heroMovieQuery}/>
-      <PageTemplate
-        movieQuery={suggestedMoviesQuery}
-        title="Suggested"
-        action={(movie) => {
-          return user && <AddToFavouritesIcon movie={movie} />;
-        }}
-      />
-    </>
+    <PageTemplate
+      hero={true}
+      movieQuery={suggestedMoviesQuery}
+      title="Suggested"
+      action={(movie) => {
+        return user && <AddToFavouritesIcon movie={movie} />;
+      }}
+    />
   );
 
   const components = [suggested];

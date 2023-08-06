@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieList from "../movieList";
+import MovieHero from "../movieHero";
 
 const styles = {
   root: {
@@ -18,25 +19,18 @@ const styles = {
   },
 };
 
-function MovieListPageTemplate({movieQuery, title, action }) {
+function MovieListPageTemplate({movieQuery, title, action, hero = false }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [drawerOpen, setDrawerOpen] = useState(false);
-
   const { data, error, isLoading, isError } = movieQuery()
-
-  if (isLoading) {
-    return <Spinner />;
-  } 
-
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
-
   const movies = data ? data.results : [];
-
-
   const genreId = Number(genreFilter);
+  let movieHero = {}
+
+  if(hero) {
+    movieHero = movies.shift()
+  }
 
   let displayedMovies = movies
     .filter((m) => {
@@ -52,8 +46,17 @@ function MovieListPageTemplate({movieQuery, title, action }) {
     else setGenreFilter(value);
   };
 
+  if (isLoading) {
+    return <Spinner />;
+  } 
+
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
+
   return (
     <>
+      { hero && (<MovieHero movie={movieHero}/>)}
       <Grid container sx={styles.root}>
         <Grid item container spacing={5}>
           <MovieList action={action} movies={displayedMovies} />
