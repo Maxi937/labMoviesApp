@@ -26,7 +26,7 @@ const styles = {
 const ContentPanel = ({ children }) => {
   const [pageNumber, setPageNumber] = useState(0);
   const pages = children;
-  const [hero, setHero] = useState(null);
+  const [hero, setHero] = useState("");
 
   function handleArrowForward() {
     if (pageNumber < pages.length - 1) {
@@ -42,7 +42,6 @@ const ContentPanel = ({ children }) => {
 
   const handleSetHero = (movie) => {
     setHero(movie);
-    console.log("2", hero);
   };
 
   return (

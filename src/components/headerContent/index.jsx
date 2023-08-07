@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import Box from "@mui/material/Box";
-import { MoviesContext } from "../../contexts/moviesContext";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import GoToContentHomepage from "../cardIcons/goToContentHomepage";

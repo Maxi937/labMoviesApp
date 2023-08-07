@@ -1,29 +1,51 @@
 import { useQuery, useQueries } from "react-query";
-import { getMovies, getUpcomingMovies, getSuggestedMoviesTV, getNowPlayingMovies, getMovieImages, getTv, getTvImages, getMoviesByGenre, getTelevisionByGenre } from "../api/tmdb-api";
-
+import {
+  getMovies,
+  getMovie,
+  getUpcomingMovies,
+  getSuggestedMoviesTV,
+  getNowPlayingMovies,
+  getMovieImages,
+  getTv,
+  getTvImages,
+  getMoviesByGenre,
+  getTelevisionByGenre,
+} from "../api/tmdb-api";
 
 export const discoverMoviesQuery = (pageNumber) => {
-  return useQuery(["discoverMovies", pageNumber], async () => getMovies(pageNumber), { keepPreviousData : true });
+  return useQuery(["discoverMovies", pageNumber], async () => getMovies(pageNumber), { keepPreviousData: true });
+};
+
+export const getProfileContentQuery = (context) => {
+  return useQueries(
+    context.favourites.map((movieId) => {
+      return {
+        queryKey: ["movieFavourite", movieId],
+        queryFn: async () => getMovie(movieId),
+      };
+    })
+  );
+};
+
+export const getMovieQuery = (movieId) => {
+  return useQuery(["movie", movieId], async () => getMovie(movieId));
 };
 
 export const discoverTelevisionQuery = (pageNumber) => {
-  return useQuery(["discoverTv", pageNumber], async () => getTv(pageNumber), { keepPreviousData : true });
+  return useQuery(["discoverTv", pageNumber], async () => getTv(pageNumber), { keepPreviousData: true });
 };
 
 export const upcomingMoviesQuery = (pageNumber) => {
-  return useQuery(["discoverUpcomingMovies", pageNumber], async () => getUpcomingMovies(pageNumber), { keepPreviousData : true });
+  return useQuery(["discoverUpcomingMovies", pageNumber], async () => getUpcomingMovies(pageNumber), { keepPreviousData: true });
 };
 
 export const discoverGenreMoviesQuery = (pageNumber, genre) => {
-  return useQuery(["discoverUpcomingMovies", genre, pageNumber], async () => getMoviesByGenre(pageNumber, genre), { keepPreviousData : true });
+  return useQuery(["discoverUpcomingMovies", genre, pageNumber], async () => getMoviesByGenre(pageNumber, genre), { keepPreviousData: true });
 };
 
 export const discoverGenreTelevisionQuery = (pageNumber, genre) => {
-  return useQuery(["discoverUpcomingMovies", genre, pageNumber], async () => getTelevisionByGenre(pageNumber, genre), { keepPreviousData : true });
+  return useQuery(["discoverUpcomingMovies", genre, pageNumber], async () => getTelevisionByGenre(pageNumber, genre), { keepPreviousData: true });
 };
-
-
-
 
 export const suggestedMoviesQuery = () => {
   const query = useQuery("discoverSuggestedMovies", getSuggestedMoviesTV);

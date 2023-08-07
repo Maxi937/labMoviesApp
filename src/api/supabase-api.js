@@ -35,8 +35,9 @@ export const getSession = async () => {
   return await supabase.auth.getSession();
 };
 
-export const savefavourite = async (userId, movieId) => {
-  let favourites = await getFavourites(userId);
+export const saveMoviefavourite = async (userId, movieId) => {
+  let favourites = await getMovieFavourites(userId);
+
   favourites.push(movieId);
 
   const { data, error } = await supabase.from("profiles").update({ favouritemovies: favourites }).eq("id", userId).select();
@@ -44,9 +45,8 @@ export const savefavourite = async (userId, movieId) => {
   return favourites;
 };
 
-export const getFavourites = async (userId) => {
-  console.log("Getting Favourites");
-  const { data: profile, error } = await supabase.from("profiles").select("favouritemovies").limit(1).single();
+export const getMovieFavourites = async (userId) => {
+  const { data: profile, error } = await supabase.from("profiles").select("favouritemovies").eq("id", userId).single();
 
   if (profile) {
     return profile.favouritemovies;
@@ -55,20 +55,46 @@ export const getFavourites = async (userId) => {
   }
 };
 
-export const deleteFavourite = async (userId, movieId) => {
-  console.log("Deleting favourite :", movieId);
-  let favourites = await getFavourites(userId);
+export const deleteMovieFavourite = async (userId, movieId) => {
+  let favourites = await getMovieFavourites(userId);
   favourites.splice(favourites.indexOf(movieId), 1);
-
-  console.log(favourites);
 
   const { data, error } = await supabase.from("profiles").update({ favouritemovies: favourites }).eq("id", userId).select();
 
   return favourites;
 };
 
-export const saveMustWatch = async (userId, movieId) => {
-  let mustWatch = await getMustWatch(userId);
+export const getTvFavourites = async (userId) => {
+  const { data: profile, error } = await supabase.from("profiles").select("favouritetv").eq("id", userId).single();
+
+  if (profile) {
+    return profile.favouritetv;
+  } else {
+    return [];
+  }
+};
+
+export const saveTvfavourite = async (userId, tvId) => {
+  let favourites = await getTvFavourites(userId);
+
+  favourites.push(tvId);
+
+  const { data, error } = await supabase.from("profiles").update({ favouritetv: favourites }).eq("id", userId).select();
+
+  return favourites;
+};
+
+export const deleteTvFavourite = async (userId, tvId) => {
+  let favourites = await getTvFavourites(userId);
+  favourites.splice(favourites.indexOf(tvId), 1);
+
+  const { data, error } = await supabase.from("profiles").update({ favouritetv: favourites }).eq("id", userId).select();
+
+  return favourites;
+};
+
+export const saveMustWatchMovies = async (userId, movieId) => {
+  let mustWatch = await getMustWatchMovies(userId);
   mustWatch.push(movieId);
 
   const { data, error } = await supabase.from("profiles").update({ mustwatchmovies: mustWatch }).eq("id", userId).select();
@@ -76,9 +102,8 @@ export const saveMustWatch = async (userId, movieId) => {
   return mustWatch;
 };
 
-export const getMustWatch = async (userId) => {
-  console.log("Getting Must Watch");
-  const { data: profile, error } = await supabase.from("profiles").select("mustwatchmovies").limit(1).single();
+export const getMustWatchMovies = async (userId) => {
+  const { data: profile, error } = await supabase.from("profiles").select("mustwatchmovies").eq("id", userId).single();
 
   if (profile) {
     return profile.mustwatchmovies;
@@ -87,14 +112,37 @@ export const getMustWatch = async (userId) => {
   }
 };
 
-export const deleteMustWatch = async (userId, movieId) => {
-  console.log("Deleting Must Watch :", movieId);
-  let mustWatch = await getMustWatch(userId);
+export const deleteMustWatchMovies = async (userId, movieId) => {
+  let mustWatch = await getMustWatchMovies(userId);
   mustWatch.splice(mustWatch.indexOf(movieId), 1);
 
-  console.log(mustWatch);
-
   const { data, error } = await supabase.from("profiles").update({ mustwatchmovies: mustWatch }).eq("id", userId).select();
+  return mustWatch;
+};
 
+export const saveMustWatchTelevision = async (userId, tvId) => {
+  let mustWatch = await getMustWatchTelevision(userId);
+  mustWatch.push(tvId);
+
+  const { data, error } = await supabase.from("profiles").update({ mustwatchtv: mustWatch }).eq("id", userId).select();
+
+  return mustWatch;
+};
+
+export const getMustWatchTelevision = async (userId) => {
+  const { data: profile, error } = await supabase.from("profiles").select("mustwatchtv").eq("id", userId).single();
+
+  if (profile) {
+    return profile.mustwatchtv;
+  } else {
+    return [];
+  }
+};
+
+export const deleteMustWatchTelevision = async (userId, tvId) => {
+  let mustWatch = await getMustWatchMovies(userId);
+  mustWatch.splice(mustWatch.indexOf(tvId), 1);
+
+  const { data, error } = await supabase.from("profiles").update({ mustwatchtv: mustWatch }).eq("id", userId).select();
   return mustWatch;
 };

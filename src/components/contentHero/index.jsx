@@ -53,8 +53,6 @@ export default function ContentHero({ movie }) {
   const { data, error, isLoading, isError } = heroImageQuery(movie);
   const [active, setActive] = useState(false);
 
-  console.log(movie)
-
   if (isLoading) {
     return <Spinner />;
   }

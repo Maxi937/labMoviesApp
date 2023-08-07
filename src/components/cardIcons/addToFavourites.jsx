@@ -6,14 +6,12 @@ import { UserContext } from "../../contexts/userContext";
 
 const styles = {
   isFavourite: {
-    color: "rgb(255, 0, 0)"
-
+    color: "rgb(255, 0, 0)",
   },
   notFavourite: {
-    color: "rgb(255, 255, 255)"
-  }
-}
-
+    color: "rgb(255, 255, 255)",
+  },
+};
 
 const AddToFavouritesIcon = ({ content, size = "large" }) => {
   const userContext = useContext(UserContext);
@@ -21,10 +19,11 @@ const AddToFavouritesIcon = ({ content, size = "large" }) => {
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    userContext.addToFavourites(content);
+
+    content.first_air_date ? userContext.addToTvFavourites(content) : userContext.addToMovieFavourites(content);
   };
 
-  if (userContext.favourites.includes(content.id)) {
+  if (userContext.movieFavourites.includes(content.id) || userContext.tvFavourites.includes(content.id)) {
     return (
       <IconButton aria-label="add to favorites" onClick={handleClick}>
         <FavoriteIcon sx={styles.isFavourite} fontSize={size} />

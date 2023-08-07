@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Spinner from "../spinner";
 import FilterCard from "../filterMoviesCard";
 import Grid from "@mui/material/Grid";
@@ -34,14 +34,15 @@ function ContentListPageTemplate({ contentData, action, hero = false, setHero })
   let contentHero;
 
   const { data, error, isLoading, isError, isPreviousData, isFetching, isSuccess } = contentData(pageNumber);
-
-  console.log("fetching", isFetching)
   const pages = data ? data.total_pages : 1;
   const content = data ? data.results : [];
 
   if (hero) {
-    contentHero = content.shift();
-    setHero(contentHero);
+    // Got an error when not using useEffect - I think because the setHero was being called before the Panel that impletements setHero was finished rendering
+    useEffect(() => {
+      contentHero = content.shift();
+      setHero(contentHero);
+    });
   }
 
   let displayedContent = content
