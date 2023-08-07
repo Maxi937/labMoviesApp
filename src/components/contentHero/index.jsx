@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import findHero from "./findHero";
 import { useState } from "react";
 import Spinner from "../spinner";
-import MovieHeroBar from "./movieHeroOverlay";
+import MovieHeroBar from "./contentHeroOverlay";
 import { heroImageQuery } from "../../hooks/useMovieQueries";
 import { Box } from "@mui/material";
 import Fade from "@mui/material/Fade";
@@ -49,9 +49,11 @@ const styles = {
   },
 };
 
-export default function contentHero({ movie }) {
+export default function ContentHero({ movie }) {
   const { data, error, isLoading, isError } = heroImageQuery(movie);
   const [active, setActive] = useState(false);
+
+  console.log(movie)
 
   if (isLoading) {
     return <Spinner />;

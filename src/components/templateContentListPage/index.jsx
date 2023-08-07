@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieList from "../contentList";
-import MovieHero from "../movieHero";
+import MovieHero from "../contentHero";
 import { Fade } from "@mui/material";
 import Box from "@mui/material/Box";
 
@@ -24,7 +24,7 @@ const styles = {
   },
 };
 
-function ContentListPageTemplate({ movieQuery, title, action, hero = false }) {
+function ContentListPageTemplate({ movieQuery, action, hero = false, setHero }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -35,7 +35,7 @@ function ContentListPageTemplate({ movieQuery, title, action, hero = false }) {
 
   if (hero) {
     contentHero = content.shift();
-    console.log(contentHero);
+    setHero(contentHero);
   }
 
   let displayedContent = content
@@ -63,14 +63,11 @@ function ContentListPageTemplate({ movieQuery, title, action, hero = false }) {
   return (
     <>
       <Fade in={true}>
-        <Box>
-         {contentHero &&  <Box sx={styles.hero}><MovieHero movie={contentHero}/></Box>}
-          <Grid container sx={styles.root}>
-            <Grid item container spacing={6}>
-              <MovieList action={action} content={displayedContent} />
-            </Grid>
+        <Grid container sx={styles.root}>
+          <Grid item container spacing={6}>
+            <MovieList action={action} content={displayedContent} />
           </Grid>
-        </Box>
+        </Grid>
       </Fade>
 
       <Fab color="secondary" variant="extended" onClick={() => setDrawerOpen(true)} sx={styles.fab}>

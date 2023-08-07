@@ -6,6 +6,8 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Fade from "@mui/material/Fade";
 import { Box } from "@mui/material";
+import ContentHero from "../contentHero";
+import { cloneElement } from "react";
 
 const styles = {
   root: {
@@ -24,6 +26,7 @@ const styles = {
 const ContentPanel = ({ children }) => {
   const [pageNumber, setPageNumber] = useState(0);
   const pages = children;
+  const [hero, setHero] = useState(null);
 
   function handleArrowForward() {
     if (pageNumber < pages.length - 1) {
@@ -37,8 +40,18 @@ const ContentPanel = ({ children }) => {
     }
   }
 
+  const handleSetHero = (movie) => {
+    setHero(movie);
+    console.log("2", hero);
+  };
+
   return (
     <>
+      {hero && (
+        <Box sx={styles.hero}>
+          <ContentHero movie={hero} />
+        </Box>
+      )}
       <Paper component="div" sx={styles.root}>
         <Box sx={styles.header}>
           {pages.length > 1 && (
@@ -57,7 +70,7 @@ const ContentPanel = ({ children }) => {
             </IconButton>
           )}
         </Box>
-        {pages[pageNumber]}
+        {cloneElement(pages[pageNumber], { setHero: handleSetHero })}
       </Paper>
     </>
   );
