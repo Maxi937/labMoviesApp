@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieList from "../contentList";
-import MovieHero from "../contentHero";
+import PageSwitcher from "./pageSwitcher";
 import { Fade } from "@mui/material";
 import Box from "@mui/material/Box";
 
@@ -24,14 +24,20 @@ const styles = {
   },
 };
 
-function ContentListPageTemplate({ movieQuery, action, hero = false, setHero }) {
+function ContentListPageTemplate({ contentData, action, hero = false, setHero }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { data, error, isLoading, isError } = movieQuery();
-  const content = data ? data.results : [];
+  const [pageNumber, setPageNumber] = useState(1);
   const genreId = Number(genreFilter);
+
   let contentHero;
+
+  const { data, error, isLoading, isError, isPreviousData, isFetching, isSuccess } = contentData(pageNumber);
+
+  console.log("fetching", isFetching)
+  const pages = data ? data.total_pages : 1;
+  const content = data ? data.results : [];
 
   if (hero) {
     contentHero = content.shift();
@@ -62,13 +68,15 @@ function ContentListPageTemplate({ movieQuery, action, hero = false, setHero }) 
 
   return (
     <>
-      <Fade in={true}>
+      <Fade in={isSuccess}>
         <Grid container sx={styles.root}>
           <Grid item container spacing={6}>
             <MovieList action={action} content={displayedContent} />
           </Grid>
         </Grid>
       </Fade>
+
+      {pages > 1 && <PageSwitcher pageNumber={pageNumber} setPageNumber={setPageNumber} numberOfPages={pages} />}
 
       <Fab color="secondary" variant="extended" onClick={() => setDrawerOpen(true)} sx={styles.fab}>
         Filter

@@ -11,7 +11,7 @@ const HomePage = (props) => {
       {[<PageTemplate
         key="suggested"
         hero={true}
-        movieQuery={suggestedMoviesQuery}
+        contentData={suggestedMoviesQuery}
         title="Suggested"
         action={(movie) => {
           return <AddToFavouritesIcon content={movie} />;

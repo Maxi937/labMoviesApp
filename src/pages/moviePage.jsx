@@ -9,7 +9,9 @@ const MoviePage = (props) => {
   const discoverPanel = [
     <PageTemplate
       key="discover"
-      movieQuery={discoverMoviesQuery}
+      contentData={(pageNumber) => {
+        return discoverMoviesQuery(pageNumber);
+      }}
       title="Discover Movies"
       action={(movie) => {
         return <AddToFavouritesIcon content={movie} />;
@@ -17,7 +19,9 @@ const MoviePage = (props) => {
     />,
     <PageTemplate
       key="upcoming"
-      movieQuery={upcomingMoviesQuery}
+      contentData={(pageNumber) => {
+        return upcomingMoviesQuery(pageNumber)
+      }}
       title="Coming Soon"
       action={(movie) => {
         return <AddToMustWatchIcon content={movie} />;

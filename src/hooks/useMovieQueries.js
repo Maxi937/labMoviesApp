@@ -1,16 +1,17 @@
 import { useQuery, useQueries } from "react-query";
 import { getMovies, getUpcomingMovies, getSuggestedMoviesTV, getNowPlayingMovies, getMovieImages, getTv, getTvImages } from "../api/tmdb-api";
 
-export const discoverMoviesQuery = () => {
-  return useQuery("discoverMovies", getMovies);
+
+export const discoverMoviesQuery = (pageNumber) => {
+  return useQuery(["discoverMovies", pageNumber], async () => getMovies(pageNumber), { keepPreviousData : true });
 };
 
-export const discoverTelevisionQuery = () => {
-  return useQuery("discoverTv", getTv);
+export const discoverTelevisionQuery = (pageNumber) => {
+  return useQuery(["discoverTv", pageNumber], async () => getTv(pageNumber), { keepPreviousData : true });
 };
 
-export const upcomingMoviesQuery = () => {
-  return useQuery("discoverUpcomingMovies", getUpcomingMovies);
+export const upcomingMoviesQuery = (pageNumber) => {
+  return useQuery(["discoverUpcomingMovies", pageNumber], async () => getUpcomingMovies(pageNumber), { keepPreviousData : true });
 };
 
 export const suggestedMoviesQuery = () => {

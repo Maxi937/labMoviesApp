@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useQuery } from "react";
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Star } from "@mui/icons-material";

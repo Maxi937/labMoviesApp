@@ -1,13 +1,17 @@
 import React, { useContext } from "react";
+import { useQuery } from "react-query";
 import { Box } from "@mui/material";
 import ContentCardOverlay from "./contentCardOverlay";
 import Fade from "@mui/material/Fade";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useImage from "../../hooks/useImage";
 
 const styles = {
   box: (backgroundImage) => {
-    return {
+    const image = useImage(backgroundImage)
+
+    return image ? {
       borderRadius: 5,
       boxShadow: 5,
       overflow: "hidden",
@@ -20,7 +24,7 @@ const styles = {
       backgroundSize: "cover",
       "&::before": {
         content: `""`,
-        backgroundImage: `url(${backgroundImage})`,
+        backgroundImage: `url(${image})`,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center center",
         backgroundSize: "cover",
@@ -34,7 +38,23 @@ const styles = {
       "&:hover:before": {
         filter: "brightness(75%)",
       },
-    };
+    } : {
+      borderRadius: 5,
+      boxShadow: 5,
+      overflow: "hidden",
+      zIndex: 1,
+      display: "flex",
+      position: "relative",
+      width: 200,
+      height: 300,
+      backgroundColor: "black",
+      opacity: 1,
+      animation: "blur 4s",
+      "@keyframes blur": {
+        "0%": { filter: "blur(8px)" },
+        "100%": { filter: "blur(0)" }
+      },
+    }
   },
   overlay: {
     display: "flex",

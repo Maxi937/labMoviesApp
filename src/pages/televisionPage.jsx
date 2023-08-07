@@ -10,7 +10,10 @@ const TelevisionPage = (props) => {
     <Panel>
       {[
         <PageTemplate
-          movieQuery={discoverTelevisionQuery}
+          key={"television"}
+          contentData={(pageNumber) => {
+            return discoverTelevisionQuery(pageNumber);
+          }}
           title="Discover Television Shows"
           action={(movie) => {
             return <AddToFavouritesIcon content={movie} />;
