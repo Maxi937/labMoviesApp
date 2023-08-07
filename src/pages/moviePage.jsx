@@ -3,7 +3,8 @@ import PageTemplate from "../components/templateContentListPage";
 import Panel from "../components/contentPanel";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
-import { discoverMoviesQuery, upcomingMoviesQuery } from "../hooks/useMovieQueries";
+import { discoverMoviesQuery, upcomingMoviesQuery, discoverGenreMoviesQuery } from "../hooks/useMovieQueries";
+import { tmdbMovieGenres } from "../util";
 
 const MoviePage = (props) => {
   const discoverPanel = [
@@ -20,7 +21,7 @@ const MoviePage = (props) => {
     <PageTemplate
       key="upcoming"
       contentData={(pageNumber) => {
-        return upcomingMoviesQuery(pageNumber)
+        return upcomingMoviesQuery(pageNumber);
       }}
       title="Coming Soon"
       action={(movie) => {
@@ -29,9 +30,30 @@ const MoviePage = (props) => {
     />,
   ];
 
+  const genrePanel = () => {
+    const genreList = []
+
+    for (const [key, value] of Object.entries(tmdbMovieGenres)) {
+      genreList.push (
+        <PageTemplate
+          key={key}
+          contentData={(pageNumber) => {
+            return discoverGenreMoviesQuery(pageNumber, value);
+          }}
+          title={key}
+          action={(movie) => {
+            return <AddToFavouritesIcon content={movie} />;
+          }}
+        />
+      );
+    }
+    return genreList
+  };
+
   return (
     <>
       <Panel>{discoverPanel}</Panel>
+      <Panel>{genrePanel()}</Panel>
     </>
   );
 };

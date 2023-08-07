@@ -12,6 +12,34 @@ export const getMovies = async (pageNumber = 1) => {
   }
 };
 
+export const getMoviesByGenre = async (pageNumber = 1, genre) => {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&with_genres=${genre}&page=${pageNumber}`
+    );
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTelevisionByGenre = async (pageNumber = 1, genre) => {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&with_genres=${genre}&page=${pageNumber}`
+    );
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getTv = async (pageNumber = 1) => {
   try {
     const response = await fetch(

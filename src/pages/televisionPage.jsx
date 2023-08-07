@@ -3,24 +3,48 @@ import PageTemplate from "../components/templateContentListPage";
 import Panel from "../components/contentPanel";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
-import { discoverTelevisionQuery, upcomingMoviesQuery } from "../hooks/useMovieQueries";
+import { discoverTelevisionQuery, upcomingMoviesQuery, discoverGenreTelevisionQuery } from "../hooks/useMovieQueries";
+import { tmdbTvGenres } from "../util";
 
 const TelevisionPage = (props) => {
-  return (
-    <Panel>
-      {[
+  const discoverPanel = [
+    <PageTemplate
+      key={"television"}
+      contentData={(pageNumber) => {
+        return discoverTelevisionQuery(pageNumber);
+      }}
+      title="Discover Television Shows"
+      action={(movie) => {
+        return <AddToFavouritesIcon content={movie} />;
+      }}
+    />,
+  ];
+
+  const genrePanel = () => {
+    const genreList = [];
+
+    for (const [key, value] of Object.entries(tmdbTvGenres)) {
+      genreList.push(
         <PageTemplate
-          key={"television"}
+          key={key}
           contentData={(pageNumber) => {
-            return discoverTelevisionQuery(pageNumber);
+            return discoverGenreTelevisionQuery(pageNumber, value);
           }}
-          title="Discover Television Shows"
+          title={key}
           action={(movie) => {
             return <AddToFavouritesIcon content={movie} />;
           }}
-        />,
-      ]}
-    </Panel>
+        />
+      );
+    }
+    return genreList;
+  };
+
+  return (
+    <>
+      <Panel>{discoverPanel}</Panel>
+      <Panel>{genrePanel()}</Panel>
+    </>
   );
 };
 
