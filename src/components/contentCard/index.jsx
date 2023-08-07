@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { useQuery } from "react-query";
 import { Box } from "@mui/material";
 import ContentCardOverlay from "./contentCardOverlay";
 import Fade from "@mui/material/Fade";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useImage from "../../hooks/useImage";
+import PlaceHolder from "../../images/film-poster-placeholder.png"
 
 const styles = {
   box: (backgroundImage) => {
@@ -47,12 +47,14 @@ const styles = {
       position: "relative",
       width: 200,
       height: 300,
-      backgroundColor: "black",
-      opacity: 1,
-      animation: "blur 4s",
+      backgroundImage: `url(${PlaceHolder})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center center",
+      backgroundColor: "grey",
+      animation: "blur 2s",
       "@keyframes blur": {
-        "0%": { filter: "blur(8px)" },
-        "100%": { filter: "blur(0)" }
+        "100%": { filter: "blur(8px)" },
+        "0%": { filter: "blur(0)" }
       },
     }
   },
