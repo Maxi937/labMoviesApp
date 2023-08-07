@@ -14,7 +14,6 @@ const styles = {
   bottomBar: {
     display: "flex",
     marginTop: "auto",
-    backgroundColor: "rgba(0,0,0,0.1)",
     color: "white",
     gap: 4,
     padding: 2,
@@ -46,7 +45,7 @@ const styles = {
   },
 };
 
-export default function MovieHeroBar({ movie }) {
+export default function MovieHeroOverlay({ movie }) {
   const userContext = useContext(UserContext);
 
   function handleAddToFavourite() {

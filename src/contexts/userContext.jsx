@@ -12,7 +12,6 @@ const UserContextProvider = (props) => {
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
-      console.log(_event);
       if (_event === "SIGNED_OUT") {
         setUser("");
         setSession("");

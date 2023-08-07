@@ -15,16 +15,16 @@ const styles = {
 }
 
 
-const AddToMustWatchIcon = ({ movie, size="large" }) => {
+const AddToMustWatchIcon = ({ content, size="large" }) => {
   const userContext = useContext(UserContext);
 
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    userContext.addToMustWatch(movie);
+    userContext.addToMustWatch(content);
   };
 
-  if (userContext.mustWatch.includes(movie.id)) {
+  if (userContext.mustWatch.includes(content.id)) {
     return (
       <IconButton aria-label="add to favorites" onClick={handleClick}>
         <PlaylistAddCheck sx={styles.isMustWatch} fontSize={size} />

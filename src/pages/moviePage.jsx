@@ -1,34 +1,35 @@
 import React, { useState, useEffect } from "react";
 import PageTemplate from "../components/templateContentListPage";
-import Header from "../components/headerMovieList";
+import Panel from "../components/contentPanel";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 import { discoverMoviesQuery, upcomingMoviesQuery } from "../hooks/useMovieQueries";
 
 const MoviePage = (props) => {
-  const discoverPage = (
+  const discoverPanel = [
     <PageTemplate
+      key="discover"
       movieQuery={discoverMoviesQuery}
       title="Discover Movies"
       action={(movie) => {
-        return <AddToFavouritesIcon movie={movie} />;
+        return <AddToFavouritesIcon content={movie} />;
       }}
-    />
-  );
-
-  const upcomingPage = (
+    />,
     <PageTemplate
+      key="upcoming"
       movieQuery={upcomingMoviesQuery}
       title="Coming Soon"
       action={(movie) => {
-        return <AddToMustWatchIcon movie={movie} />;
+        return <AddToMustWatchIcon content={movie} />;
       }}
-    />
+    />,
+  ];
+
+  return (
+    <>
+      <Panel>{discoverPanel}</Panel>
+    </>
   );
-
-  const components = [discoverPage, upcomingPage];
-
-  return <Header components={components} />;
 };
 
 export default MoviePage;

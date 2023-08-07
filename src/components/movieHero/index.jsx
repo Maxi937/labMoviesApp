@@ -2,19 +2,15 @@ import React, { useContext } from "react";
 import findHero from "./findHero";
 import { useState } from "react";
 import Spinner from "../spinner";
-import MovieHeroBar from "./movieHeroBar";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import img from "../../images/film-poster-placeholder.png";
-import { Link } from "react-router-dom";
-import { UserContext } from "../../contexts/userContext";
-import { heroMovieImageQuery, heroMovieQuery } from "../../hooks/useMovieQueries";
+import MovieHeroBar from "./movieHeroOverlay";
+import { heroImageQuery } from "../../hooks/useMovieQueries";
 import { Box } from "@mui/material";
 import Fade from "@mui/material/Fade";
 
 const styles = {
   box: (backgroundImage) => {
     return {
+      borderRadius: 5,
       overflow: "hidden",
       zIndex: 1,
       display: "flex",
@@ -23,6 +19,7 @@ const styles = {
       height: 400,
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
+      cursor: "pointer",
       "&::before": {
         content: `""`,
         backgroundImage: `url(${backgroundImage})`,
@@ -37,7 +34,7 @@ const styles = {
         transition: "filter 0.3s ease 0s",
       },
       "&:hover:before": {
-        filter: "brightness(75%)",
+        filter: "brightness(65%)",
       },
     };
   },
@@ -52,9 +49,8 @@ const styles = {
   },
 };
 
-export default function MovieHero({ movie }) {
-  const { favourites, mustWatch } = useContext(UserContext);
-  const { data, error, isLoading, isError } = heroMovieImageQuery(movie);
+export default function contentHero({ movie }) {
+  const { data, error, isLoading, isError } = heroImageQuery(movie);
   const [active, setActive] = useState(false);
 
   if (isLoading) {

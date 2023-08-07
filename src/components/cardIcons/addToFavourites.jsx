@@ -15,16 +15,16 @@ const styles = {
 }
 
 
-const AddToFavouritesIcon = ({ movie, size = "large" }) => {
+const AddToFavouritesIcon = ({ content, size = "large" }) => {
   const userContext = useContext(UserContext);
 
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    userContext.addToFavourites(movie);
+    userContext.addToFavourites(content);
   };
 
-  if (userContext.favourites.includes(movie.id)) {
+  if (userContext.favourites.includes(content.id)) {
     return (
       <IconButton aria-label="add to favorites" onClick={handleClick}>
         <FavoriteIcon sx={styles.isFavourite} fontSize={size} />

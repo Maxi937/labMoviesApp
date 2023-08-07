@@ -88,9 +88,9 @@ const SiteHeader = () => {
                     <MenuItem key={opt.label} onClick={() => handleMenuSelect(opt.path)}>
                       {opt.label}
                     </MenuItem>
-                    <LoginLogoutButton />
                   </>
                 ))}
+                <LoginLogoutButton />
               </Menu>
             </>
           ) : (

@@ -4,6 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const styles = {
   root: {
+    padding: 10,
     display: 'flex',
     justifyContent: "center",
     '& > * + *': {
