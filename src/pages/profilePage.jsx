@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import PageTemplate from "../components/templateContentListPage";
+import { Box } from "@mui/material";
 import Panel from "../components/contentPanel";
 import { getMovieQuery, getProfileContentQueryTest } from "../hooks/useMovieQueries";
 import AddActorToFavouritesIcon from "../components/cardIcons/addActorToFavourites";
@@ -8,10 +8,14 @@ import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 import { UserContext } from "../contexts/userContext";
 import Spinner from "../components/spinner";
 import ContentSlider from "../components/contentSlider";
+import { Typography } from "@mui/material";
+import CreateAMovieIcon from "../components/createMovie";
 
 const ProfilePage = (props) => {
   const context = useContext(UserContext);
-
+  if (!context.user) {
+    return;
+  }
   const profileContentQuery = getProfileContentQueryTest(context);
 
   let isLoading;
@@ -25,7 +29,7 @@ const ProfilePage = (props) => {
     });
   }
 
-  if (isLoading) {
+  if (isLoading || !isSuccess) {
     return <Spinner />;
   }
 
@@ -45,12 +49,12 @@ const ProfilePage = (props) => {
       }}
     />,
     <ContentSlider
-    title="Favourite Actors"
-    content={profileContentQuery.actorFavourites.map((q) => q.data)}
-    action={(actor) => {
-      return <AddActorToFavouritesIcon actor={actor} />;
-    }}
-  />
+      title="Favourite Actors"
+      content={profileContentQuery.actorFavourites.map((q) => q.data)}
+      action={(actor) => {
+        return <AddActorToFavouritesIcon actor={actor} />;
+      }}
+    />,
   ];
 
   const playlists = [
@@ -66,7 +70,7 @@ const ProfilePage = (props) => {
 
   const favouritesToDisplay = () =>
     favourites.map((f) => {
-      console.log(f)
+      console.log(f);
       if (f.props.content.length > 0) {
         return f;
       }
@@ -79,10 +83,23 @@ const ProfilePage = (props) => {
       }
     });
 
+  console.log(context);
   //const mustWatchTv = profileContentQuery.mustWatchTv.map((q) => q.data);
 
   return (
     <>
+      <Box>
+        <Typography variant="h4" component="h3">
+          Welcome {context.user.user_metadata.firstName}
+        </Typography>
+      </Box>
+      <Box sx={{ diplay: "flex", flex: 1 }}>
+        <Typography variant="h6" component="h3">
+          Create A Movie
+          <CreateAMovieIcon size="large" />
+        </Typography>
+      </Box>
+
       <Panel>{favouritesToDisplay()}</Panel>
       <Panel>{playListsToDisplay()}</Panel>
     </>

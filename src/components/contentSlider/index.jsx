@@ -60,7 +60,7 @@ function ContentSlider({ content, action, title, displayTitle = false }) {
   const sliderContent = content.map((c, index) => {
     return (
       <Box key={("container", c.id)} sx={styles.item(index, sliderPosition)}>
-        {c.gender ? <ActorCard key={c.id} actor={c} action={action} /> : <ContentCard key={c.id} content={c} action={action} />}
+        { c && "gender" in c ? <ActorCard key={c.id} actor={c} action={action} /> : <ContentCard key={c.id} content={c} action={action} />}
       </Box>
     );
   });
