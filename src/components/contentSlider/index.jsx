@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Paper from "@mui/material/Paper";
-import Spinner from "../spinner";
-import FilterCard from "../filterMoviesCard";
-import Grid from "@mui/material/Grid";
-import Fab from "@mui/material/Fab";
-import Drawer from "@mui/material/Drawer";
 import ContentCard from "../contentCard";
 import { Fade } from "@mui/material";
 import Box from "@mui/material/Box";

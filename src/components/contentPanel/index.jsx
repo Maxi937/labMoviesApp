@@ -25,8 +25,14 @@ const styles = {
 };
 
 const ContentPanel = ({ children }) => {
-  const [pageNumber, setPageNumber] = useState(0);
+  if(Children.count(children) === 0) {
+    return
+  }
+
   const pages = Children.toArray(children);
+  const [pageNumber, setPageNumber] = useState(0);
+
+  console.log(children)
 
   function handleArrowForward() {
     if (pageNumber < pages.length - 1) {
@@ -51,7 +57,7 @@ const ContentPanel = ({ children }) => {
           )}
 
           <Typography variant="h4" component="h3">
-            {pages[pageNumber].props.title}
+            {pages[pageNumber] && pages[pageNumber].props.title}
           </Typography>
 
           {pages.length > 1 && (
@@ -60,7 +66,7 @@ const ContentPanel = ({ children }) => {
             </IconButton>
           )}
         </Box>
-        {cloneElement(pages[pageNumber])}
+        {pages[pageNumber]}
       </Paper>
     </>
   );

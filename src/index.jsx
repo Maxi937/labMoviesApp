@@ -30,8 +30,8 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserContextProvider>
+    <UserContextProvider>
+      <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <SiteHeader />
           <Routes>
@@ -50,9 +50,9 @@ function App() {
           <SessionDebug />
           <ProfileDebug />
         </BrowserRouter>
-      </UserContextProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </UserContextProvider>
   );
 }
 

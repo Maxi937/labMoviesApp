@@ -3,9 +3,8 @@ import PageTemplate from "../components/templateContentListPage";
 import Panel from "../components/contentPanel";
 import { getMovieQuery, getProfileContentQueryTest } from "../hooks/useMovieQueries";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
+import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 import { UserContext } from "../contexts/userContext";
-import { useQueries } from "react-query";
-import ContentList from "../components/contentList";
 import Spinner from "../components/spinner";
 import ContentSlider from "../components/contentSlider";
 
@@ -49,18 +48,36 @@ const ProfilePage = (props) => {
     />
   );
 
-  const mustWatchTv = profileContentQuery.mustWatchTv.map((q) => q.data);
-  const mustWatchMovies = profileContentQuery.mustWatchMovies.map((q) => q.data);
+  const playlists = [
+    <ContentSlider
+      key="Must Watch Moves"
+      title="Must Watch Movies"
+      content={profileContentQuery.mustWatchMovies.map((q) => q.data)}
+      action={(movie) => {
+        return <AddToMustWatchIcon content={movie} />;
+      }}
+    />,
+  ];
 
-  return <>
-  
+  const playListsToDisplay = () =>
+    playlists.map((p) => {
+      if (p.props.content.length > 0) {
+        return p;
+      }
+    });
 
-  <Panel>
-  {movieFavourites}
-    {tvFavourites}
-  </Panel>
-  
-  </>;
+  //const mustWatchTv = profileContentQuery.mustWatchTv.map((q) => q.data);
+
+  return (
+    <>
+      <Panel>
+        {movieFavourites}
+        {tvFavourites}
+      </Panel>
+
+      <Panel>{playListsToDisplay()}</Panel>
+    </>
+  );
 };
 
 export default ProfilePage;
