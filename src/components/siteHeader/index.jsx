@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,6 +11,8 @@ import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { UserContext } from "../../contexts/userContext";
+import LoginLogoutButton from "../loginForm/loginLogoutButton";
 
 const styles = {
   title: {
@@ -21,19 +23,27 @@ const styles = {
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader = () => {
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const menuOptions = [
+  let menuOptions = [
     { label: "Home", path: "/" },
-    { label: "Upcoming", path: "/movies/upcoming" },
-    { label: "Favorites", path: "/movies/favourites" },
-    { label: "Login", path: "/login" },
-    { label: "Option 4", path: "/" },
+    { label: "Movies", path: "/movies" },
+    { label: "Television", path: "/tv" },
   ];
+
+  if (user) {
+    menuOptions = [
+      { label: "Home", path: "/" },
+      { label: "Movies", path: "/movies" },
+      { label: "Television", path: "/tv" },
+      { label: "profile", path: "/profile" },
+    ];
+  }
 
   const handleMenuSelect = (pageURL) => {
     navigate(pageURL);
@@ -55,14 +65,7 @@ const SiteHeader = () => {
           </Typography>
           {isMobile ? (
             <>
-              <IconButton
-                aria-label="menu"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-                size="large"
-              >
+              <IconButton aria-label="menu" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit" size="large">
                 <MenuIcon />
               </IconButton>
               <Menu
@@ -81,26 +84,23 @@ const SiteHeader = () => {
                 onClose={() => setAnchorEl(null)}
               >
                 {menuOptions.map((opt) => (
-                  <MenuItem
-                    key={opt.label}
-                    onClick={() => handleMenuSelect(opt.path)}
-                  >
-                    {opt.label}
-                  </MenuItem>
+                  <>
+                    <MenuItem key={opt.label} onClick={() => handleMenuSelect(opt.path)}>
+                      {opt.label}
+                    </MenuItem>
+                  </>
                 ))}
+                <LoginLogoutButton />
               </Menu>
             </>
           ) : (
             <>
               {menuOptions.map((opt) => (
-                <Button
-                  key={opt.label}
-                  color="inherit"
-                  onClick={() => handleMenuSelect(opt.path)}
-                >
+                <Button key={opt.label} color="inherit" onClick={() => handleMenuSelect(opt.path)}>
                   {opt.label}
                 </Button>
               ))}
+              <LoginLogoutButton />
             </>
           )}
         </Toolbar>

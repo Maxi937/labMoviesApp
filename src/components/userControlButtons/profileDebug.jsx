@@ -15,11 +15,13 @@ const styles = {
 };
 
 function ProfileDebug() {
-  const {favourites, mustWatch} = useContext(UserContext)
+  const {movieFavourites, mustWatchMovies, tvFavourites, mustWatchTelevision} = useContext(UserContext)
 
-  async function profileInfo() {
-    console.log("Favourites", favourites)
-    console.log("Must Watch", mustWatch)
+  function profileInfo() {
+    console.log("Movie Favourites", movieFavourites)
+    console.log("Must Watch Movies", mustWatchMovies)
+    console.log("Tv Favourites", tvFavourites)
+    console.log("Must Watch Tv", mustWatchTelevision)
   }
 
   return (
