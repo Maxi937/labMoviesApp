@@ -43,7 +43,9 @@ const styles = {
 function ContentSlider({ content, action, title, displayTitle = false }) {
   const [sliderPosition, setsliderPosition] = useState(-5);
 
-  console.log(content)
+  if(!content) {
+    return
+  }
 
   function handleArrowForward() {
     if (sliderPosition < content.length * 10) {

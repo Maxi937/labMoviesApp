@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import { UserContext } from "../../contexts/userContext";
-import { MovieCreation, MovieCreationOutlined } from "@mui/icons-material";
+import { MovieCreation } from "@mui/icons-material";
 
 const styles = {
   icon: {
@@ -12,11 +13,12 @@ const styles = {
 
 const CreateAMovieIcon = ({size}) => {
   const userContext = useContext(UserContext);
+  const navigate = useNavigate()
 
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
+    navigate("/movie/form")
   };
 
   return (

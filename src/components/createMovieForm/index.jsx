@@ -1,0 +1,138 @@
+import React, { useContext, useState } from "react";
+import { tmdbMovieGenres } from "./genres.js";
+import { login } from "../../api/supabase-api.js";
+import { Alert, AlertTitle } from "@mui/material";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { useForm, Controller } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import styles from "./styles.js";
+import { UserContext } from "../../contexts/userContext.jsx";
+import CastCharacterForm from "../castCharactersForm/index.jsx";
+
+const CreateMovieForm = () => {
+  const defaultValues = {
+    movieTitle: "",
+    movieOverview: "",
+    movieStars: "",
+    genre: 28,
+  };
+
+  const {
+    control,
+    setError,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm(defaultValues);
+  const navigate = useNavigate();
+  const context = useContext(UserContext);
+  const [genre, setGenre] = useState(28);
+
+  const handleRatingChange = (event) => {
+    setGenre(event.target.value);
+  };
+
+  async function onSubmit(movieDetails) {
+    movieDetails.id = crypto.randomUUID()
+    movieDetails.genre = genre;
+    console.log(movieDetails);
+
+    return <CastCharacterForm/>
+
+    if (response.error) {
+      return setError("Movie", {
+        type: "bad form",
+        message: "Unable to process form",
+      });
+    }
+  }
+
+  return (
+    <Box component="div" sx={styles.root}>
+      <Typography component="h2" variant="h3" sx={styles.formHeaders}>
+        Create Your Movie
+      </Typography>
+
+      {errors.login && (
+        <Alert severity="error">
+          <AlertTitle>I'm Sorry</AlertTitle>
+          <strong>{errors.login.message}</strong>
+        </Alert>
+      )}
+
+      <form sx={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Controller
+          name="movieTitle"
+          control={control}
+          rules={{ required: "Title is required" }}
+          defaultValue=""
+          render={({ field: { onChange, value } }) => (
+            <TextField variant="outlined" margin="normal" required onChange={onChange} value={value} id="movieTitle" label="Movie Title" autoFocus />
+          )}
+        />
+        {errors.movieTitle && (
+          <Typography variant="h6" component="p">
+            {errors.movieTitle.message}
+          </Typography>
+        )}
+
+        <br></br>
+
+        <Controller
+          name="movieOverview"
+          control={control}
+          rules={{ required: "Overview is required" }}
+          defaultValue=""
+          render={({ field: { onChange, value } }) => (
+            <TextField
+              sx={styles.textField}
+              multiline={true}
+              minRows={5}
+              variant="outlined"
+              margin="normal"
+              required
+              onChange={onChange}
+              value={value}
+              id="movieOverview"
+              label="Overview"
+            />
+          )}
+        />
+        {errors.movieOverview && (
+          <Typography variant="h6" component="p">
+            {errors.movieOverview.message}
+          </Typography>
+        )}
+
+        <br></br>
+
+        <Controller
+          control={control}
+          name="movieGenres"
+          render={({ field: { onChange, value } }) => (
+            <TextField id="movieGenres" select variant="outlined" label="Genre Select" value={genre} onChange={handleRatingChange} helperText="Don't forget your rating">
+              {tmdbMovieGenres.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          )}
+        />
+
+        <Box sx={styles.buttons}>
+          <Button type="submit" color="primary" sx={styles.submit}>
+            Submit
+          </Button>
+        </Box>
+      </form>
+    </Box>
+  );
+};
+
+export default CreateMovieForm;
