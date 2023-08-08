@@ -10,9 +10,10 @@ import Typography from "@mui/material/Typography";
 
 const styles = {
   container: {
-    overflow: "hidden",
+    
   },
   root: {
+    overflow: "hidden",
     display: "flex",
     flexDirection: "row",
   },
@@ -25,8 +26,10 @@ const styles = {
   slider: (contentLength) => {
     if (contentLength > 10) {
       return {
+        flex: 1,
         display: "flex",
-        marginLeft: "95%",
+        justifyContent: "flex-end",
+        margin: "auto"
       };
     } else {
       return {
