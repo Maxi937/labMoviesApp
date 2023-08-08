@@ -4,6 +4,7 @@ import Drawer from "@mui/material/Drawer";
 import { logout } from "../../api/supabase-api";
 import LoginSignupForm from ".";
 import { UserContext } from "../../contexts/userContext";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   fabLogin: {
@@ -18,10 +19,13 @@ const styles = {
 function LoginLogoutButton() {
   const {user} = useContext(UserContext)
   const [loginOpen, setLoginOpen] = useState(false);
+  const navigate = useNavigate()
 
-  async function signout() {
+  function signout() {
     setLoginOpen(false)
-    return await logout();
+    navigate("/")
+    logout();
+    return 
   }
 
   return (

@@ -12,6 +12,7 @@ const UserContextProvider = (props) => {
   const [tvFavourites, setTvFavourites]  = useState([])
   const [mustWatchTelevision, setMustWatchTelevision] = useState([]);
   const [actorFavourites, setActorFavourites] = useState([]);
+  
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {

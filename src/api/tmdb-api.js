@@ -101,6 +101,18 @@ export const getMovie = async (movieId) => {
   }
 };
 
+export const getActor = async (actorId) => {
+  try {
+    const response = await fetch(`https://api.themoviedb.org/3/person/${actorId}?api_key=${import.meta.env.VITE_TMDB_KEY}`);
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getTvShow = async (tvId) => {
   try {
     const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}?api_key=${import.meta.env.VITE_TMDB_KEY}`);

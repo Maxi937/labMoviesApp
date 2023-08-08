@@ -11,6 +11,7 @@ import {
   getMoviesByGenre,
   getTelevisionByGenre,
   getTvShow,
+  getActor,
 } from "../api/tmdb-api";
 
 export const discoverMoviesQuery = (pageNumber) => {
@@ -38,6 +39,11 @@ export const getProfileContentQueryTest = (context) => {
     mustWatchMovies: useQueries(
       context.mustWatchMovies.map((movieId) => {
         return { queryKey: ["mustWatchMovies", movieId], queryFn: async () => getMovie(movieId) };
+      })
+    ),
+    actorFavourites: useQueries(
+      context.actorFavourites.map((actorId) => {
+        return { queryKey: ["actorFavourites", actorId], queryFn: async () => getActor(actorId) };
       })
     ),
   };

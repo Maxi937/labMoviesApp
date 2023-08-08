@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import PageTemplate from "../components/templateContentListPage";
 import Panel from "../components/contentPanel";
 import { getMovieQuery, getProfileContentQueryTest } from "../hooks/useMovieQueries";
+import AddActorToFavouritesIcon from "../components/cardIcons/addActorToFavourites";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 import { UserContext } from "../contexts/userContext";
@@ -24,29 +25,33 @@ const ProfilePage = (props) => {
     });
   }
 
-  if (isLoading || !isSuccess) {
+  if (isLoading) {
     return <Spinner />;
   }
 
-  const movieFavourites = (
+  const favourites = [
     <ContentSlider
       title="Favourite Movies"
       content={profileContentQuery.movieFavourites.map((q) => q.data)}
       action={(movie) => {
         return <AddToFavouritesIcon content={movie} />;
       }}
-    />
-  );
-
-  const tvFavourites = (
+    />,
     <ContentSlider
       title="Favourite Tv Shows"
       content={profileContentQuery.tvFavourites.map((q) => q.data)}
       action={(movie) => {
         return <AddToFavouritesIcon content={movie} />;
       }}
-    />
-  );
+    />,
+    <ContentSlider
+    title="Favourite Actors"
+    content={profileContentQuery.actorFavourites.map((q) => q.data)}
+    action={(actor) => {
+      return <AddActorToFavouritesIcon actor={actor} />;
+    }}
+  />
+  ];
 
   const playlists = [
     <ContentSlider
@@ -59,6 +64,14 @@ const ProfilePage = (props) => {
     />,
   ];
 
+  const favouritesToDisplay = () =>
+    favourites.map((f) => {
+      console.log(f)
+      if (f.props.content.length > 0) {
+        return f;
+      }
+    });
+
   const playListsToDisplay = () =>
     playlists.map((p) => {
       if (p.props.content.length > 0) {
@@ -70,11 +83,7 @@ const ProfilePage = (props) => {
 
   return (
     <>
-      <Panel>
-        {movieFavourites}
-        {tvFavourites}
-      </Panel>
-
+      <Panel>{favouritesToDisplay()}</Panel>
       <Panel>{playListsToDisplay()}</Panel>
     </>
   );

@@ -48,7 +48,7 @@ export const saveActorfavourite = async (userId, actorId) => {
 
 export const getActorFavourites = async (userId) => {
   const { data: profile, error } = await supabase.from("profiles").select("favouriteactors").eq("id", userId).single();
-  console.log("userid" , userId)
+
   if (profile) {
     return profile.favouriteactors;
   } else {

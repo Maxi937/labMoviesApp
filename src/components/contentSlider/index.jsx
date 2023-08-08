@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Paper from "@mui/material/Paper";
 import ContentCard from "../contentCard";
+import ActorCard from "../actorCard";
 import { Fade } from "@mui/material";
 import Box from "@mui/material/Box";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -40,25 +41,9 @@ const styles = {
 };
 
 function ContentSlider({ content, action, title, displayTitle = false }) {
-  const [titleFilter, setTitleFilter] = useState("");
-  const [genreFilter, setGenreFilter] = useState("0");
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [sliderPosition, setsliderPosition] = useState(-5);
-  const genreId = Number(genreFilter);
 
-  let displayedContent = content
-    .filter((m) => {
-      const title = m.title ? m.title : m.name;
-      return title.toLowerCase().search(titleFilter.toLowerCase()) !== -1;
-    })
-    .filter((m) => {
-      return genreId > 0 ? m.genre_ids.includes(genreId) : true;
-    });
-
-  const handleChange = (type, value) => {
-    if (type === "title") setTitleFilter(value);
-    else setGenreFilter(value);
-  };
+  console.log(content)
 
   function handleArrowForward() {
     if (sliderPosition < content.length * 10) {
@@ -72,10 +57,10 @@ function ContentSlider({ content, action, title, displayTitle = false }) {
     }
   }
 
-  const sliderContent = displayedContent.map((c, index) => {
+  const sliderContent = content.map((c, index) => {
     return (
       <Box key={("container", c.id)} sx={styles.item(index, sliderPosition)}>
-        <ContentCard key={c.id} content={c} action={action} />
+        {c.gender ? <ActorCard key={c.id} actor={c} action={action} /> : <ContentCard key={c.id} content={c} action={action} />}
       </Box>
     );
   });

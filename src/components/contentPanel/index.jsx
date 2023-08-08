@@ -32,8 +32,6 @@ const ContentPanel = ({ children }) => {
   const pages = Children.toArray(children);
   const [pageNumber, setPageNumber] = useState(0);
 
-  console.log(children)
-
   function handleArrowForward() {
     if (pageNumber < pages.length - 1) {
       setPageNumber(pageNumber + 1);
