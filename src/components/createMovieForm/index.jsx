@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { tmdbMovieGenres } from "./genres.js";
-import { login } from "../../api/supabase-api.js";
+import { createUserMovie } from "../../api/supabase-api.js";
 import { Alert, AlertTitle } from "@mui/material";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -40,16 +40,7 @@ const CreateMovieForm = () => {
   async function onSubmit(movieDetails) {
     movieDetails.id = crypto.randomUUID()
     movieDetails.genre = genre;
-    console.log(movieDetails);
-
-    return <CastCharacterForm/>
-
-    if (response.error) {
-      return setError("Movie", {
-        type: "bad form",
-        message: "Unable to process form",
-      });
-    }
+    await context.createAMovie(movieDetails)
   }
 
   return (
@@ -115,7 +106,7 @@ const CreateMovieForm = () => {
           control={control}
           name="movieGenres"
           render={({ field: { onChange, value } }) => (
-            <TextField id="movieGenres" select variant="outlined" label="Genre Select" value={genre} onChange={handleRatingChange} helperText="Don't forget your rating">
+            <TextField id="movieGenre" select variant="outlined" label="Genre Select" value={genre} onChange={handleRatingChange}>
               {tmdbMovieGenres.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}

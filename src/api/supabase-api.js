@@ -42,7 +42,7 @@ export const saveActorfavourite = async (userId, actorId) => {
 
   const { data, error } = await supabase.from("profiles").update({ favouriteactors: favourites }).eq("id", userId).select();
 
-  console.log(error)
+  console.log(error);
   return favourites;
 };
 
@@ -64,7 +64,6 @@ export const deleteActorFavourites = async (userId, actorId) => {
 
   return favourites;
 };
-
 
 export const saveMoviefavourite = async (userId, movieId) => {
   let favourites = await getMovieFavourites(userId);
@@ -176,4 +175,17 @@ export const deleteMustWatchTelevision = async (userId, tvId) => {
 
   const { data, error } = await supabase.from("profiles").update({ mustwatchtv: mustWatch }).eq("id", userId).select();
   return mustWatch;
+};
+
+export const createUserMovie = async (userId, movieDetails) => {
+  console.log(movieDetails)
+
+  const { data, error } = await supabase
+    .from("movies")
+    .insert([{ userid: userId, id: movieDetails.id, overview: movieDetails.movieOverview, genres: [movieDetails.genre] }])
+    .select();
+
+    console.log({data, error})
+
+    return data
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase, getSession, getTvFavourites, saveActorfavourite, deleteActorFavourites } from "../api/supabase-api";
-import { getActorFavourites, getMovieFavourites, saveTvfavourite, deleteTvFavourite, getMustWatchTelevision, saveMustWatchTelevision, deleteMustWatchTelevision, saveMoviefavourite, deleteMovieFavourite, saveMustWatchMovies, deleteMustWatchMovies, getMustWatchMovies } from "../api/supabase-api";
+import { createUserMovie, getActorFavourites, getMovieFavourites, saveTvfavourite, deleteTvFavourite, getMustWatchTelevision, saveMustWatchTelevision, deleteMustWatchTelevision, saveMoviefavourite, deleteMovieFavourite, saveMustWatchMovies, deleteMustWatchMovies, getMustWatchMovies } from "../api/supabase-api";
 
 export const UserContext = React.createContext(null);
 
@@ -104,6 +104,10 @@ const UserContextProvider = (props) => {
     setMustWatchTelevision(updatedMustWatch);
   };
 
+  const createAMovie = async (movieDetails) => {
+    await createUserMovie(user.id, movieDetails)
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -118,7 +122,8 @@ const UserContextProvider = (props) => {
         addToMovieFavourites,
         addToMustWatchMovies,
         addToTvFavourites,
-        addToMustWatchTelevision
+        addToMustWatchTelevision,
+        createAMovie
       }}
     >
       {props.children}
