@@ -29,7 +29,6 @@ const styles = {
   topLeft: {
     alignItems: "baseline",
     display: "flex",
-    display: "flex",
   },
   rightBar: {
     marginLeft: "auto",

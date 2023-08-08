@@ -1,7 +1,8 @@
 import React from "react";
 import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import Actor from "./actor.jsx";
+import Actor from "../actorCard";
+import AddToFavouritesIcon from "../cardIcons/addActorToFavourites";
 
 const CastList = ({ castList }) => {
   let actorCards = castList.map((actor) => {
@@ -10,7 +11,9 @@ const CastList = ({ castList }) => {
     }
     return (
       <Grid item xs={1} sm={2} md={2} key={actor.id}>
-        <Actor actor={actor} />
+        <Actor actor={actor} action={(actor) => {
+        return <AddToFavouritesIcon actor={actor} />;
+      }} />
       </Grid>
     );
   });

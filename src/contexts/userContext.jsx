@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { supabase, getSession, getTvFavourites } from "../api/supabase-api";
-import { getMovieFavourites, saveTvfavourite, deleteTvFavourite, getMustWatchTelevision, saveMustWatchTelevision, deleteMustWatchTelevision, saveMoviefavourite, deleteMovieFavourite, saveMustWatchMovies, deleteMustWatchMovies, getMustWatchMovies } from "../api/supabase-api";
+import { supabase, getSession, getTvFavourites, saveActorfavourite, deleteActorFavourites } from "../api/supabase-api";
+import { getActorFavourites, getMovieFavourites, saveTvfavourite, deleteTvFavourite, getMustWatchTelevision, saveMustWatchTelevision, deleteMustWatchTelevision, saveMoviefavourite, deleteMovieFavourite, saveMustWatchMovies, deleteMustWatchMovies, getMustWatchMovies } from "../api/supabase-api";
 
 export const UserContext = React.createContext(null);
 
@@ -11,6 +11,7 @@ const UserContextProvider = (props) => {
   const [mustWatchMovies, setMustWatchMovies] = useState([]);
   const [tvFavourites, setTvFavourites]  = useState([])
   const [mustWatchTelevision, setMustWatchTelevision] = useState([]);
+  const [actorFavourites, setActorFavourites] = useState([]);
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((_event, session) => {
@@ -21,6 +22,7 @@ const UserContextProvider = (props) => {
         setMustWatchMovies([]);
         setTvFavourites([])
         setMustWatchTelevision([])
+        setActorFavourites([])
       } else if (session) {
         setUser(session.user);
         setSession(session);
@@ -37,6 +39,10 @@ const UserContextProvider = (props) => {
           getTvFavourites(session.user.id).then((data) => {
             setTvFavourites(data);
           });
+          getActorFavourites(session.user.id).then((data) => {
+            setActorFavourites(data);
+          });
+
         }
       }
     });
@@ -51,6 +57,17 @@ const UserContextProvider = (props) => {
       updatedFavourites = await deleteMovieFavourite(user.id, content.id);
     }
     setMovieFavourites(updatedFavourites);
+  };
+
+  const addToActorFavourites = async (actor) => {
+    let updatedFavourites = actorFavourites
+
+    if (!updatedFavourites.includes(actor.id)) {
+      updatedFavourites = await saveActorfavourite(user.id, actor.id);
+    } else {
+      updatedFavourites = await deleteActorFavourites(user.id, actor.id);
+    }
+    setActorFavourites(updatedFavourites);
   };
 
   const addToMustWatchMovies = async (content) => {
@@ -95,6 +112,8 @@ const UserContextProvider = (props) => {
         mustWatchMovies,
         tvFavourites,
         mustWatchTelevision,
+        actorFavourites,
+        addToActorFavourites,
         addToMovieFavourites,
         addToMustWatchMovies,
         addToTvFavourites,
