@@ -182,10 +182,32 @@ export const createUserMovie = async (userId, movieDetails) => {
 
   const { data, error } = await supabase
     .from("movies")
-    .insert([{ userid: userId, id: movieDetails.id, overview: movieDetails.movieOverview, genres: [movieDetails.genre] }])
+    .insert([{ userid: userId, id: movieDetails.id, overview: movieDetails.movieOverview, genre_ids: [movieDetails.genre], title: movieDetails.movieTitle }])
     .select();
 
     console.log({data, error})
 
     return data
+};
+
+export const getUserMovies = async (userId) => {
+  const { data, error } = await supabase.from("movies").select().eq("userid", userId);
+
+  //console.log(data, error)
+
+  if (data) {
+    return data
+  } else {
+    return [];
+  }
+};
+
+export const getUserMovie = async (movieId) => {
+  const { data, error } = await supabase.from("movies").select().eq("id", movieId).single();
+
+  if (data) {
+    return data
+  } else {
+    return [];
+  }
 };

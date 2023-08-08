@@ -25,7 +25,7 @@ const styles = {
   },
 };
 
-function ContentListPageTemplate({ query, content, action, hero = false, paginate = false }) {
+function ContentListPageTemplate({ query, content, action, hero = false }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [drawerOpen, setDrawerOpen] = useState(false);

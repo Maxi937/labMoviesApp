@@ -90,6 +90,7 @@ export default function ContentCard({ content, action }) {
   function handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
+    content.userid ? navigate(`/usermovies/${content.id}`) :
     content.first_air_date ? navigate(`/tv/${content.id}`) : navigate(`/movies/${content.id}`);
   }
 

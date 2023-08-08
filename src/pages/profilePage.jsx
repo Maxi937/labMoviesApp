@@ -10,9 +10,12 @@ import Spinner from "../components/spinner";
 import ContentSlider from "../components/contentSlider";
 import { Typography } from "@mui/material";
 import CreateAMovieIcon from "../components/createMovie";
+import ContentListPageTemplate from "../components/templateContentListPage";
+import EditMovieIcon from "../components/cardIcons/editMovie";
 
 const ProfilePage = (props) => {
   const context = useContext(UserContext);
+  const userMovies = context.userMovies;
   if (!context.user) {
     return;
   }
@@ -70,7 +73,6 @@ const ProfilePage = (props) => {
 
   const favouritesToDisplay = () =>
     favourites.map((f) => {
-      console.log(f);
       if (f.props.content.length > 0) {
         return f;
       }
@@ -83,7 +85,8 @@ const ProfilePage = (props) => {
       }
     });
 
-  console.log(context);
+  
+  console.log(userMovies)
   //const mustWatchTv = profileContentQuery.mustWatchTv.map((q) => q.data);
 
   return (
@@ -98,6 +101,11 @@ const ProfilePage = (props) => {
           Create A Movie
           <CreateAMovieIcon size="large" />
         </Typography>
+
+        <ContentListPageTemplate content={userMovies} action={(movie) => {
+          return <EditMovieIcon movie={movie} />;
+        }}/>
+
       </Box>
 
       <Panel>{favouritesToDisplay()}</Panel>

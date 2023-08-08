@@ -41,6 +41,7 @@ const CreateMovieForm = () => {
     movieDetails.id = crypto.randomUUID()
     movieDetails.genre = genre;
     await context.createAMovie(movieDetails)
+    navigate("/profile")
   }
 
   return (

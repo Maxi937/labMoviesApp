@@ -7,6 +7,7 @@ import CreateMoviePage from "./pages/createMoviePage";
 import MoviesPage from "./pages/moviePage";
 import TelevisionPage from "./pages/televisionPage";
 import TvDetailsPage from "./pages/tvDetailsPage";
+import UserMovieDetailsPage from "./pages/userMovieDetailsPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import MoviePage from "./pages/movieDetailsPage";
 import AddMovieReviewPage from "./pages/addMovieReviewPage";
@@ -40,6 +41,7 @@ function App() {
             <Route path="/reviews/form" element={<AddMovieReviewPage />} />
             <Route path="/movie/form" element={<CreateMoviePage />} />
             <Route path="/movies/:id" element={<MoviePage />} />
+            <Route path="/usermovies/:id" element={<UserMovieDetailsPage />} />
             <Route path="/reviews/:id" element={<MovieReviewPage />} />
             <Route path="/movies" element={<MoviesPage />} />
             <Route path="/tv" element={<TelevisionPage />} />
