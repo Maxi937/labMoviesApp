@@ -10,21 +10,37 @@ import {
   getTvImages,
   getMoviesByGenre,
   getTelevisionByGenre,
+  getTvShow,
 } from "../api/tmdb-api";
 
 export const discoverMoviesQuery = (pageNumber) => {
   return useQuery(["discoverMovies", pageNumber], async () => getMovies(pageNumber), { keepPreviousData: true });
 };
 
-export const getProfileContentQuery = (context) => {
-  return useQueries(
-    context.favourites.map((movieId) => {
-      return {
-        queryKey: ["movieFavourite", movieId],
-        queryFn: async () => getMovie(movieId),
-      };
-    })
-  );
+
+export const getProfileContentQueryTest = (context) => {
+  return {
+    movieFavourites: useQueries(
+      context.movieFavourites.map((movieId) => {
+        return { queryKey: ["movieFavourite", movieId], queryFn: async () => getMovie(movieId) };
+      })
+    ),
+    tvFavourites: useQueries(
+      context.tvFavourites.map((tvId) => {
+        return { queryKey: ["tvFavourite", tvId], queryFn: async () => getTvShow(tvId) };
+      })
+    ),
+    mustWatchTv: useQueries(
+      context.mustWatchTelevision.map((tvId) => {
+        return { queryKey: ["mustWatchTv", tvId], queryFn: async () => getTvShow(tvId) };
+      })
+    ),
+    mustWatchMovies: useQueries(
+      context.mustWatchMovies.map((movieId) => {
+        return { queryKey: ["mustWatchMovies", movieId], queryFn: async () => getMovie(movieId) };
+      })
+    ),
+  };
 };
 
 export const getMovieQuery = (movieId) => {

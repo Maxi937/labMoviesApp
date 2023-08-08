@@ -10,7 +10,7 @@ const MoviePage = (props) => {
   const discoverPanel = [
     <PageTemplate
       key="discover"
-      contentData={(pageNumber) => {
+      query={(pageNumber) => {
         return discoverMoviesQuery(pageNumber);
       }}
       title="Discover Movies"
@@ -20,7 +20,7 @@ const MoviePage = (props) => {
     />,
     <PageTemplate
       key="upcoming"
-      contentData={(pageNumber) => {
+      query={(pageNumber) => {
         return upcomingMoviesQuery(pageNumber);
       }}
       title="Coming Soon"
@@ -37,7 +37,7 @@ const MoviePage = (props) => {
       genreList.push (
         <PageTemplate
           key={key}
-          contentData={(pageNumber) => {
+          query={(pageNumber) => {
             return discoverGenreMoviesQuery(pageNumber, value);
           }}
           title={key}

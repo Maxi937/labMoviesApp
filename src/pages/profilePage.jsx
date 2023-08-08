@@ -1,32 +1,66 @@
 import React, { useState, useEffect, useContext } from "react";
 import PageTemplate from "../components/templateContentListPage";
 import Panel from "../components/contentPanel";
-import { getMovieQuery, getProfileContentQuery } from "../hooks/useMovieQueries";
+import { getMovieQuery, getProfileContentQueryTest } from "../hooks/useMovieQueries";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import { UserContext } from "../contexts/userContext";
 import { useQueries } from "react-query";
-import { Box } from "@mui/material";
+import ContentList from "../components/contentList";
 import Spinner from "../components/spinner";
+import ContentSlider from "../components/contentSlider";
 
 const ProfilePage = (props) => {
   const context = useContext(UserContext);
 
-  const profileContentQuery = getProfileContentQuery(context);
+  const profileContentQuery = getProfileContentQueryTest(context);
 
-  // Check if any of the parallel queries is still loading.
-  const isLoading = profileContentQuery.find((m) => m.isLoading === true);
+  let isLoading;
+  let isSuccess;
 
-  if (isLoading) {
+  // Check if any of the queries is still loading.
+  for (const [key, query] of Object.entries(profileContentQuery)) {
+    query.find((m) => {
+      isLoading = m.isLoading;
+      isSuccess = m.isSuccess;
+    });
+  }
+
+  if (isLoading || !isSuccess) {
     return <Spinner />;
   }
 
-  const movies = profileContentQuery.map((q) => q.data);
-
-  return (
-    <>
-      <Box>hello</Box>
-    </>
+  const movieFavourites = (
+    <ContentSlider
+      title="Favourite Movies"
+      content={profileContentQuery.movieFavourites.map((q) => q.data)}
+      action={(movie) => {
+        return <AddToFavouritesIcon content={movie} />;
+      }}
+    />
   );
+
+  const tvFavourites = (
+    <ContentSlider
+      title="Favourite Tv Shows"
+      content={profileContentQuery.tvFavourites.map((q) => q.data)}
+      action={(movie) => {
+        return <AddToFavouritesIcon content={movie} />;
+      }}
+    />
+  );
+
+  const mustWatchTv = profileContentQuery.mustWatchTv.map((q) => q.data);
+  const mustWatchMovies = profileContentQuery.mustWatchMovies.map((q) => q.data);
+
+  return <>
+  
+
+  <Panel>
+  {movieFavourites}
+    {tvFavourites}
+  </Panel>
+  
+  </>;
 };
 
 export default ProfilePage;

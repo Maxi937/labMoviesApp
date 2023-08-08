@@ -10,7 +10,7 @@ const TelevisionPage = (props) => {
   const discoverPanel = [
     <PageTemplate
       key={"television"}
-      contentData={(pageNumber) => {
+      query={(pageNumber) => {
         return discoverTelevisionQuery(pageNumber);
       }}
       title="Discover Television Shows"
@@ -27,7 +27,7 @@ const TelevisionPage = (props) => {
       genreList.push(
         <PageTemplate
           key={key}
-          contentData={(pageNumber) => {
+          query={(pageNumber) => {
             return discoverGenreTelevisionQuery(pageNumber, value);
           }}
           title={key}

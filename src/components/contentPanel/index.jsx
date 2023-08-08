@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Children } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Paper from "@mui/material/Paper";
@@ -25,8 +26,7 @@ const styles = {
 
 const ContentPanel = ({ children }) => {
   const [pageNumber, setPageNumber] = useState(0);
-  const pages = children;
-  const [hero, setHero] = useState("");
+  const pages = Children.toArray(children);
 
   function handleArrowForward() {
     if (pageNumber < pages.length - 1) {
@@ -40,17 +40,8 @@ const ContentPanel = ({ children }) => {
     }
   }
 
-  const handleSetHero = (movie) => {
-    setHero(movie);
-  };
-
   return (
     <>
-      {hero && (
-        <Box sx={styles.hero}>
-          <ContentHero movie={hero} />
-        </Box>
-      )}
       <Paper component="div" sx={styles.root}>
         <Box sx={styles.header}>
           {pages.length > 1 && (
@@ -69,7 +60,7 @@ const ContentPanel = ({ children }) => {
             </IconButton>
           )}
         </Box>
-        {cloneElement(pages[pageNumber], { setHero: handleSetHero })}
+        {cloneElement(pages[pageNumber])}
       </Paper>
     </>
   );
