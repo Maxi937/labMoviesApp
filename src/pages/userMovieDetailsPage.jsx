@@ -23,14 +23,20 @@ const UserMovieDetailsPage = () => {
   }
 
   if(movie) {
-    movie.genres = [18]
+    movie.genres = []
+    for (const [key, value] of Object.entries(tmdbMovieGenres)) {
+      if (movie.genre_ids.includes(value)) {
+        movie.genres.push({ id: value, name: key})
+      }
+    }
+    console.log(movie.genres)
   }
 
   return (
     <>
       {movie ? (
         <>
-          <PageTemplate movie={movie} getImages={false}>
+          <PageTemplate movie={movie} userMovie={true}>
             <MovieDetails movie={movie} />
             {/* <MovieCredits movie={movie} /> */}
           </PageTemplate>

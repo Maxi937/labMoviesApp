@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import styles from "./styles.js";
 import { UserContext } from "../../contexts/userContext.jsx";
 import CastCharacterForm from "../castCharactersForm/index.jsx";
+import PlaceHolder from "../../images/film-poster-placeholder.png"
+import { uploadMoviePoster } from "../../api/supabase-api.js";
 
 const CreateMovieForm = () => {
   const defaultValues = {
@@ -32,16 +34,29 @@ const CreateMovieForm = () => {
   const navigate = useNavigate();
   const context = useContext(UserContext);
   const [genre, setGenre] = useState(28);
+  const [file, setSelectedFile] = useState("")
 
   const handleRatingChange = (event) => {
     setGenre(event.target.value);
   };
 
+  const handleImageChange = (event) => {
+    console.log(event.target.files[0])
+    setSelectedFile(event.target.files[0])
+  }
+  
+
   async function onSubmit(movieDetails) {
-    movieDetails.id = crypto.randomUUID()
+    movieDetails.id = crypto.randomUUID();
     movieDetails.genre = genre;
-    await context.createAMovie(movieDetails)
-    navigate("/profile")
+    movieDetails.moviePoster = file
+    const movie = await context.createAMovie(movieDetails);
+
+    if(movieDetails.moviePoster) {
+      await uploadMoviePoster(movie.id , movieDetails.moviePoster)
+    }
+
+    //navigate("/profile");
   }
 
   return (
@@ -115,6 +130,15 @@ const CreateMovieForm = () => {
               ))}
             </TextField>
           )}
+        />
+
+        <br></br>
+        <br></br>
+
+        <Controller
+          control={control}
+          name="moviePoster"
+          render={({ field: { onChange, defaultValue  } }) => <input id="moviePoster" type="file" value={file.image} onChange={(e) => handleImageChange(e)} />}
         />
 
         <Box sx={styles.buttons}>

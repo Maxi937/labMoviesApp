@@ -178,16 +178,18 @@ export const deleteMustWatchTelevision = async (userId, tvId) => {
 };
 
 export const createUserMovie = async (userId, movieDetails) => {
-  console.log(movieDetails)
+  console.log(movieDetails);
 
   const { data, error } = await supabase
     .from("movies")
     .insert([{ userid: userId, id: movieDetails.id, overview: movieDetails.movieOverview, genre_ids: [movieDetails.genre], title: movieDetails.movieTitle }])
-    .select();
+    .select().single();
 
-    console.log({data, error})
-
+  if(data) {
+    console.log(data)
     return data
+  }
+  return {};
 };
 
 export const getUserMovies = async (userId) => {
@@ -196,7 +198,7 @@ export const getUserMovies = async (userId) => {
   //console.log(data, error)
 
   if (data) {
-    return data
+    return data;
   } else {
     return [];
   }
@@ -206,7 +208,21 @@ export const getUserMovie = async (movieId) => {
   const { data, error } = await supabase.from("movies").select().eq("id", movieId).single();
 
   if (data) {
-    return data
+    return data;
+  } else {
+    return [];
+  }
+};
+
+export const uploadMoviePoster = async (movieId, file) => {
+  console.log("uploading ", file)
+  const { data, error } = await supabase.storage.from("moviImages").upload(`${movieId}/${file.name}`, file, {
+    cacheControl: "3600",
+    upsert: false,
+  });
+
+  if (data) {
+    return data;
   } else {
     return [];
   }

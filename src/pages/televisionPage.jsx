@@ -42,8 +42,10 @@ const TelevisionPage = (props) => {
 
   return (
     <>
-      <Panel>{discoverPanel}</Panel>
-      <Panel>{genrePanel()}</Panel>
+      <Panel>
+        {discoverPanel}
+        {genrePanel()}
+      </Panel>
     </>
   );
 };

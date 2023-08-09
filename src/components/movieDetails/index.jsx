@@ -33,6 +33,8 @@ const styles = {
 const MovieDetails = ( {movie}) => {
   const [drawerOpen, setDrawerOpen] = useState(false); // New
 
+  console.log(movie)
+
   return (
     <>
       <Typography variant="h5" component="h3">
@@ -61,7 +63,7 @@ const MovieDetails = ( {movie}) => {
         />
         <Chip
           icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count}`}
+          label={movie.vote_average ? `${movie.vote_average} (${movie.vote_count}` : "Not Rated"}
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>

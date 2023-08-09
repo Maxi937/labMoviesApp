@@ -31,10 +31,10 @@ const MoviePage = (props) => {
   ];
 
   const genrePanel = () => {
-    const genreList = []
+    const genreList = [];
 
     for (const [key, value] of Object.entries(tmdbMovieGenres)) {
-      genreList.push (
+      genreList.push(
         <PageTemplate
           key={key}
           query={(pageNumber) => {
@@ -47,13 +47,15 @@ const MoviePage = (props) => {
         />
       );
     }
-    return genreList
+    return genreList;
   };
 
   return (
     <>
-      <Panel>{discoverPanel}</Panel>
-      <Panel>{genrePanel()}</Panel>
+      <Panel>
+        {discoverPanel}
+        {genrePanel()}
+      </Panel>
     </>
   );
 };

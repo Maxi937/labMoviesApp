@@ -47,6 +47,10 @@ function ContentListPageTemplate({ query, content, action, hero = false }) {
     pages = "total_pages" in contentQuery.data ? contentQuery.data.total_pages : 1;
   }
 
+  if(!content) {
+    return
+  }
+
   
   let displayedContent = content
     .filter((m) => {

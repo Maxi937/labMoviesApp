@@ -15,14 +15,15 @@ import EditMovieIcon from "../components/cardIcons/editMovie";
 
 const ProfilePage = (props) => {
   const context = useContext(UserContext);
-  const userMovies = context.userMovies;
-  if (!context.user) {
-    return;
-  }
-  const profileContentQuery = getProfileContentQueryTest(context);
+  const {userMovies, movieFavourites, tvFavourites, actorFavourites, mustWatchMovies} = useContext(UserContext);
 
+  const profileContentQuery = getProfileContentQueryTest(context);
   let isLoading;
   let isSuccess;
+
+  if(!profileContentQuery) {
+    return <Spinner />;
+  }
 
   // Check if any of the queries is still loading.
   for (const [key, query] of Object.entries(profileContentQuery)) {
@@ -85,8 +86,6 @@ const ProfilePage = (props) => {
       }
     });
 
-  
-  console.log(userMovies)
   //const mustWatchTv = profileContentQuery.mustWatchTv.map((q) => q.data);
 
   return (

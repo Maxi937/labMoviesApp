@@ -19,8 +19,8 @@ const styles = {
   },
 };
 
-const TemplateMoviePage = ({ movie, children, getImages = true }) => {
-  if (getImages) {
+const TemplateMoviePage = ({ movie, children, userMovie = false }) => {
+  if (!userMovie) {
     const { data, error, isLoading, isError } = useQuery(["images", movie.id], async () => await getMovieImages(movie.id));
 
     if (isLoading) {
@@ -58,11 +58,23 @@ const TemplateMoviePage = ({ movie, children, getImages = true }) => {
   return (
     <>
       <ContentHeader content={movie} />
-      <Grid container spacing={5} style={{ padding: "15px" }}>
-        <Grid item xs={9}>
-          {children}
+        <Grid container spacing={5} style={{ padding: "15px" }}>
+          <Grid item xs={3}>
+            <div sx={styles.gridListRoot}>
+              <ImageList cols={1}>
+                {/* {images.map((image) => (
+                  <ImageListItem key={image.file_path} sx={styles.gridListTile} cols={1}>
+                    <img src={`https://image.tmdb.org/t/p/w500/${image.file_path}`} alt={image.poster_path} />
+                  </ImageListItem>
+                ))} */}
+              </ImageList>
+            </div>
+          </Grid>
+
+          <Grid item xs={9}>
+            {children}
+          </Grid>
         </Grid>
-      </Grid>
     </>
   );
 };

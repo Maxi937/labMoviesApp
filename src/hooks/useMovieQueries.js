@@ -18,6 +18,11 @@ export const discoverMoviesQuery = (pageNumber) => {
   return useQuery(["discoverMovies", pageNumber], async () => getMovies(pageNumber), { keepPreviousData: true });
 };
 
+export const getProfileContentQuery = (queryData) => {
+  console.log(queryData)
+  
+};
+
 
 export const getProfileContentQueryTest = (context) => {
   return {
