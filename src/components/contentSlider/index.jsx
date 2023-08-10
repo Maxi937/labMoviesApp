@@ -43,7 +43,8 @@ const styles = {
 function ContentSlider({ content, action, title, displayTitle = false }) {
   const [sliderPosition, setsliderPosition] = useState(-5);
 
-  if(!content) {
+  if(!content[0]) {
+    console.log("no content")
     return
   }
 

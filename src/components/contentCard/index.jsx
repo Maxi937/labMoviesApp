@@ -94,9 +94,11 @@ export default function ContentCard({ content, action }) {
     content.first_air_date ? navigate(`/tv/${content.id}`) : navigate(`/movies/${content.id}`);
   }
 
+  const moviePoster = content.movie_poster ? content.movie_poster : `https://image.tmdb.org/t/p/w500/${content.poster_path}`
+
   return (
     <>
-      <Box onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(`https://image.tmdb.org/t/p/w500/${content.poster_path}`)}>
+      <Box onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(moviePoster)}>
         <Fade timeout={{ enter: 150, exit: 300 }} in={active}>
           <Box sx={styles.overlay}>
             <ContentCardOverlay content={content} action={action} />

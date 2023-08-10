@@ -6,6 +6,7 @@ import ImageListItem from "@mui/material/ImageListItem";
 import { getMovieImages } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../spinner";
+import { getMoviePostersQuery } from "../../hooks/useMovieQueries";
 
 const styles = {
   gridListRoot: {
@@ -55,26 +56,41 @@ const TemplateMoviePage = ({ movie, children, userMovie = false }) => {
       </>
     );
   }
+
+  console.log(movie)
+
+  const { data, error, isLoading, isError } = getMoviePostersQuery(movie.id)
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
+
+  const images = data;
+
   return (
     <>
       <ContentHeader content={movie} />
-        <Grid container spacing={5} style={{ padding: "15px" }}>
-          <Grid item xs={3}>
-            <div sx={styles.gridListRoot}>
-              <ImageList cols={1}>
-                {/* {images.map((image) => (
-                  <ImageListItem key={image.file_path} sx={styles.gridListTile} cols={1}>
-                    <img src={`https://image.tmdb.org/t/p/w500/${image.file_path}`} alt={image.poster_path} />
+      <Grid container spacing={5} style={{ padding: "15px" }}>
+        <Grid item xs={3}>
+          <div sx={styles.gridListRoot}>
+            <ImageList cols={1}>
+              {images.map((image) => (
+                  <ImageListItem key={image} sx={styles.gridListTile} cols={1}>
+                    <img src={image} alt={image} />
                   </ImageListItem>
-                ))} */}
-              </ImageList>
-            </div>
-          </Grid>
-
-          <Grid item xs={9}>
-            {children}
-          </Grid>
+                ))}
+            </ImageList>
+          </div>
         </Grid>
+
+        <Grid item xs={9}>
+          {children}
+        </Grid>
+      </Grid>
     </>
   );
 };

@@ -33,7 +33,7 @@ const styles = {
 const MovieDetails = ( {movie}) => {
   const [drawerOpen, setDrawerOpen] = useState(false); // New
 
-  console.log(movie)
+  //console.log(movie)
 
   return (
     <>

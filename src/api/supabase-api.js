@@ -42,7 +42,6 @@ export const saveActorfavourite = async (userId, actorId) => {
 
   const { data, error } = await supabase.from("profiles").update({ favouriteactors: favourites }).eq("id", userId).select();
 
-  console.log(error);
   return favourites;
 };
 
@@ -178,16 +177,14 @@ export const deleteMustWatchTelevision = async (userId, tvId) => {
 };
 
 export const createUserMovie = async (userId, movieDetails) => {
-  console.log(movieDetails);
-
   const { data, error } = await supabase
     .from("movies")
     .insert([{ userid: userId, id: movieDetails.id, overview: movieDetails.movieOverview, genre_ids: [movieDetails.genre], title: movieDetails.movieTitle }])
-    .select().single();
+    .select()
+    .single();
 
-  if(data) {
-    console.log(data)
-    return data
+  if (data) {
+    return data;
   }
   return {};
 };
@@ -215,14 +212,43 @@ export const getUserMovie = async (movieId) => {
 };
 
 export const uploadMoviePoster = async (movieId, file) => {
-  console.log("uploading ", file)
-  const { data, error } = await supabase.storage.from("moviImages").upload(`${movieId}/${file.name}`, file, {
+  const { data, error } = await supabase.storage.from("movieImages").upload(`${movieId}/${file.name}`, file, {
     cacheControl: "3600",
     upsert: false,
   });
 
   if (data) {
     return data;
+  } else {
+    return [];
+  }
+};
+
+export const setMoviePoster = async (movieId, urltoposter) => {
+  const { data, error } = await supabase.from("movies").update({ movie_poster: urltoposter }).eq("id", movieId);
+
+  console.log(error)
+  
+  if (data) {
+    return data
+  }
+};
+
+export const getMoviePosters = async (movieId) => {
+  const files = await supabase.storage.from("movieImages").list(movieId, {
+    limit: 100,
+    offset: 0,
+    sortBy: { column: "name", order: "asc" },
+  });
+
+  if (files.data) {
+    let urls = [];
+
+    files.data.map(async (file) => {
+      const url = supabase.storage.from("movieImages").getPublicUrl(`${movieId}/${file.name}`);
+      urls.push(url.data.publicUrl);
+    });
+    return urls;
   } else {
     return [];
   }

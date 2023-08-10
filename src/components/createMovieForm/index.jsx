@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { tmdbMovieGenres } from "./genres.js";
 import { createUserMovie } from "../../api/supabase-api.js";
 import { Alert, AlertTitle } from "@mui/material";
-import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -12,9 +11,8 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles.js";
 import { UserContext } from "../../contexts/userContext.jsx";
-import CastCharacterForm from "../castCharactersForm/index.jsx";
-import PlaceHolder from "../../images/film-poster-placeholder.png"
 import { uploadMoviePoster } from "../../api/supabase-api.js";
+import { getMoviePosters, setMoviePoster } from "../../api/supabase-api.js";
 
 const CreateMovieForm = () => {
   const defaultValues = {
@@ -53,10 +51,12 @@ const CreateMovieForm = () => {
     const movie = await context.createAMovie(movieDetails);
 
     if(movieDetails.moviePoster) {
-      await uploadMoviePoster(movie.id , movieDetails.moviePoster)
+      console.log(await movie)
+      await uploadMoviePoster(movieDetails.id, movieDetails.moviePoster)
+      const posters = await getMoviePosters(movieDetails.id)
+      await setMoviePoster(movieDetails.id, posters[0])
     }
-
-    //navigate("/profile");
+    // navigate("/profile");
   }
 
   return (

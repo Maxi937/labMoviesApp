@@ -11,7 +11,6 @@ export const useImage = src => {
     useEffect(() => {
       const img = new Image()
       img.src = src
-      console.log(src)
       img.onload = () => setSourceLoaded(src)
     }, [src])
   

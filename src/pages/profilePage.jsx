@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Box } from "@mui/material";
 import Panel from "../components/contentPanel";
-import { getMovieQuery, getProfileContentQueryTest } from "../hooks/useMovieQueries";
+import { getMoviesQuery, getTvQuery, getMovieQuery, getProfileContentQueryTest } from "../hooks/useMovieQueries";
 import AddActorToFavouritesIcon from "../components/cardIcons/addActorToFavourites";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
@@ -15,13 +15,12 @@ import EditMovieIcon from "../components/cardIcons/editMovie";
 
 const ProfilePage = (props) => {
   const context = useContext(UserContext);
-  const {userMovies, movieFavourites, tvFavourites, actorFavourites, mustWatchMovies} = useContext(UserContext);
-
   const profileContentQuery = getProfileContentQueryTest(context);
+  const userMovies = context.userMovies;
   let isLoading;
   let isSuccess;
 
-  if(!profileContentQuery) {
+  if (!profileContentQuery) {
     return <Spinner />;
   }
 
@@ -39,6 +38,7 @@ const ProfilePage = (props) => {
 
   const favourites = [
     <ContentSlider
+      key="Favourite Movies"
       title="Favourite Movies"
       content={profileContentQuery.movieFavourites.map((q) => q.data)}
       action={(movie) => {
@@ -46,6 +46,7 @@ const ProfilePage = (props) => {
       }}
     />,
     <ContentSlider
+      key="Favourite Tv Shows"
       title="Favourite Tv Shows"
       content={profileContentQuery.tvFavourites.map((q) => q.data)}
       action={(movie) => {
@@ -53,6 +54,7 @@ const ProfilePage = (props) => {
       }}
     />,
     <ContentSlider
+      key="Favourite Actors"
       title="Favourite Actors"
       content={profileContentQuery.actorFavourites.map((q) => q.data)}
       action={(actor) => {
@@ -86,8 +88,6 @@ const ProfilePage = (props) => {
       }
     });
 
-  //const mustWatchTv = profileContentQuery.mustWatchTv.map((q) => q.data);
-
   return (
     <>
       <Box>
@@ -101,10 +101,12 @@ const ProfilePage = (props) => {
           <CreateAMovieIcon size="large" />
         </Typography>
 
-        <ContentListPageTemplate content={userMovies} action={(movie) => {
-          return <EditMovieIcon movie={movie} />;
-        }}/>
-
+        <ContentListPageTemplate
+          content={userMovies}
+          action={(movie) => {
+            return <EditMovieIcon movie={movie} />;
+          }}
+        />
       </Box>
 
       <Panel>{favouritesToDisplay()}</Panel>
