@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Navigate, Routes, Link } from "react-router-dom";
 import SiteHeader from "./components/siteHeader";
 import HomePage from "./pages/homePage";
 import CreateMoviePage from "./pages/createMoviePage";
+import CastCharactersPage from "./pages/castCharactersPage";
 import MoviesPage from "./pages/moviePage";
 import TelevisionPage from "./pages/televisionPage";
 import TvDetailsPage from "./pages/tvDetailsPage";
@@ -42,6 +43,7 @@ function App() {
             <Route path="/movie/form" element={<CreateMoviePage />} />
             <Route path="/movies/:id" element={<MoviePage />} />
             <Route path="/usermovies/:id" element={<UserMovieDetailsPage />} />
+            <Route path="/usermovies/:id/characters" element={<CastCharactersPage />} />
             <Route path="/reviews/:id" element={<MovieReviewPage />} />
             <Route path="/movies" element={<MoviesPage />} />
             <Route path="/tv" element={<TelevisionPage />} />

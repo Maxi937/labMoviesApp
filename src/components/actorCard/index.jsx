@@ -86,7 +86,7 @@ const styles = {
   },
 };
 
-export default function ActorCard({ actor, action }) {
+export default function ActorCard({ actor, action, overrideClick}) {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
 
@@ -101,7 +101,11 @@ export default function ActorCard({ actor, action }) {
   function handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    navigate(`/actor/${actor.id}`);
+
+    if(overrideClick) {
+      return overrideClick(actor)
+    }
+    return navigate(`/actor/${actor.id}`);
   }
 
   return (

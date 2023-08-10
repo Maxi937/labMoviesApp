@@ -42,7 +42,7 @@ export default function ActorCardOverlay({ actor, action }) {
     <>
       <Box sx={styles.topBar}>
         <Box sx={styles.topRight}>
-            {action(actor)}
+            {action && action(actor)}
         </Box>
       </Box>
       <Box sx={styles.bottomBar}>

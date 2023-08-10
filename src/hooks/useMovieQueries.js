@@ -13,7 +13,7 @@ import {
   getTvShow,
   getActor,
 } from "../api/tmdb-api";
-import { getMoviePosters } from "../api/supabase-api";
+import { getMoviePosters, getUserMovie } from "../api/supabase-api";
 
 export const discoverMoviesQuery = (pageNumber) => {
   return useQuery(["discoverMovies", pageNumber], async () => getMovies(pageNumber), { keepPreviousData: true });
@@ -65,6 +65,17 @@ export const getProfileContentQueryTest = (context) => {
   };
 };
 
+export const getActorsQuery = (actorIds) => {
+  return useQueries(
+    actorIds.map((actorId) => {
+      return {
+        queryKey: ["actorFavourites", actorId],
+        queryFn: async () => getActor(actorId),
+      };
+    })
+  );
+};
+
 export const getMovieQuery = (movieId) => {
   return useQuery(["movie", movieId], async () => getMovie(movieId));
 };
@@ -98,6 +109,10 @@ export const suggestedMoviesQuery = () => {
   } else {
     return query;
   }
+};
+
+export const getUserMovieQuery = (movieId) => {
+  return useQuery(["movie", movieId], async () => getUserMovie(movieId));
 };
 
 export const getMoviePostersQuery = (movieId) => {

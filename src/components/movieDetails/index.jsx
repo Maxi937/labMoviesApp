@@ -33,8 +33,6 @@ const styles = {
 const MovieDetails = ( {movie}) => {
   const [drawerOpen, setDrawerOpen] = useState(false); // New
 
-  //console.log(movie)
-
   return (
     <>
       <Typography variant="h5" component="h3">

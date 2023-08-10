@@ -12,6 +12,7 @@ import { Typography } from "@mui/material";
 import CreateAMovieIcon from "../components/createMovie";
 import ContentListPageTemplate from "../components/templateContentListPage";
 import EditMovieIcon from "../components/cardIcons/editMovie";
+import CastCharactersIcon from "../components/cardIcons/castCharacters";
 
 const ProfilePage = (props) => {
   const context = useContext(UserContext);
@@ -104,7 +105,7 @@ const ProfilePage = (props) => {
         <ContentListPageTemplate
           content={userMovies}
           action={(movie) => {
-            return <EditMovieIcon movie={movie} />;
+            return <CastCharactersIcon movie={movie} />;
           }}
         />
       </Box>
