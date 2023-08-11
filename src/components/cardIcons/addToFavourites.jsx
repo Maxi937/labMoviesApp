@@ -15,18 +15,16 @@ const styles = {
 };
 
 const AddToFavouritesIcon = ({ content, size = "large" }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const userContext = useContext(UserContext);
-
-  if (!userContext.user) {
-    return (
-      navigate("/login")
-    );
-  }
 
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!userContext.user) {
+      return navigate("/login");
+    }
 
     content.first_air_date ? userContext.addToTvFavourites(content) : userContext.addToMovieFavourites(content);
   };
