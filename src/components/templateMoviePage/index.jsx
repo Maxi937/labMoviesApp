@@ -57,7 +57,7 @@ const TemplateMoviePage = ({ movie, children, userMovie = false }) => {
     );
   }
 
-  const { data, error, isLoading, isError } = getMoviePostersQuery(movie.id)
+  const { data, error, isLoading, isError } = getMoviePostersQuery(movie.id);
 
   if (isLoading) {
     return <Spinner />;
@@ -76,11 +76,16 @@ const TemplateMoviePage = ({ movie, children, userMovie = false }) => {
         <Grid item xs={3}>
           <div sx={styles.gridListRoot}>
             <ImageList cols={1}>
-              {images.map((image) => (
+              {images.map((image, index) => {
+                if (index >= 8) {
+                  return;
+                }
+                return (
                   <ImageListItem key={image} sx={styles.gridListTile} cols={1}>
                     <img src={image} alt={image} />
                   </ImageListItem>
-                ))}
+                );
+              })}
             </ImageList>
           </div>
         </Grid>
