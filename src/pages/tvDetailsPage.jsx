@@ -4,7 +4,7 @@ import MovieDetails from "../components/movieDetails";
 import PageTemplate from "../components/templateTvPage";
 import { getTvShow } from "../api/tmdb-api";
 import { useQuery } from "react-query";
-import MovieCredits from "../components/movieCredits";
+import TvCredits from "../components/tvCredits";
 import Spinner from "../components/spinner";
 import TvDetails from "../components/tvDetails";
 
@@ -27,6 +27,7 @@ const TvDetailsPage = () => {
         <>
           <PageTemplate tvShow={tvShow}>
             <TvDetails tvShow={tvShow} />
+            <TvCredits tvShow={tvShow}/>
           </PageTemplate>
         </>
       ) : (

@@ -33,6 +33,8 @@ const styles = {
 const TvDetails = ({ tvShow }) => {
   const [drawerOpen, setDrawerOpen] = useState(false); // New
 
+  console.log(tvShow)
+
   return (
     <>
       <Typography variant="h5" component="h3">
@@ -54,7 +56,7 @@ const TvDetails = ({ tvShow }) => {
         ))}
       </Paper>
       <Paper component="ul" sx={styles.chipSet}>
-        <Chip icon={<AccessTimeIcon />} label={`${tvShow.runtime} min.`} />
+        <Chip icon={<AccessTimeIcon />} label={`Seasons: ${tvShow.seasons.length}`} />
         <Chip icon={<MonetizationIcon />} label={tvShow.status} />
         <Chip icon={<StarRate />} label={`${tvShow.vote_average} (${tvShow.vote_count}`} />
         <Chip label={`First Aired: ${tvShow.first_air_date}`} />

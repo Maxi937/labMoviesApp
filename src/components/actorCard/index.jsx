@@ -1,14 +1,25 @@
 import React, { useContext } from "react";
 import { Box } from "@mui/material";
-import ContentCardOverlay from "./contentCardOverlay";
+import ActorCardOverlay from "./actorCardOverlay";
 import Fade from "@mui/material/Fade";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useImage from "../../hooks/useImage";
-import PlaceHolder from "../../images/film-poster-placeholder.png";
+import Typography from "@mui/material/Typography";
 
 const styles = {
-  box: (backgroundImage) => {
+  card: {
+    maxWidth: 300,
+  },
+  media: {
+    marginTop: 2,
+    marginLeft: "auto",
+    marginRight: "auto",
+    borderRadius: 50,
+    width: 150,
+    height: 150,
+  },
+  box: (backgroundImage, size) => {
     const image = useImage(backgroundImage);
 
     return image
@@ -19,8 +30,18 @@ const styles = {
           zIndex: 1,
           display: "flex",
           position: "relative",
-          width: 200,
-          height: 300,
+          width: () => {
+            if(size === "small") {
+              return 100
+            } 
+            else return 150
+          },
+          height: () => {
+            if(size === "small") {
+              return 100
+            } 
+            else return 200
+          },
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           "&::before": {
@@ -52,8 +73,8 @@ const styles = {
           zIndex: 1,
           display: "flex",
           position: "relative",
-          width: 200,
-          height: 300,
+          width: 150,
+          height: 200,
           backgroundColor: "white",
           backgroundSize: "cover",
           backgroundPosition: "center center",
@@ -75,7 +96,7 @@ const styles = {
   },
 };
 
-export default function ContentCard({ content, action }) {
+export default function ActorCard({ actor, action, overrideClick, size="default", character=false}) {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
 
@@ -90,21 +111,25 @@ export default function ContentCard({ content, action }) {
   function handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    content.userid ? navigate(`/usermovies/${content.id}`) :
-    content.first_air_date ? navigate(`/tv/${content.id}`) : navigate(`/movies/${content.id}`);
-  }
 
-  const moviePoster = content.movie_poster ? content.movie_poster : `https://image.tmdb.org/t/p/w500/${content.poster_path}`
+    if(overrideClick) {
+      return overrideClick(actor)
+    }
+    return navigate(`/actor/${actor.id}`);
+  }
 
   return (
     <>
-      <Box onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(moviePoster)}>
+      <Box onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(`https://image.tmdb.org/t/p/w500/${actor.profile_path}`, size)}>
         <Fade timeout={{ enter: 150, exit: 300 }} in={active}>
           <Box sx={styles.overlay}>
-            <ContentCardOverlay content={content} action={action} />
+            <ActorCardOverlay actor={actor} action={action} character={character}/>
           </Box>
         </Fade>
       </Box>
+      <Typography variant="h6" component="p">
+         {actor.character}
+    </Typography>
     </>
   );
 }

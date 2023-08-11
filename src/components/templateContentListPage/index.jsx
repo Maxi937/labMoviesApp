@@ -25,7 +25,7 @@ const styles = {
   },
 };
 
-function ContentListPageTemplate({ query, content, action, hero = false, paginate = false }) {
+function ContentListPageTemplate({ query, content, action, hero = false }) {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -45,6 +45,10 @@ function ContentListPageTemplate({ query, content, action, hero = false, paginat
     }
     content = contentQuery.data ? contentQuery.data.results : []
     pages = "total_pages" in contentQuery.data ? contentQuery.data.total_pages : 1;
+  }
+
+  if(!content || !content[0] ) {
+    return
   }
 
   

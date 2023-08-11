@@ -6,6 +6,7 @@ import ImageListItem from "@mui/material/ImageListItem";
 import { getMovieImages } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../spinner";
+import { getMoviePostersQuery } from "../../hooks/useMovieQueries";
 
 const styles = {
   gridListRoot: {
@@ -19,8 +20,44 @@ const styles = {
   },
 };
 
-const TemplateMoviePage = ({ movie, children }) => {
-  const { data, error, isLoading, isError } = useQuery(["images", movie.id], async () => await getMovieImages(movie.id));
+const TemplateMoviePage = ({ movie, children, userMovie = false }) => {
+  if (!userMovie) {
+    const { data, error, isLoading, isError } = useQuery(["images", movie.id], async () => await getMovieImages(movie.id));
+
+    if (isLoading) {
+      return <Spinner />;
+    }
+
+    if (isError) {
+      return <h1>{error.message}</h1>;
+    }
+    const images = data.posters;
+
+    return (
+      <>
+        <ContentHeader content={movie} />
+        <Grid container spacing={5} style={{ padding: "15px" }}>
+          <Grid item xs={3}>
+            <div sx={styles.gridListRoot}>
+              <ImageList cols={1}>
+                {images.map((image) => (
+                  <ImageListItem key={image.file_path} sx={styles.gridListTile} cols={1}>
+                    <img src={`https://image.tmdb.org/t/p/w500/${image.file_path}`} alt={image.poster_path} />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+            </div>
+          </Grid>
+
+          <Grid item xs={9}>
+            {children}
+          </Grid>
+        </Grid>
+      </>
+    );
+  }
+
+  const { data, error, isLoading, isError } = getMoviePostersQuery(movie.id)
 
   if (isLoading) {
     return <Spinner />;
@@ -29,7 +66,8 @@ const TemplateMoviePage = ({ movie, children }) => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  const images = data.posters;
+
+  const images = data;
 
   return (
     <>
@@ -39,10 +77,10 @@ const TemplateMoviePage = ({ movie, children }) => {
           <div sx={styles.gridListRoot}>
             <ImageList cols={1}>
               {images.map((image) => (
-                <ImageListItem key={image.file_path} sx={styles.gridListTile} cols={1}>
-                  <img src={`https://image.tmdb.org/t/p/w500/${image.file_path}`} alt={image.poster_path} />
-                </ImageListItem>
-              ))}
+                  <ImageListItem key={image} sx={styles.gridListTile} cols={1}>
+                    <img src={image} alt={image} />
+                  </ImageListItem>
+                ))}
             </ImageList>
           </div>
         </Grid>

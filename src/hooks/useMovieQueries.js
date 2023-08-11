@@ -11,12 +11,29 @@ import {
   getMoviesByGenre,
   getTelevisionByGenre,
   getTvShow,
+  getActor,
 } from "../api/tmdb-api";
+import { getMoviePosters, getUserCredits, getUserMovie } from "../api/supabase-api";
 
 export const discoverMoviesQuery = (pageNumber) => {
   return useQuery(["discoverMovies", pageNumber], async () => getMovies(pageNumber), { keepPreviousData: true });
 };
 
+export const getMoviesQuery = (movies) => {
+  return useQueries(
+    movies.map((movieId) => {
+      return { queryKey: ["movieFavourite", movieId], queryFn: async () => getMovie(movieId) };
+    })
+  );
+};
+
+export const getTvQuery = (tvshows) => {
+  return useQueries(
+    tvshows.map((tvId) => {
+      return { queryKey: ["movieFavourite", tvId], queryFn: async () => getTv(tvId) };
+    })
+  );
+};
 
 export const getProfileContentQueryTest = (context) => {
   return {
@@ -40,7 +57,23 @@ export const getProfileContentQueryTest = (context) => {
         return { queryKey: ["mustWatchMovies", movieId], queryFn: async () => getMovie(movieId) };
       })
     ),
+    actorFavourites: useQueries(
+      context.actorFavourites.map((actorId) => {
+        return { queryKey: ["actorFavourites", actorId], queryFn: async () => getActor(actorId) };
+      })
+    ),
   };
+};
+
+export const getActorsQuery = (actorIds) => {
+  return useQueries(
+    actorIds.map((actorId) => {
+      return {
+        queryKey: ["actorFavourites", actorId],
+        queryFn: async () => getActor(actorId),
+      };
+    })
+  );
 };
 
 export const getMovieQuery = (movieId) => {
@@ -76,6 +109,18 @@ export const suggestedMoviesQuery = () => {
   } else {
     return query;
   }
+};
+
+export const getUserCreditsQuery = (movieId) => {
+  return useQuery(["credits", movieId], async () => getUserCredits(movieId));
+};
+
+export const getUserMovieQuery = (movieId) => {
+  return useQuery(["movie", movieId], async () => getUserMovie(movieId));
+};
+
+export const getMoviePostersQuery = (movieId) => {
+  return useQuery(["images", movieId], async () => await getMoviePosters(movieId));
 };
 
 export const heroMovieQuery = () => {

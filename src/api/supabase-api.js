@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { getActor } from "./tmdb-api";
 
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_CLIENT_API_KEY;
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -33,6 +34,35 @@ export const logout = async () => {
 
 export const getSession = async () => {
   return await supabase.auth.getSession();
+};
+
+export const saveActorfavourite = async (userId, actorId) => {
+  let favourites = await getActorFavourites(userId);
+
+  favourites.push(actorId);
+
+  const { data, error } = await supabase.from("profiles").update({ favouriteactors: favourites }).eq("id", userId).select();
+
+  return favourites;
+};
+
+export const getActorFavourites = async (userId) => {
+  const { data: profile, error } = await supabase.from("profiles").select("favouriteactors").eq("id", userId).single();
+
+  if (profile) {
+    return profile.favouriteactors;
+  } else {
+    return [];
+  }
+};
+
+export const deleteActorFavourites = async (userId, actorId) => {
+  let favourites = await getActorFavourites(userId);
+  favourites.splice(favourites.indexOf(actorId), 1);
+
+  const { data, error } = await supabase.from("profiles").update({ favouriteactors: favourites }).eq("id", userId).select();
+
+  return favourites;
 };
 
 export const saveMoviefavourite = async (userId, movieId) => {
@@ -145,4 +175,131 @@ export const deleteMustWatchTelevision = async (userId, tvId) => {
 
   const { data, error } = await supabase.from("profiles").update({ mustwatchtv: mustWatch }).eq("id", userId).select();
   return mustWatch;
+};
+
+export const createUserMovie = async (userId, movieDetails) => {
+  const { data, error } = await supabase
+    .from("movies")
+    .insert([{ created: new Date(), userid: userId, id: movieDetails.id, overview: movieDetails.movieOverview, genre_ids: [movieDetails.genre], title: movieDetails.movieTitle }])
+    .select()
+    .single();
+
+    console.log(error)
+  if (data) {
+    return data;
+  }
+  return {};
+};
+
+export const getUserMovies = async (userId) => {
+  const { data, error } = await supabase.from("movies").select().eq("userid", userId);
+
+  //console.log(data, error)
+
+  if (data) {
+    return data;
+  } else {
+    return [];
+  }
+};
+
+export const getUserMovie = async (movieId) => {
+  const { data, error } = await supabase.from("movies").select().eq("id", movieId).single();
+
+  if (data) {
+    return data;
+  } else {
+    return [];
+  }
+};
+
+export const uploadMoviePoster = async (movieId, file) => {
+  const { data, error } = await supabase.storage.from("movieImages").upload(`${movieId}/${file.name}`, file, {
+    cacheControl: "3600",
+    upsert: false,
+  });
+
+  if (data) {
+    return data;
+  } else {
+    return [];
+  }
+};
+
+export const setMoviePoster = async (movieId, urltoposter) => {
+  const { data, error } = await supabase.from("movies").update({ movie_poster: urltoposter }).eq("id", movieId);
+
+  console.log(error);
+
+  if (data) {
+    return data;
+  }
+};
+
+export const getMoviePosters = async (movieId) => {
+  const files = await supabase.storage.from("movieImages").list(movieId, {
+    limit: 100,
+    offset: 0,
+    sortBy: { column: "name", order: "asc" },
+  });
+
+  if (files.data) {
+    let urls = [];
+
+    files.data.map(async (file) => {
+      const url = supabase.storage.from("movieImages").getPublicUrl(`${movieId}/${file.name}`);
+      urls.push(url.data.publicUrl);
+    });
+    return urls;
+  } else {
+    return [];
+  }
+};
+
+export const createCharacter = async (userId, movieId, charcterDetails) => {
+  const id = crypto.randomUUID();
+  const { data, error } = await supabase
+    .from("characters")
+    .insert([{ id: id, userid: userId, movieid: movieId, actor: charcterDetails.actor.id, name: charcterDetails.name }])
+    .select()
+    .single();
+
+  console.log(error);
+
+  if (data) {
+    return data;
+  }
+  return {};
+};
+
+export const getCharacters = async (movieId) => {
+  const { data, error } = await supabase.from("characters").select().eq("movieid", movieId);
+
+  if (data) {
+    return data;
+  } else {
+    return [];
+  }
+};
+
+export const getUserCredits = async (movieId) => {
+  const { data, error } = await supabase.from("characters").select().eq("movieid", movieId);
+
+  if(data) {
+    return data
+  }
+};
+
+export const deleteCharacter = async (character) => {
+  const { data, error } = await supabase.from("characters").delete().eq("id", character.id);
+
+  console.log(character.id)
+
+
+
+  if (data) {
+    return data;
+  } else {
+    return [];
+  }
 };

@@ -57,11 +57,11 @@ const MovieDetails = ( {movie}) => {
         <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
         <Chip
           icon={<MonetizationIcon />}
-          label={`${movie.revenue.toLocaleString()}`}
+          label={`${movie.revenue && movie.revenue.toLocaleString()}`}
         />
         <Chip
           icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count}`}
+          label={movie.vote_average ? `${movie.vote_average} (${movie.vote_count}` : "Not Rated"}
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>

@@ -3,9 +3,12 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Navigate, Routes, Link } from "react-router-dom";
 import SiteHeader from "./components/siteHeader";
 import HomePage from "./pages/homePage";
+import CreateMoviePage from "./pages/createMoviePage";
+import CastCharactersPage from "./pages/castCharactersPage";
 import MoviesPage from "./pages/moviePage";
 import TelevisionPage from "./pages/televisionPage";
 import TvDetailsPage from "./pages/tvDetailsPage";
+import UserMovieDetailsPage from "./pages/userMovieDetailsPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import MoviePage from "./pages/movieDetailsPage";
 import AddMovieReviewPage from "./pages/addMovieReviewPage";
@@ -30,14 +33,17 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserContextProvider>
+    <UserContextProvider>
+      <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <SiteHeader />
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+            <Route path="/movie/form" element={<CreateMoviePage />} />
             <Route path="/movies/:id" element={<MoviePage />} />
+            <Route path="/usermovies/:id" element={<UserMovieDetailsPage />} />
+            <Route path="/usermovies/:id/characters" element={<CastCharactersPage />} />
             <Route path="/reviews/:id" element={<MovieReviewPage />} />
             <Route path="/movies" element={<MoviesPage />} />
             <Route path="/tv" element={<TelevisionPage />} />
@@ -50,9 +56,9 @@ function App() {
           <SessionDebug />
           <ProfileDebug />
         </BrowserRouter>
-      </UserContextProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </UserContextProvider>
   );
 }
 

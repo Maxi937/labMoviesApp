@@ -7,7 +7,6 @@ import { UserContext } from "../../contexts/userContext";
 const styles = {
   isMustWatch: {
     color: "rgb(3, 161, 252)"
-
   },
   notMustWatch: {
     color: "rgb(255, 255, 255)"
