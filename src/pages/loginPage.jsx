@@ -9,9 +9,6 @@ const LoginPage = (props) => {
       <Grid item xs>
           <LoginForm />
       </Grid>
-      <Grid item xs>
-          <SignupForm />
-      </Grid>
     </Grid>
   );
 };

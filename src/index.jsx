@@ -51,6 +51,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="*" element={<Navigate to="/" />} />
+            {/* <Route path="/*" element={<Navigate to="/" />} /> */}
           </Routes>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
