@@ -1,8 +1,8 @@
 import React from "react";
-import MovieCard from "../components/movieCard";
+import MovieCard from "../components/contentCard";
 import SampleMovie from "./sampleData";
 import { MemoryRouter } from "react-router";
-import MoviesContextProvider from "../contexts/moviesContext";
+import UserContextProvider from "../contexts/userContext";
 import { action } from "@storybook/addon-actions";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 
@@ -11,15 +11,15 @@ export default {
   component: MovieCard,
   decorators: [
     (Story) => <MemoryRouter initialEntries={["/"]}>{Story()}</MemoryRouter>,
-    (Story) => <MoviesContextProvider>{Story()}</MoviesContextProvider>,
+    (Story) => <UserContextProvider>{Story()}</UserContextProvider>,
   ],
 };
 
 export const Basic = () => {
   return (
     <MovieCard
-      movie={SampleMovie}
-      action={(movie) => <AddToFavouritesIcon movie={movie} />}
+      content={SampleMovie}
+      action={(movie) => <AddToFavouritesIcon content={movie} />}
       taging={(movie) => null}
     />
   );
@@ -30,8 +30,8 @@ export const Exceptional = () => {
   const sampleNoPoster = { ...SampleMovie, poster_path: undefined };
   return (
     <MovieCard
-      movie={sampleNoPoster}
-      action={(movie) => <AddToFavouritesIcon movie={movie} />}
+      content={sampleNoPoster}
+      action={(movie) => <AddToFavouritesIcon content={movie} />}
       taging={(movie) => null}
     />
   );

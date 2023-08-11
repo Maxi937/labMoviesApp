@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import PageTemplate from "../components/templateContentListPage";
 import Panel from "../components/contentPanel";
-import { discoverMoviesQuery, upcomingMoviesQuery, suggestedMoviesQuery, heroMovieQuery } from "../hooks/useMovieQueries";
-import { UserContext } from "../contexts/userContext";
+import { suggestedMoviesQuery } from "../hooks/useMovieQueries";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import Spinner from "../components/spinner";
 
