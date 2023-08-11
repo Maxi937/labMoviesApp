@@ -5,6 +5,8 @@ import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 import { discoverMoviesQuery, upcomingMoviesQuery, discoverGenreMoviesQuery } from "../hooks/useMovieQueries";
 import { tmdbMovieGenres } from "../util";
+import SearchForm from "../components/searchForm";
+import SearchButton from "../components/searchForm/searchButton";
 
 const MoviePage = (props) => {
   const discoverPanel = [

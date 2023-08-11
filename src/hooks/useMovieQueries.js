@@ -12,6 +12,7 @@ import {
   getTelevisionByGenre,
   getTvShow,
   getActor,
+  searchMovie,
 } from "../api/tmdb-api";
 import { getMoviePosters, getUserCredits, getUserMovie } from "../api/supabase-api";
 
@@ -113,6 +114,10 @@ export const suggestedMoviesQuery = () => {
 
 export const getUserCreditsQuery = (movieId) => {
   return useQuery(["credits", movieId], async () => getUserCredits(movieId));
+};
+
+export const searchMoviesQuery = (query) => {
+  return useQuery(["search"], async () => searchMovie(query));
 };
 
 export const getUserMovieQuery = (movieId) => {
