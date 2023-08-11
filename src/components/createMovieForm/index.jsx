@@ -32,31 +32,32 @@ const CreateMovieForm = () => {
   const navigate = useNavigate();
   const context = useContext(UserContext);
   const [genre, setGenre] = useState(28);
-  const [file, setSelectedFile] = useState("")
+  const [file, setSelectedFile] = useState("");
 
   const handleRatingChange = (event) => {
     setGenre(event.target.value);
   };
 
   const handleImageChange = (event) => {
-    console.log(event.target.files[0])
-    setSelectedFile(event.target.files[0])
-  }
-  
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
 
   async function onSubmit(movieDetails) {
     movieDetails.id = crypto.randomUUID();
     movieDetails.genre = genre;
-    movieDetails.moviePoster = file
+    movieDetails.moviePoster = file;
     const movie = await context.createAMovie(movieDetails);
 
-    if(movieDetails.moviePoster) {
-      console.log(await movie)
-      await uploadMoviePoster(movieDetails.id, movieDetails.moviePoster)
-      const posters = await getMoviePosters(movieDetails.id)
-      await setMoviePoster(movieDetails.id, posters[0])
+    if (movieDetails.moviePoster) {
+      console.log(await movie);
+      await uploadMoviePoster(movieDetails.id, movieDetails.moviePoster);
+      const posters = await getMoviePosters(movieDetails.id);
+      await setMoviePoster(movieDetails.id, posters[0]);
     }
-    // navigate("/profile");
+    await navigate("/profile");
   }
 
   return (
@@ -138,7 +139,7 @@ const CreateMovieForm = () => {
         <Controller
           control={control}
           name="moviePoster"
-          render={({ field: { onChange, defaultValue  } }) => <input id="moviePoster" type="file" value={file.image} onChange={(e) => handleImageChange(e)} />}
+          render={({ field: { onChange, defaultValue } }) => <input id="moviePoster" type="file" value={file.image} onChange={(e) => handleImageChange(e)} />}
         />
 
         <Box sx={styles.buttons}>

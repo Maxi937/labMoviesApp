@@ -57,8 +57,6 @@ const TemplateMoviePage = ({ movie, children, userMovie = false }) => {
     );
   }
 
-  console.log(movie)
-
   const { data, error, isLoading, isError } = getMoviePostersQuery(movie.id)
 
   if (isLoading) {

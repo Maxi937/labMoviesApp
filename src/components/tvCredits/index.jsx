@@ -1,5 +1,5 @@
 import React from "react";
-import { getMovieCredits } from "../../api/tmdb-api.js";
+import { getMovieCredits, getTvCredits } from "../../api/tmdb-api.js";
 import { useQuery } from "react-query";
 import Spinner from "../spinner/index.jsx";
 import Typography from "@mui/material/Typography";
@@ -27,9 +27,9 @@ const styles = {
   },
 };
 
-const MovieCredits = ({ movie }) => {
+const TvCredits = ({ tvShow }) => {
   // use query with placeholder data - done this way to avoid credits being undefined on initial rende
-    const creditsQuery = useQuery(["credits", movie.id], async () => getMovieCredits(movie.id), {
+    const creditsQuery = useQuery(["credits", tvShow.id], async () => getTvCredits(tvShow.id), {
       placeholderData: {
         cast: [],
         crew: [],
@@ -67,4 +67,4 @@ const MovieCredits = ({ movie }) => {
   );
 };
 
-export default MovieCredits;
+export default TvCredits;

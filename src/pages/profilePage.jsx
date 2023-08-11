@@ -17,7 +17,6 @@ import CastCharactersIcon from "../components/cardIcons/castCharacters";
 const ProfilePage = (props) => {
   const context = useContext(UserContext);
   const profileContentQuery = getProfileContentQueryTest(context);
-  const userMovies = context.userMovies;
   let isLoading;
   let isSuccess;
 
@@ -103,7 +102,7 @@ const ProfilePage = (props) => {
         </Typography>
 
         <ContentListPageTemplate
-          content={userMovies}
+          content={context.userMovies}
           action={(movie) => {
             return <CastCharactersIcon movie={movie} />;
           }}

@@ -122,8 +122,10 @@ const UserContextProvider = (props) => {
 
   const createAMovie = async (movieDetails) => {
     const movie = await createUserMovie(user.id, movieDetails);
-    const movies = getUserMovies(user.id)
-    setUserMovies(movies);
+    const currentMovies = [...userMovies]
+    currentMovies.push(movie)
+    setUserMovies(currentMovies)
+    console.log(userMovies)
     return movie
   };
 

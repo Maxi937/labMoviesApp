@@ -180,10 +180,11 @@ export const deleteMustWatchTelevision = async (userId, tvId) => {
 export const createUserMovie = async (userId, movieDetails) => {
   const { data, error } = await supabase
     .from("movies")
-    .insert([{ userid: userId, id: movieDetails.id, overview: movieDetails.movieOverview, genre_ids: [movieDetails.genre], title: movieDetails.movieTitle }])
+    .insert([{ created: new Date(), userid: userId, id: movieDetails.id, overview: movieDetails.movieOverview, genre_ids: [movieDetails.genre], title: movieDetails.movieTitle }])
     .select()
     .single();
 
+    console.log(error)
   if (data) {
     return data;
   }

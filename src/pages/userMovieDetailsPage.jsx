@@ -13,6 +13,8 @@ const UserMovieDetailsPage = () => {
 
   const { data: movie, error, isLoading, isError } = useQuery(["movie", id], async () => getUserMovie(id));
 
+  console.log(movie)
+
 
   if (isLoading) {
     return <Spinner />;

@@ -59,7 +59,7 @@ export const getSuggestedMoviesTV = async () => {
     const movies = await fetch(
       `https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
     );
-    const tv = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`);
+    const tv = await fetch(`https://api.themoviedb.org/3/trending/tv/day?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`);
 
     if (!movies.ok || !tv.ok) {
       throw new Error(response.json().message);
@@ -128,6 +128,19 @@ export const getTvShow = async (tvId) => {
 export const getMovieCredits = async (movieId) => {
   try {
     const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}`);
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const getTvCredits = async (tvId) => {
+  try {
+    const response = await fetch(`https://api.themoviedb.org/3/tv/${tvId}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}`);
     if (!response.ok) {
       throw new Error(response.json().message);
     }
