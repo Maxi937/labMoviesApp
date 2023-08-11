@@ -43,6 +43,7 @@ function ContentListPageTemplate({ query, content, action, hero = false }) {
     if (contentQuery.isError) {
       return <h1>{error.message}</h1>;
     }
+    console.log(contentQuery)
     content = contentQuery.data ? contentQuery.data.results : []
     pages = "total_pages" in contentQuery.data ? contentQuery.data.total_pages : 1;
   }

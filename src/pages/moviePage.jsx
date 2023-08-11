@@ -54,6 +54,7 @@ const MoviePage = (props) => {
 
   return (
     <>
+    <SearchButton contentType={"movie"}/>
       <Panel>
         {discoverPanel}
         {genrePanel()}

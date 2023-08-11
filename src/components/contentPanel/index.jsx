@@ -5,10 +5,8 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Fade from "@mui/material/Fade";
 import { Box } from "@mui/material";
-import ContentHero from "../contentHero";
-import { cloneElement } from "react";
+
 
 const styles = {
   root: {

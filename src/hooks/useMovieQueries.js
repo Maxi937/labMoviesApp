@@ -13,6 +13,7 @@ import {
   getTvShow,
   getActor,
   searchMovie,
+  searchTv,
 } from "../api/tmdb-api";
 import { getMoviePosters, getUserCredits, getUserMovie } from "../api/supabase-api";
 
@@ -116,8 +117,12 @@ export const getUserCreditsQuery = (movieId) => {
   return useQuery(["credits", movieId], async () => getUserCredits(movieId));
 };
 
-export const searchMoviesQuery = (query) => {
-  return useQuery(["search"], async () => searchMovie(query));
+export const searchMoviesQuery = (pageNumber, query) => {
+  return useQuery(["searchMovie", pageNumber, query], async () => searchMovie(pageNumber, query), { keepPreviousData: true });
+};
+
+export const searchTvQuery = (pageNumber, query) => {
+  return useQuery(["searchTv", pageNumber, query], async () => searchTv(pageNumber, query), { keepPreviousData: true });
 };
 
 export const getUserMovieQuery = (movieId) => {

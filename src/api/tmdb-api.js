@@ -55,10 +55,24 @@ export const getTv = async (pageNumber = 1) => {
 };
 
 
-export const searchMovie = async (query, pageNumber = 1) => {
+export const searchMovie = async (pageNumber=1, query) => {
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&query=${query}&language=en-US&include_adult=false&page=${pageNumber}`
+    );
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const searchTv = async (pageNumber=1, query) => {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/search/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&query=${query}&language=en-US&include_adult=false&page=${pageNumber}`
     );
     if (!response.ok) {
       throw new Error(response.json().message);

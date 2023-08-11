@@ -7,7 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles";
 
-const SearchForm = ({ movie }) => {
+const SearchForm = ({ contentType, setDrawerOpen }) => {
   const defaultValues = {
     title: "",
   };
@@ -19,14 +19,14 @@ const SearchForm = ({ movie }) => {
   } = useForm(defaultValues);
   const navigate = useNavigate();
 
-  const handleRatingChange = (event) => {
-    setRating(event.target.value);
-  };
-
-
   const onSubmit = (searchCriteria) => {
-
-
+    setDrawerOpen(false)
+    if(contentType === "movie") {
+      navigate(`/movies/search/${searchCriteria.title}`)
+    } else {
+      navigate(`/tv/search/${searchCriteria.title}`)
+    }
+    
   };
 
   return (
@@ -42,12 +42,12 @@ const SearchForm = ({ movie }) => {
           rules={{ required: "title is required" }}
           defaultValue=""
           render={({ field: { onChange, value } }) => (
-            <TextField sx={{ width: "40ch" }} variant="outlined" margin="normal" required onChange={onChange} value={value} id="author" label="Author's name" autoFocus />
+            <TextField sx={{ width: "40ch" }} variant="outlined" margin="normal" required onChange={onChange} value={value} id="title" label="Title" autoFocus />
           )}
         />
-        {errors.author && (
+        {errors.title && (
           <Typography variant="h6" component="p">
-            {errors.author.message}
+            {errors.title.message}
           </Typography>
         )}
   
@@ -62,8 +62,7 @@ const SearchForm = ({ movie }) => {
             sx={styles.submit}
             onClick={() => {
               reset({
-                author: "",
-                content: "",
+                title: "",
               });
             }}
           >

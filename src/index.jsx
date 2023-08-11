@@ -13,6 +13,8 @@ import MovieReviewPage from "./pages/movieReviewPage";
 import MoviePage from "./pages/movieDetailsPage";
 import AddMovieReviewPage from "./pages/addMovieReviewPage";
 import LoginPage from "./pages/loginPage";
+import SearchMoviePage from "./pages/searchMoviesPage";
+import SearchTvPage from "./pages/searchTvPage";
 import ProfilePage from "./pages/profilePage";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -46,12 +48,13 @@ function App() {
             <Route path="/usermovies/:id/characters" element={<CastCharactersPage />} />
             <Route path="/reviews/:id" element={<MovieReviewPage />} />
             <Route path="/movies" element={<MoviesPage />} />
+            <Route path="/movies/search/:searchQuery" element={<SearchMoviePage />} />
+            <Route path="/tv/search/:searchQuery" element={<SearchTvPage />} />
             <Route path="/tv" element={<TelevisionPage />} />
             <Route path="/tv/:id" element={<TvDetailsPage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="*" element={<Navigate to="/" />} />
-            {/* <Route path="/*" element={<Navigate to="/" />} /> */}
           </Routes>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PageTemplate from "../components/templateContentListPage";
 import Panel from "../components/contentPanel";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
-import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
+import SearchButton from "../components/searchForm/searchButton";
 import { discoverTelevisionQuery, upcomingMoviesQuery, discoverGenreTelevisionQuery } from "../hooks/useMovieQueries";
 import { tmdbTvGenres } from "../util";
 
@@ -42,6 +42,7 @@ const TelevisionPage = (props) => {
 
   return (
     <>
+    <SearchButton contentType={"tv"}/>
       <Panel>
         {discoverPanel}
         {genrePanel()}
