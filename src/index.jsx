@@ -52,9 +52,6 @@ function App() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
-          <LogoutButtonDebug />
-          <SessionDebug />
-          <ProfileDebug />
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
