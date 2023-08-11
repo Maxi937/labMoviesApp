@@ -3,6 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import { UserContext } from "../../contexts/userContext";
+import { useNavigate } from "react-router";
 
 const styles = {
   isFavourite: {
@@ -14,7 +15,14 @@ const styles = {
 };
 
 const AddToFavouritesIcon = ({ content, size = "large" }) => {
+  const navigate = useNavigate()
   const userContext = useContext(UserContext);
+
+  if (!userContext.user) {
+    return (
+      navigate("/login")
+    );
+  }
 
   const handleClick = (e) => {
     e.preventDefault();
