@@ -4,14 +4,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteCharacter } from "../../api/supabase-api";
 import { useNavigate } from "react-router-dom";
 
-const DeleteCharacterIcon = ({ character }) => {
+const DeleteCharacterIcon = ({ actor, state}) => {
 const navigate = useNavigate()
   const onUserRequest = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    await deleteCharacter(character)
-    navigate(0)
-
+    await deleteCharacter(actor.characterId)
+    return state.refetch()
   };
 
   return (

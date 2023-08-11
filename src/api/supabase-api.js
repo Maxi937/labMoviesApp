@@ -290,12 +290,8 @@ export const getUserCredits = async (movieId) => {
   }
 };
 
-export const deleteCharacter = async (character) => {
-  const { data, error } = await supabase.from("characters").delete().eq("id", character.id);
-
-  console.log(character.id)
-
-
+export const deleteCharacter = async (characterId) => {
+  const { data, error } = await supabase.from("characters").delete().eq("id", characterId);
 
   if (data) {
     return data;

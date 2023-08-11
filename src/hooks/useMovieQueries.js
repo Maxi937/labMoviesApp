@@ -78,6 +78,17 @@ export const getActorsQuery = (actorIds) => {
   );
 };
 
+export const getActorsCharacterQuery = (cast) => {
+  return useQueries(
+    actorIds.map((actorId) => {
+      return {
+        queryKey: ["actorFavourites", actorId],
+        queryFn: async () => getActor(actorId),
+      };
+    })
+  );
+};
+
 export const getMovieQuery = (movieId) => {
   return useQuery(["movie", movieId], async () => getMovie(movieId));
 };
@@ -114,7 +125,12 @@ export const suggestedMoviesQuery = () => {
 };
 
 export const getUserCreditsQuery = (movieId) => {
-  return useQuery(["credits", movieId], async () => getUserCredits(movieId));
+  return useQuery(["credits", movieId], async () => getUserCredits(movieId), {
+    onSuccess: (data) => {
+      data.map(async (data) => {
+        data.actor = await getActor(data.actor)
+      })}
+  });
 };
 
 export const searchMoviesQuery = (pageNumber, query) => {

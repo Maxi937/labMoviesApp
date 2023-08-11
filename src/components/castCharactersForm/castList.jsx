@@ -9,41 +9,19 @@ import { getActor } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../spinner"
 
-const CastList = ({ characters}) => {
-  if (!characters) {
-    return;
-  }
+const CastList = ({ actors, state}) => {
 
-
-
-  let actorCards = characters.map((c) => {
-    const { data, isLoading, isError } = useQuery(["actor", c.id], async () => getActor(c.actor))
-
-    if (isLoading) {
-      return <Spinner />;
-    }
-  
-    if (isError) {
-      return <h1>{error.message}</h1>;
-    }
-  
-    const actor = data ? data : {};
-
-    console.log(data)
-
+  let actorCards = actors.map((actor) => {
     return (
       <>
       <Actor
-          key={`character: ${c.id}`}
-          action={(character) => {
-            return <DeleteCharacterIcon key={("del", c.id)} character={character}/>;
+          key={`character: ${actor.character} ${actor.id}`}
+          action={(actor) => {
+            return <DeleteCharacterIcon key={("del", actor.id)} actor={actor} state={state}/>;
           }}
           actor={actor}
-          character={c}
+          character={actor}
         />
-        <Typography key={("text", c.id)} sx={{ textAlign: "center" }} component="h4" variant="h6">
-          {c.name}
-        </Typography>
       </>
     );
   });

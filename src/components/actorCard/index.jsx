@@ -123,7 +123,7 @@ export default function ActorCard({ actor, action, overrideClick, size="default"
       <Box onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(`https://image.tmdb.org/t/p/w500/${actor.profile_path}`, size)}>
         <Fade timeout={{ enter: 150, exit: 300 }} in={active}>
           <Box sx={styles.overlay}>
-            <ActorCardOverlay actor={actor} action={action} character={character}/>
+            <ActorCardOverlay key={("background", actor.id)} actor={actor} action={action}/>
           </Box>
         </Fade>
       </Box>

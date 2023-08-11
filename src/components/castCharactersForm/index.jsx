@@ -14,22 +14,44 @@ import ActorPicker from "./actorPicker.jsx";
 import Paper from "@mui/material/Paper";
 import CastList from "./castList.jsx";
 import { createCharacter, getCharacters } from "../../api/supabase-api.js";
-import { getActorsQuery } from "../../hooks/useMovieQueries.js";
+import { getActorsCharacterQuery, getActorsQuery } from "../../hooks/useMovieQueries.js";
+import { deleteCharacter } from "../../api/supabase-api.js";
 import { getActor } from "../../api/tmdb-api.js";
-import { useQueries } from "react-query";
-import Spinner from "../spinner"
+import { useQueries, useQuery } from "react-query";
+import { getUserCredits } from "../../api/supabase-api.js";
+import Spinner from "../spinner";
 
 const CastCharacterForm = ({ userId, movieId, favouriteActors }) => {
   const [actor, setActor] = useState({});
-  const [cast, setCast] = useState([]);
+  const castQuery = useQuery(["credits", movieId], async () => getUserCredits(movieId), {});
+  const cast = castQuery.data ? castQuery.data : [];
 
-  useEffect(() => {
-    const fetchCast = async () => {
-      const currentCast = await getCharacters(movieId);
-      setCast(currentCast);
-    };
-    fetchCast();
-  }, []); // <--
+  const actorQuery = useQueries(
+    cast.map((actor) => {
+      return {
+        queryKey: ["actors", actor.actor],
+        queryFn: async () => getActor(actor.actor),
+        enabled: !!cast,
+        onSuccess: (data) => {
+          data.character = actor.name;
+          data.characterId = actor.id
+          return data;
+        },
+      };
+    })
+  );
+
+  const actors = () => {
+    if (actorQuery) {
+      const isLoading = actorQuery.find((m) => m.isLoading === true);
+
+      if (isLoading) {
+        return <Spinner />;
+      }
+      const actors = actorQuery.map((q) => q.data);
+      return <CastList actors={actors} state={castQuery}/>;
+    }
+  };
 
   const defaultValues = {
     characterName: "",
@@ -44,7 +66,6 @@ const CastCharacterForm = ({ userId, movieId, favouriteActors }) => {
   } = useForm(defaultValues);
 
   const navigate = useNavigate();
-  const context = useContext(UserContext);
 
   function handleActorChange(actor) {
     setActor(actor);
@@ -55,27 +76,18 @@ const CastCharacterForm = ({ userId, movieId, favouriteActors }) => {
       return;
     }
     character.actor = actor;
-    const castList = [...cast];
 
-    castList.map((c, index) => {
-      if (c.actor.id === character.actor.id) {
-        castList.splice(index, 1);
+    cast.map(async (castedActor) => {
+      if(castedActor.actor === actor.id) {
+        await deleteCharacter(castedActor.id)
+        navigate(0)
       }
-    });
-
-    castList.push(character);
-    return setCast(castList);
+    })
+    await createCharacter(userId, movieId, character)
+    castQuery.refetch()
   }
 
   async function handleDone() {
-    if (!cast.length >= 1) {
-      return;
-    }
-
-    cast.map(async (character) => {
-      await createCharacter(userId, movieId, character);
-    });
-
     navigate("/profile");
   }
 
@@ -135,9 +147,7 @@ const CastCharacterForm = ({ userId, movieId, favouriteActors }) => {
           <Typography component="h2" variant="h3" sx={styles.formHeaders}>
             Cast
           </Typography>
-          <Box sx={styles.castList}>
-            <CastList characters={cast} />
-          </Box>
+          <Box sx={styles.castList}>{actors()}</Box>
         </Box>
       </Paper>
     </>
