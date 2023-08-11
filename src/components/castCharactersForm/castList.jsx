@@ -3,19 +3,27 @@ import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Actor from "../actorCard";
 import AddToFavouritesIcon from "../cardIcons/addActorToFavourites";
+import DeleteCharacterIcon from "../cardIcons/deleteCharacter";
 import Typography from "@mui/material/Typography";
 
-const CastList = ({ characters }) => {
-    if(!characters) {
-        return
-    }
+const CastList = ({ characters, setCast }) => {
+  if (!characters) {
+    return;
+  }
 
-  let actorCards = characters.map((character) => {
+  let actorCards = characters.map((c) => {
     return (
       <>
-        <Actor key={("character", character.actor.id)} actor={character.actor} />
-        <Typography sx={{textAlign: "center"}}component="h4" variant="h6">
-          {character.name}
+        <Actor
+          key={("character", c.id)}
+          action={(character) => {
+            return <DeleteCharacterIcon character={character}/>;
+          }}
+          actor={c.actor}
+          character={c}
+        />
+        <Typography sx={{ textAlign: "center" }} component="h4" variant="h6">
+          {c.name}
         </Typography>
       </>
     );

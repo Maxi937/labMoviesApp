@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Alert, AlertTitle } from "@mui/material";
 import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+import Fab from "@mui/material/Fab";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -13,10 +13,30 @@ import styles from "./styles.js";
 import ActorPicker from "./actorPicker.jsx";
 import Paper from "@mui/material/Paper";
 import CastList from "./castList.jsx";
+import { createCharacter, getCharacters } from "../../api/supabase-api.js";
+import { getActorsQuery } from "../../hooks/useMovieQueries.js";
+import { getActor } from "../../api/tmdb-api.js";
 
-const CastCharacterForm = ({ favouriteActors }) => {
+const CastCharacterForm = ({ userId, movieId, favouriteActors }) => {
   const [actor, setActor] = useState({});
   const [cast, setCast] = useState([]);
+
+  useEffect(() => {
+    const fetchCast = async () => {
+      const currentCast = await getCharacters(movieId);
+      if (currentCast.length >= 1) {
+        currentCast.map(async (a) => {
+          const actorDetails = await getActor(a.actor);
+          a.actor = actorDetails
+          const castList = [...cast];
+          castList.push(a)
+          setCast(castList)
+        });
+      }
+    };
+
+    fetchCast();
+  }, []); // <--
 
   const defaultValues = {
     characterName: "",
@@ -38,13 +58,15 @@ const CastCharacterForm = ({ favouriteActors }) => {
   }
 
   async function onSubmit(character) {
+    if (!actor) {
+      return;
+    }
     character.actor = actor;
-
     const castList = [...cast];
 
     castList.map((c, index) => {
       if (c.actor.id === character.actor.id) {
-        castList.splice(index, 1)
+        castList.splice(index, 1);
       }
     });
 
@@ -52,13 +74,31 @@ const CastCharacterForm = ({ favouriteActors }) => {
     return setCast(castList);
   }
 
+  async function handleDone() {
+    if (!cast.length >= 1) {
+      return;
+    }
+
+    cast.map(async (character) => {
+      await createCharacter(userId, movieId, character);
+    });
+
+    navigate("/profile")
+  }
+
   return (
     <>
-      <Box component="div" sx={styles.root}>
+      <Paper sx={styles.header}>
+        <Typography component="h2" variant="h3" sx={styles.formHeaders}>
+          Cast a Character
+        </Typography>
+        <Fab sx={styles.done} color="primary" onClick={handleDone}>
+          Done
+        </Fab>
+      </Paper>
+
+      <Paper component="div" sx={styles.root}>
         <Box sx={styles.left}>
-          <Typography component="h2" variant="h3" sx={styles.formHeaders}>
-            Cast a Character
-          </Typography>
           {errors.login && (
             <Alert severity="error">
               <AlertTitle>I'm Sorry</AlertTitle>
@@ -86,9 +126,9 @@ const CastCharacterForm = ({ favouriteActors }) => {
               Actor
             </Typography>
 
-            <Paper sx={styles.actorPicker}>
+            <Box sx={styles.actorPicker}>
               <ActorPicker selected={actor} actors={favouriteActors} overrideClick={handleActorChange} />
-            </Paper>
+            </Box>
 
             <Box sx={styles.buttons}>
               <Button type="submit" color="primary" sx={styles.submit}>
@@ -97,14 +137,16 @@ const CastCharacterForm = ({ favouriteActors }) => {
             </Box>
           </form>
         </Box>
-        {cast.length >= 1 && (
-          <Box sx={styles.castListContainer}>
-            <Box sx={styles.castList}>
-              <CastList characters={cast} />
-            </Box>
+
+        <Box sx={styles.castListContainer}>
+          <Typography component="h2" variant="h3" sx={styles.formHeaders}>
+            Cast
+          </Typography>
+          <Box sx={styles.castList}>
+            <CastList characters={cast}/>
           </Box>
-        )}
-      </Box>
+        </Box>
+      </Paper>
     </>
   );
 };

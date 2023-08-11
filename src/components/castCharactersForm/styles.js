@@ -7,26 +7,25 @@ const styles =  {
     actorPicker: {
       padding: 5,
       display: "flex",
-      flex: 1,
-      gap: 2
+      flexWrap: "wrap",
+      gap: 2,
+      width: "80%"
     },
     castListContainer: {
-      padding: 5,
       alignItems: "flex-end",
       display: "flex",
       flexDirection: "column",
-      flex: 1,
       gap: 2
     },
     castList: {
-      padding: 5,
-      alignItems: "top",
-      display: "flex",
       flexDirection: "column",
-      flex: 1,
       gap: 2
     },
-    form: {
+    header: {
+      paddingTop: 5,
+      paddingBottom: 5,
+      display: "flex",
+      gap: 10
 
     },
     textField: {
@@ -35,11 +34,11 @@ const styles =  {
     submit: {
       marginRight: 2,
     },
-    snack: {
-      width: "50%",
-      "& > * ": {
-        width: "100%",
-      },
+    done: {
+
+    },
+    fab: {
+
     },
   };
   export default styles

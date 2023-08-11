@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { getActor } from "./tmdb-api";
 
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_CLIENT_API_KEY;
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -227,10 +228,10 @@ export const uploadMoviePoster = async (movieId, file) => {
 export const setMoviePoster = async (movieId, urltoposter) => {
   const { data, error } = await supabase.from("movies").update({ movie_poster: urltoposter }).eq("id", movieId);
 
-  console.log(error)
-  
+  console.log(error);
+
   if (data) {
-    return data
+    return data;
   }
 };
 
@@ -249,6 +250,54 @@ export const getMoviePosters = async (movieId) => {
       urls.push(url.data.publicUrl);
     });
     return urls;
+  } else {
+    return [];
+  }
+};
+
+export const createCharacter = async (userId, movieId, charcterDetails) => {
+  const id = crypto.randomUUID();
+  const { data, error } = await supabase
+    .from("characters")
+    .insert([{ id: id, userid: userId, movieid: movieId, actor: charcterDetails.actor.id, name: charcterDetails.name }])
+    .select()
+    .single();
+
+  console.log(error);
+
+  if (data) {
+    return data;
+  }
+  return {};
+};
+
+export const getCharacters = async (movieId) => {
+  const { data, error } = await supabase.from("characters").select().eq("movieid", movieId);
+
+  if (data) {
+    return data;
+  } else {
+    return [];
+  }
+};
+
+export const getUserCredits = async (movieId) => {
+  const { data, error } = await supabase.from("characters").select().eq("movieid", movieId);
+
+  if(data) {
+    return data
+  }
+};
+
+export const deleteCharacter = async (character) => {
+  const { data, error } = await supabase.from("characters").delete().eq("id", character.id);
+
+  console.log(character.id)
+
+
+
+  if (data) {
+    return data;
   } else {
     return [];
   }

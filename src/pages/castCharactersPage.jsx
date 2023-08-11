@@ -11,7 +11,7 @@ const CastCharactersPage = (props) => {
   const { id } = useParams()
   const { data: movie, error, isLoading, isError } = getUserMovieQuery(id)
 
-  const {actorFavourites} = useContext(UserContext)
+  const {actorFavourites, user} = useContext(UserContext)
   const actorsQuery = getActorsQuery(actorFavourites)
   const isLoadingActor = actorsQuery.find((m) => m.isLoading === true);
   const actors = actorsQuery.map((q) => q.data);
@@ -26,7 +26,7 @@ const CastCharactersPage = (props) => {
 
 
   return (
-      <CastCharacterForm favouriteActors = {actors}/>
+      <CastCharacterForm movieId={id} userId={user.id} favouriteActors = {actors}/>
   );
 };
 

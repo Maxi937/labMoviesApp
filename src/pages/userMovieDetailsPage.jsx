@@ -4,7 +4,7 @@ import MovieDetails from "../components/movieDetails";
 import PageTemplate from "../components/templateMoviePage";
 import { getUserMovie } from "../api/supabase-api";
 import { useQuery } from "react-query";
-import MovieCredits from "../components/movieCredits";
+import UserMovieCredits from "../components/usermovieCredits";
 import Spinner from "../components/spinner";
 import { tmdbMovieGenres } from "../util";
 
@@ -38,7 +38,7 @@ const UserMovieDetailsPage = () => {
         <>
           <PageTemplate movie={movie} userMovie={true}>
             <MovieDetails movie={movie} />
-            {/* <MovieCredits movie={movie} /> */}
+            <UserMovieCredits movie={movie}/>
           </PageTemplate>
         </>
       ) : (

@@ -5,6 +5,7 @@ import Spinner from "../spinner";
 import Typography from "@mui/material/Typography";
 import CastList from "./castList.jsx";
 import { Box } from "@mui/material";
+import { getCharacters } from "../../api/supabase-api.js";
 
 const styles = {
   chipSet: {
@@ -27,26 +28,26 @@ const styles = {
 };
 
 const MovieCredits = ({ movie }) => {
-  // use query with placeholder data - done this way to avoid credits being undefined on initial render
-  const {
-    data: credits,
-    error,
-    isLoading,
-    isError,
-  } = useQuery(["credits", movie.id], async () => getMovieCredits(movie.id), {
-    placeholderData: {
-      cast: [],
-      crew: [],
-    },
-  });
+  // use query with placeholder data - done this way to avoid credits being undefined on initial rende
+    const creditsQuery = useQuery(["credits", movie.id], async () => getMovieCredits(movie.id), {
+      placeholderData: {
+        cast: [],
+        crew: [],
+      },
+    });
 
-  if (isLoading) {
+    const credits = creditsQuery.data;
+
+
+  if (creditsQuery.isLoading) {
     return <Spinner />;
   }
 
-  if (isError) {
+  if (creditsQuery.isError) {
     return <h1>{error.message}</h1>;
   }
+
+
 
   return (
     <>

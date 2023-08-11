@@ -19,7 +19,7 @@ const styles = {
     width: 150,
     height: 150,
   },
-  box: (backgroundImage) => {
+  box: (backgroundImage, size) => {
     const image = useImage(backgroundImage);
 
     return image
@@ -30,8 +30,18 @@ const styles = {
           zIndex: 1,
           display: "flex",
           position: "relative",
-          width: 150,
-          height: 200,
+          width: () => {
+            if(size === "small") {
+              return 100
+            } 
+            else return 150
+          },
+          height: () => {
+            if(size === "small") {
+              return 100
+            } 
+            else return 200
+          },
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           "&::before": {
@@ -86,7 +96,7 @@ const styles = {
   },
 };
 
-export default function ActorCard({ actor, action, overrideClick}) {
+export default function ActorCard({ actor, action, overrideClick, size="default", character=false}) {
   const navigate = useNavigate();
   const [active, setActive] = useState(false);
 
@@ -110,10 +120,10 @@ export default function ActorCard({ actor, action, overrideClick}) {
 
   return (
     <>
-      <Box onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(`https://image.tmdb.org/t/p/w500/${actor.profile_path}`)}>
+      <Box onClick={handleClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} sx={styles.box(`https://image.tmdb.org/t/p/w500/${actor.profile_path}`, size)}>
         <Fade timeout={{ enter: 150, exit: 300 }} in={active}>
           <Box sx={styles.overlay}>
-            <ActorCardOverlay actor={actor} action={action} />
+            <ActorCardOverlay actor={actor} action={action} character={character}/>
           </Box>
         </Fade>
       </Box>

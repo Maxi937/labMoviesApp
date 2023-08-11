@@ -102,7 +102,6 @@ export const getMovie = async (movieId) => {
 };
 
 export const getActor = async (actorId) => {
-  console.log(actorId)
   try {
     const response = await fetch(`https://api.themoviedb.org/3/person/${actorId}?api_key=${import.meta.env.VITE_TMDB_KEY}`);
     if (!response.ok) {

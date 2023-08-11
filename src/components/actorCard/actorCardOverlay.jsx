@@ -37,12 +37,12 @@ const styles = {
   },
 };
 
-export default function ActorCardOverlay({ actor, action }) {
+export default function ActorCardOverlay({ actor, action, character }) {
   return (
     <>
       <Box sx={styles.topBar}>
         <Box sx={styles.topRight}>
-            {action && action(actor)}
+            {character ? action && action(character) : action && action(actor)}
         </Box>
       </Box>
       <Box sx={styles.bottomBar}>
