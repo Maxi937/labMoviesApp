@@ -4,12 +4,12 @@ import Panel from "../components/contentPanel";
 import { discoverMoviesQuery, upcomingMoviesQuery, suggestedMoviesQuery, heroMovieQuery } from "../hooks/useMovieQueries";
 import { UserContext } from "../contexts/userContext";
 import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
-import Spinner from "../components/spinner"
+import Spinner from "../components/spinner";
 
 const HomePage = (props) => {
-  const {data, isLoading, isError} = suggestedMoviesQuery()
+  const { data, isLoading, isError } = suggestedMoviesQuery();
 
-    if (isLoading) {
+  if (isLoading) {
     return <Spinner />;
   }
 
@@ -17,7 +17,7 @@ const HomePage = (props) => {
     return <h1>{error.message}</h1>;
   }
 
-   const content = data ? data.results : [];
+  const content = data ? data.results : [];
 
   return (
     <Panel>

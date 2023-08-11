@@ -16,6 +16,8 @@ import CastList from "./castList.jsx";
 import { createCharacter, getCharacters } from "../../api/supabase-api.js";
 import { getActorsQuery } from "../../hooks/useMovieQueries.js";
 import { getActor } from "../../api/tmdb-api.js";
+import { useQueries } from "react-query";
+import Spinner from "../spinner"
 
 const CastCharacterForm = ({ userId, movieId, favouriteActors }) => {
   const [actor, setActor] = useState({});
@@ -24,17 +26,8 @@ const CastCharacterForm = ({ userId, movieId, favouriteActors }) => {
   useEffect(() => {
     const fetchCast = async () => {
       const currentCast = await getCharacters(movieId);
-      if (currentCast.length >= 1) {
-        currentCast.map(async (a) => {
-          const actorDetails = await getActor(a.actor);
-          a.actor = actorDetails
-          const castList = [...cast];
-          castList.push(a)
-          setCast(castList)
-        });
-      }
+      setCast(currentCast);
     };
-
     fetchCast();
   }, []); // <--
 
@@ -83,7 +76,7 @@ const CastCharacterForm = ({ userId, movieId, favouriteActors }) => {
       await createCharacter(userId, movieId, character);
     });
 
-    navigate("/profile")
+    navigate("/profile");
   }
 
   return (
@@ -143,7 +136,7 @@ const CastCharacterForm = ({ userId, movieId, favouriteActors }) => {
             Cast
           </Typography>
           <Box sx={styles.castList}>
-            <CastList characters={cast}/>
+            <CastList characters={cast} />
           </Box>
         </Box>
       </Paper>
