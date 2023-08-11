@@ -12,6 +12,8 @@ const styles =  {
       width: "80%"
     },
     castListContainer: {
+      justifyItems: "flex-end",
+      flex: 1,
       alignItems: "flex-end",
       display: "flex",
       flexDirection: "column",
