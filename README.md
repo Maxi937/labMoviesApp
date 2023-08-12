@@ -3,7 +3,7 @@
 A tmdb client with a Supabase backend for some prsistence.
 
 - Discover Movies amd TV shows
-- Suggested Movies and TV Shows
+- Suggested Movies and TV shows
 - Cycle through Movies and TV shows in each of the TMDB genres [ action, comedy adventure etc. ]
 - Paginated Queries.
 - Create User Movies and cast Actors
