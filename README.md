@@ -1,6 +1,6 @@
 # **Description**
 
-A tmdb client with a Supabase backend for some prsistence.
+A tmdb client with a Supabase backend for some persistence.
 
 - Discover Movies amd TV shows
 - Suggested Movies and TV shows
