@@ -1,5 +1,16 @@
 # **Description**
 
+A tmdb client with a Supabase backend for some prsistence.
+
+- Discover Movies amd TV shows
+- Suggested movies and Tv Shows
+- Cycle through movies and tv shows in each of the TMDB genres [ action, comedy adventure etc. ]
+- Paginated Queries.
+- Create User Movies and cast Actors
+- Search by movie title.
+- Some components wit custom css for unique ui.
+- Storybook for the new components.
+
 ## **URL**
 <https://movieapp-qevi.onrender.com/>
 
